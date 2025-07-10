@@ -1,0 +1,32 @@
+procs:
+  dev:
+    cmd: ["dx", "serve", "--hot-reload=true"]
+    autostart: true
+    autorestart: true
+    add_path:
+      $select: os
+      windows: "c:/users/james/scoop/shims/nu"
+      $else: "echo 'skip adding to path'"
+  tailwind:
+    cmd:
+      [
+        "bunx",
+        "@tailwindcss/cli",
+        "-i=./input.css",
+        "-o=./assets/gen-tailwind.css",
+        "--watch",
+      ]
+    autostart: true
+    autorestart: true
+    add_path:
+      $select: os
+      windows: "c:/users/james/scoop/shims/nu"
+      $else: "echo 'skip adding to path'"
+  nu:
+    cmd: ["nu"]
+    autostart: true
+    autorestart: false
+    add_path:
+      $select: os
+      windows: "c:/users/james/scoop/shims/nu"
+      $else: "echo 'skip adding to path'"
