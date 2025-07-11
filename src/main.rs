@@ -1,7 +1,7 @@
 mod me;
 mod projects;
 
-use self::me::ME;
+use self::me::{ME, SOCIAL_LINKS};
 use self::projects::PROJECTS;
 use dioxus::prelude::*;
 
@@ -61,17 +61,54 @@ fn Navbar() -> Element {
 #[component]
 pub fn Profile() -> Element {
 	rsx! {
-		div {
-			class: "m-0 flex flex-col justify-center align-center",
-			h1 { "Name: {ME.name}" }
-			p { "Age: {ME.age}" }
-			p { "Languages:" }
-			for l in ME.langs {
-				p { "- {l}" }
-			}
-			p { "Frameworks:" }
-			for f in ME.frameworks {
-				p { "- {f}" }
+			div {
+				class: "m-0 flex flex-col justify-center align-center",
+				img {
+					class: "w-32 h-32 object-fit rounded-sm",
+					src: "{ME.image}",
+					alt: "{ME.name}"
+				}
+				h1 { "Name: {ME.name}" }
+				p { "Age: {ME.age}" }
+				p { "Languages:" }
+				for l in ME.langs {
+					p { "- {l}" }
+				}
+				p { "Frameworks:" }
+				for f in ME.frameworks {
+					p { "- {f}" }
+				}
+
+				div {
+					class: "mt-4",
+					img {
+						src: "https://ghchart.rshah.org/000099/jamesukiyo",
+						alt: "GitHub Contribution Chart",
+						class: "w-xl"
+					}
+				}
+				div {
+					class: "mt-4",
+					h1 { "Social Links" }
+				div {
+					class: "flex flex-row gap-x-4 items-center",
+					for s in SOCIAL_LINKS {
+						a {
+							href: "{s.url}",
+							target: "_blank",
+							class: "flex items-center",
+							img {
+								src: s.icon,
+								alt: "{s.name}",
+								class: "max-w-5 max-h-5"
+							}
+							p {
+								class: "ml-2",
+								"{s.name}"
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -84,7 +121,7 @@ pub fn Profile() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div {
-			class: "m-0 flex flex-row justify-between mx-auto align-center max-w-5xl",
+			class: "m-0 flex flex-row justify-between mx-auto align-center max-w-6xl",
 			Profile {}
 			Projects {}
 		}
