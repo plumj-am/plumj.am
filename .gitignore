@@ -7,3 +7,5 @@
 **/*.rs.bk
 
 mprocs.log
+
+gen-tailwind.css
