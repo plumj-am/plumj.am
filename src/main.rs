@@ -153,9 +153,13 @@ pub fn Profile() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div {
-			class: "flex flex-row justify-between mx-auto align-center max-w-5xl",
-			Profile {}
-			Projects {}
+			class: "max-w-5xl mx-auto",
+			div {
+				class: "flex flex-row justify-between align-center",
+				Profile {}
+				Projects {}
+			}
+			Footer {}
 		}
 	}
 }
@@ -228,5 +232,17 @@ pub fn Project(name: String) -> Element {
 				p { "The project '{name}' could not be found." }
 			}
 		},
+	}
+}
+
+#[component]
+pub fn Footer() -> Element {
+	rsx! {
+		div {
+			class: "absolute mt-auto bottom-0 font-sm text-white/20",
+			p {
+				"Copyright © 2025 - James Plummer <jamesp2001@live.co.uk>"
+			}
+		}
 	}
 }
