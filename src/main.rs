@@ -1,7 +1,7 @@
 mod me;
 mod projects;
 
-use self::me::{ME, SOCIAL_LINKS};
+use self::me::ME;
 use self::projects::PROJECTS;
 use dioxus::prelude::*;
 
@@ -38,7 +38,7 @@ fn App() -> Element {
 fn Navbar() -> Element {
 	rsx! {
 		div {
-			class: "flex flex-row gap-x-12 items-center",
+			class: "flex flex-row gap-x-12 items-center mb-8 max-w-5xl mx-auto",
 			p {
 				class: "border-1 border-white/20 p-1 rounded-sm",
 				"jamesukiyo"
@@ -61,38 +61,70 @@ fn Navbar() -> Element {
 #[component]
 pub fn Profile() -> Element {
 	rsx! {
+		div {
+			class: "max-h-[90vh] flex justify-start flex-col justify-center align-center gap-2",
+			h1 {
+				class: "text-xl text-white",
+				"Profile"
+			}
+			img {
+				class: "w-32 h-32 object-fit rounded-sm mt-4",
+				src: "{ME.image}",
+				alt: "{ME.name}"
+			}
+			h1 { "Name: {ME.name}" }
+			p { "Age: {ME.age}" }
+			p { "Location: {ME.location}" }
 			div {
-				class: "m-0 flex flex-col justify-center align-center",
-				img {
-					class: "w-32 h-32 object-fit rounded-sm",
-					src: "{ME.image}",
-					alt: "{ME.name}"
-				}
-				h1 { "Name: {ME.name}" }
-				p { "Age: {ME.age}" }
-				p { "Languages:" }
-				for l in ME.langs {
-					p { "- {l}" }
-				}
-				p { "Frameworks:" }
-				for f in ME.frameworks {
-					p { "- {f}" }
-				}
-
+				class: "grid grid-cols-2 gap-x-8 gap-y-4",
 				div {
-					class: "mt-4",
-					img {
-						src: "https://ghchart.rshah.org/000099/jamesukiyo",
-						alt: "GitHub Contribution Chart",
-						class: "w-xl"
+					p { "Languages:" }
+					ul {
+						for l in ME.langs {
+							li { "• {l}" }
+						}
 					}
 				}
 				div {
-					class: "mt-4",
-					h1 { "Social Links" }
+					p { "Scripting:" }
+					ul {
+						for s in ME.scripting {
+							li { "• {s}" }
+						}
+					}
+				}
+				div {
+					p { "Frameworks:" }
+					ul {
+						for f in ME.frameworks {
+							li { "• {f}" }
+						}
+					}
+				}
+				div {
+					p { "Tools:" }
+					ul {
+						for t in ME.tools {
+							li { "• {t}" }
+						}
+					}
+				}
+			}
+
+			div {
+				class: "mt-4",
+				img {
+					src: "https://ghchart.rshah.org/000099/jamesukiyo",
+					alt: "GitHub Contribution Chart",
+					class: "max-w-md"
+				}
+			}
+			div {
+				class: "mt-4",
+				h1 { "Socials:" }
 				div {
 					class: "flex flex-row gap-x-4 items-center",
-					for s in SOCIAL_LINKS {
+					for s in ME.socials {
 						a {
 							href: "{s.url}",
 							target: "_blank",
@@ -121,7 +153,7 @@ pub fn Profile() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div {
-			class: "m-0 flex flex-row justify-between mx-auto align-center max-w-6xl",
+			class: "flex flex-row justify-between mx-auto align-center max-w-5xl",
 			Profile {}
 			Projects {}
 		}
@@ -135,27 +167,34 @@ fn Home() -> Element {
 pub fn Projects() -> Element {
 	rsx! {
 		div {
-			class: "text-left text-xl text-white flex flex-col flex-wrap",
-			for p in PROJECTS {
-				Link {
-					class: "text-white mt-[20px] w-md
+			class: "max-h-[80vh] text-xl overflow-scroll no-scrollbar",
+			h1 {
+				class: "fixed",
+				"Projects"
+			}
+			div {
+				class: "mt-12 text-left text-white flex flex-col gap-4",
+				for p in PROJECTS {
+					Link {
+						class: "text-white w-md
                         border-1 border-white rounded-md
                         p-4 hover:bg-[#1f1f1f] hover:cursor-pointer",
-					to: "/projects/{p.name}",
-					div {
-					class: "flex flex-row justify-between border-b-1 border-white/20",
-						span {
-							class: "pb-2",
-							"{p.name}"
+						to: "/projects/{p.name}",
+						div {
+						class: "flex flex-row justify-between border-b-1 border-white/20",
+							span {
+								class: "pb-2",
+								"{p.name}"
+							}
+							span {
+								class: "text-white/60",
+								"[{p.type_of}]"
+							}
 						}
 						span {
-							class: "text-white/60",
-							"[{p.type_of}]"
+							class: "pt-2 text-sm text-white/60",
+							"{p.tech_str()}"
 						}
-					}
-					span {
-						class: "pt-2 text-sm text-white/60",
-						"{p.tech_str()}"
 					}
 				}
 			}
