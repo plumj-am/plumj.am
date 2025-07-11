@@ -23,8 +23,4 @@ body {
     margin: 20px;
 }
 
-#hero a {
-	@apply text-white mt-[20px] mx-[10px] border-1 border-white rounded-md px-[10px] py-[10px] hover:bg-[#1f1f1f] hover:cursor-pointer;
-}
-
 @source "./src/**/*.{rs,html,css}"

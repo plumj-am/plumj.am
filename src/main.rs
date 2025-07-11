@@ -1,13 +1,17 @@
+mod me;
+mod projects;
+
+use self::me::ME;
+use self::projects::PROJECTS;
 use dioxus::prelude::*;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
+#[rustfmt::skip]
 enum Route {
 	#[layout(Navbar)]
 	#[route("/")]
 	Home {},
-	#[route("/projects")]
-	Projects,
-	#[route("/projects/:name")]
+	#[route("/project/:name")]
 	Project { name: String },
 }
 
@@ -34,18 +38,16 @@ fn App() -> Element {
 fn Navbar() -> Element {
 	rsx! {
 		div {
-			class: "flex flex-row",
-			Link {
-				class: "text-white mr-[20px] decoration-none
-					hover:cursor-pointer hover:text-[#91a4d2]",
-				to: Route::Home {},
-				"Home"
+			class: "flex flex-row gap-x-12 items-center",
+			p {
+				class: "border-1 border-white/20 p-1 rounded-sm",
+				"jamesukiyo"
 			}
 			Link {
-				class: "text-white mr-[20px] decoration-none
-					hover:cursor-pointer hover:text-[#91a4d2]",
-				to: Route::Projects {},
-				"Projects"
+				class: "text-white decoration-none
+					hover:cursor-pointer hover:text-[#ABABAB] hover:underline",
+				to: Route::Home {},
+				"Home"
 			}
 		}
 
@@ -53,49 +55,23 @@ fn Navbar() -> Element {
 	}
 }
 
-//----------------//
-// HERO COMPONENT //
-//----------------//
+//-------------------//
+// PROFILE COMPONENT //
+//-------------------//
 #[component]
-pub fn Hero() -> Element {
+pub fn Profile() -> Element {
 	rsx! {
 		div {
-			id: "hero",
 			class: "m-0 flex flex-col justify-center align-center",
-			div {
-				class: "w-[400px] text-left text-xl text-white flex flex-col",
-					a {
-						href: "/projects/dr-radka",
-						"Dr Radka [website]"
-					}
-					a {
-						href: "/projects/charfreq-rs",
-						"charfreq-rs [CLI tool]"
-					}
-					a {
-						href: "/projects/shell-rs",
-						"shell-rs [CLI tool]"
-					}
-					a {
-						href: "/projects/windows-setup",
-						"windows-setup [script]"
-					}
-					a {
-						href: "/projects/search-this",
-						"search-this.nvim [neovim plugin]"
-					}
-					a {
-						href: "/projects/server-health-monitor",
-						"server-health-monitor [utility]"
-					}
-					a {
-						href: "/projects/pausarr",
-						"pausarr [script]"
-					}
-					a {
-						href: "/projects/nvim",
-						"nvim [config]"
-					}
+			h1 { "Name: {ME.name}" }
+			p { "Age: {ME.age}" }
+			p { "Languages:" }
+			for l in ME.langs {
+				p { "- {l}" }
+			}
+			p { "Frameworks:" }
+			for f in ME.frameworks {
+				p { "- {f}" }
 			}
 		}
 	}
@@ -107,23 +83,45 @@ pub fn Hero() -> Element {
 #[component]
 fn Home() -> Element {
 	rsx! {
-		Hero {}
-
+		div {
+			class: "m-0 flex flex-row justify-between mx-auto align-center max-w-5xl",
+			Profile {}
+			Projects {}
+		}
 	}
 }
 
-//----------------//
-// PROJECTS PAGE  //
-//----------------//
+//------------------------//
+// PROJECT LIST COMPONENT //
+//------------------------//
 #[component]
 pub fn Projects() -> Element {
 	rsx! {
 		div {
-			class: "mt-[50px]",
-
-			// Content
-			h1 { "This is the projects page" }
-			p { "..." }
+			class: "text-left text-xl text-white flex flex-col flex-wrap",
+			for p in PROJECTS {
+				Link {
+					class: "text-white mt-[20px] w-md
+                        border-1 border-white rounded-md
+                        p-4 hover:bg-[#1f1f1f] hover:cursor-pointer",
+					to: "/projects/{p.name}",
+					div {
+					class: "flex flex-row justify-between border-b-1 border-white/20",
+						span {
+							class: "pb-2",
+							"{p.name}"
+						}
+						span {
+							class: "text-white/60",
+							"[{p.type_of}]"
+						}
+					}
+					span {
+						class: "pt-2 text-sm text-white/60",
+						"{p.tech_str()}"
+					}
+				}
+			}
 		}
 	}
 }
@@ -133,13 +131,26 @@ pub fn Projects() -> Element {
 //----------------//
 #[component]
 pub fn Project(name: String) -> Element {
-	rsx! {
-		div {
-			id: "project",
+	// Find the project info by name
+	let p_info = PROJECTS.iter().find(|p| p.name == name);
 
-			// Content
-			h1 { "This is project #{name}!" }
-			p { "In project #{name}, we show how the Dioxus router works and how URL parameters can be passed as props to our route components." }
-		}
+	match p_info {
+		Some(p) => rsx! {
+			div {
+				h1 { "name: {p.name}" }
+				p { "description: {p.desc}" }
+				p { "type of project: {p.type_of}" }
+				p { "tech: {p.tech_str()}" }
+				for t in p.tech {
+					p { "- {t}" }
+				}
+			}
+		},
+		None => rsx! {
+			div {
+				h1 { "Project not found" }
+				p { "The project '{name}' could not be found." }
+			}
+		},
 	}
 }
