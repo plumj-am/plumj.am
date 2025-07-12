@@ -89,11 +89,3 @@ jobs:
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
                   prerelease: false
-
-    cargo-bump:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Bump version
-              uses: tj-actions/cargo-bump@v3
