@@ -1,8 +1,8 @@
-mod me;
-mod projects;
+mod data;
+mod project;
 
-use self::me::ME;
-use self::projects::PROJECTS;
+use self::data::{ME, PROJECTS};
+use self::project::Project;
 use dioxus::prelude::*;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -31,23 +31,37 @@ fn App() -> Element {
 	}
 }
 
-/*----------------
-  NAV COMPONENT
-----------------*/
 #[component]
 fn Navbar() -> Element {
 	rsx! {
 		div {
-			class: "flex flex-row gap-x-12 items-center mb-8 max-w-5xl mx-auto",
-			p {
-				class: "border-1 border-white/20 p-1 rounded-sm",
-				"jamesukiyo"
+			class: "flex flex-row justify-between items-center mb-8 max-w-5xl mx-auto",
+			div {
+				class: "flex flex-row gap-x-4 items-center",
+				Link {
+					class: "flex items-center hover:opacity-80",
+					to: Route::Home {},
+					img {
+						src: asset!("assets/home.svg"),
+						alt: "Home",
+						class: "w-auto h-5"
+					}
+				}
 			}
-			Link {
-				class: "text-white decoration-none
-					hover:cursor-pointer hover:text-[#ABABAB] hover:underline",
-				to: Route::Home {},
-				"Home"
+			div {
+				class: "flex flex-row gap-x-4 items-center",
+				for s in ME.socials {
+					a {
+						href: "{s.url}",
+						target: "_blank",
+						class: "flex items-end hover:opacity-80",
+						img {
+							src: "{s.icon}",
+							alt: "{s.name}",
+							class: "w-auto h-4"
+						}
+					}
+				}
 			}
 		}
 
@@ -55,30 +69,65 @@ fn Navbar() -> Element {
 	}
 }
 
-//-------------------//
-// PROFILE COMPONENT //
-//-------------------//
+//
+// HOME PAGE
+//
+#[component]
+fn Home() -> Element {
+	rsx! {
+		div {
+			class: "max-w-5xl mx-auto",
+			div {
+				class: "flex flex-col lg:flex-row justify-between align-center",
+				Profile {}
+				Projects {}
+			}
+			Footer {}
+		}
+	}
+}
+
+// LEFT SIDE HOME PAGE
 #[component]
 pub fn Profile() -> Element {
 	rsx! {
 		div {
-			class: "max-h-[90vh] flex justify-start flex-col justify-center align-center gap-2",
-			h1 {
-				class: "text-xl text-white",
-				"Profile"
-			}
+			class: "max-h-[90vh] flex justify-start flex-col justify-center
+				align-center gap-2",
+			h1 { "Profile" }
 			img {
 				class: "w-32 h-32 object-fit rounded-sm mt-4",
 				src: "{ME.image}",
 				alt: "{ME.name}"
 			}
-			h1 { "Name: {ME.name}" }
+			p { "Name: {ME.name}" }
 			p { "Age: {ME.age}" }
+			div {
+				class: "flex items-center gap-2",
+				p { "Email: {ME.email}" }
+				button {
+					class: "hover:cursor-pointer text-gray-500 hover:text-gray-700
+						transition-colors",
+					onclick: move |_| {
+						let _ = document::eval(&format!(
+								"navigator.clipboard.writeText('{}')",
+								ME.email
+							)
+						);
+					},
+					title: "Copy email address",
+					img {
+						src: asset!("assets/copy.svg"),
+						alt: "Copy",
+						class: "w-4 h-4"
+					}
+				}
+			}
 			p { "Location: {ME.location}" }
 			div {
 				class: "grid grid-cols-2 gap-x-8 gap-y-4",
 				div {
-					p { "Languages:" }
+					h2 { "Languages:" }
 					ul {
 						for l in ME.langs {
 							li { "• {l}" }
@@ -86,7 +135,7 @@ pub fn Profile() -> Element {
 					}
 				}
 				div {
-					p { "Scripting:" }
+					h2 { "Scripting:" }
 					ul {
 						for s in ME.scripting {
 							li { "• {s}" }
@@ -94,7 +143,7 @@ pub fn Profile() -> Element {
 					}
 				}
 				div {
-					p { "Frameworks:" }
+					h2 { "Frameworks:" }
 					ul {
 						for f in ME.frameworks {
 							li { "• {f}" }
@@ -102,7 +151,7 @@ pub fn Profile() -> Element {
 					}
 				}
 				div {
-					p { "Tools:" }
+					h2 { "Tools:" }
 					ul {
 						for t in ME.tools {
 							li { "• {t}" }
@@ -112,7 +161,7 @@ pub fn Profile() -> Element {
 			}
 
 			div {
-				class: "mt-4",
+				class: "mt-4 overflow-x-scroll md:overflow-x-visible flex sm:block justify-end",
 				img {
 					src: "https://ghchart.rshah.org/000099/jamesukiyo",
 					alt: "GitHub Contribution Chart",
@@ -121,14 +170,13 @@ pub fn Profile() -> Element {
 			}
 			div {
 				class: "mt-4",
-				h1 { "Socials:" }
 				div {
 					class: "flex flex-row gap-x-4 items-center",
 					for s in ME.socials {
 						a {
 							href: "{s.url}",
 							target: "_blank",
-							class: "flex items-center",
+							class: "flex items-center hover:opacity-80",
 							img {
 								src: s.icon,
 								alt: "{s.name}",
@@ -146,53 +194,33 @@ pub fn Profile() -> Element {
 	}
 }
 
-//----------------//
-//   HOME PAGE    //
-//----------------//
-#[component]
-fn Home() -> Element {
-	rsx! {
-		div {
-			class: "max-w-5xl mx-auto",
-			div {
-				class: "flex flex-row justify-between align-center",
-				Profile {}
-				Projects {}
-			}
-			Footer {}
-		}
-	}
-}
-
-//------------------------//
-// PROJECT LIST COMPONENT //
-//------------------------//
+// RIGHT SIDE HOME PAGE
 #[component]
 pub fn Projects() -> Element {
 	rsx! {
 		div {
-			class: "max-h-[80vh] text-xl overflow-scroll no-scrollbar",
+			class: "max-h-[80vh] text-xl lg:overflow-scroll no-scrollbar",
 			h1 {
-				class: "fixed",
-				"Projects"
+				class: "mt-8 lg:mt-0 lg:fixed bg-[#0f1116] w-full",
+				"Projects ({PROJECTS.len()})"
 			}
 			div {
 				class: "mt-12 text-left text-white flex flex-col gap-4",
 				for p in PROJECTS {
 					Link {
-						class: "text-white w-md
-                        border-1 border-white rounded-md
-                        p-4 hover:bg-[#1f1f1f] hover:cursor-pointer",
-						to: "/projects/{p.name}",
+						class: "text-white w-md border-1 border-white rounded-md
+							p-4 hover:bg-[#1f1f1f] hover:cursor-pointer",
+						to: "/project/{p.name}",
 						div {
-						class: "flex flex-row justify-between border-b-1 border-white/20",
+							class: "flex flex-row justify-between border-b-1
+								border-white/20",
 							span {
 								class: "pb-2",
 								"{p.name}"
 							}
 							span {
-								class: "text-white/60",
-								"[{p.type_of}]"
+								class: "text-white/60 text-lg",
+								"[{p.type_str()}]"
 							}
 						}
 						span {
@@ -203,35 +231,6 @@ pub fn Projects() -> Element {
 				}
 			}
 		}
-	}
-}
-
-//----------------//
-// 1 PROJECT PAGE //
-//----------------//
-#[component]
-pub fn Project(name: String) -> Element {
-	// Find the project info by name
-	let p_info = PROJECTS.iter().find(|p| p.name == name);
-
-	match p_info {
-		Some(p) => rsx! {
-			div {
-				h1 { "name: {p.name}" }
-				p { "description: {p.desc}" }
-				p { "type of project: {p.type_of}" }
-				p { "tech: {p.tech_str()}" }
-				for t in p.tech {
-					p { "- {t}" }
-				}
-			}
-		},
-		None => rsx! {
-			div {
-				h1 { "Project not found" }
-				p { "The project '{name}' could not be found." }
-			}
-		},
 	}
 }
 

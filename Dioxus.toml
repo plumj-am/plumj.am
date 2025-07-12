@@ -4,6 +4,10 @@
 # HTML title tag content
 title = "jamesukiyo"
 
+[web.watcher]
+reload_html = true
+watch_path = ["src", "assets"]
+
 # include `assets` in web platform
 [web.resource]
 # Additional CSS style files
