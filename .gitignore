@@ -2,13 +2,14 @@
 
 !assets/**.{ico,webp,svg}
 !src/
+!.clippy.toml
+!.editorconfig
+!.gitattributes
 !.gitignore
+!.rustfmt.toml
 !Cargo.{lock,toml}
-!clippy.toml
 !Dioxus.toml
 !input.css
 !mprocs.yaml
 !README.md
 !rust-toolchain.toml
-!rustfmt.toml
-!tailwind.config.js
