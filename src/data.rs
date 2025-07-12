@@ -99,16 +99,10 @@ impl ProjectInfo {
 	pub fn tech_str(&self) -> String {
 		self.tech.join(", ")
 	}
-
-	pub fn type_str(&self) -> &'static str {
-		self.type_of.as_str()
-	}
-
-	pub fn gh_url_str(&self) -> &'static str {
+	pub fn gh_url_str(&self) -> &str {
 		self.gh_url.unwrap_or("N/A")
 	}
-
-	pub fn site_url_str(&self) -> &'static str {
+	pub fn site_url_str(&self) -> &str {
 		self.site_url.unwrap_or("N/A")
 	}
 }

@@ -1,3 +1,6 @@
+#![forbid(unsafe_code)]
+#![warn(clippy::pedantic)]
+
 mod data;
 mod project;
 
@@ -227,7 +230,7 @@ pub fn Projects() -> Element {
 								}
 								span {
 									class: "text-white/60 text-lg",
-									"[{p.type_str()}]"
+									"[{p.type_of.as_str()}]"
 								}
 							}
 							div {
