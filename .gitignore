@@ -1,4 +1,5 @@
 target/
+docs/
 assets/gen-tailwind.css
 mprocs.log
 IDEAS.md

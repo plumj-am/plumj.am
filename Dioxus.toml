@@ -3,6 +3,7 @@
 [web.app]
 # HTML title tag content
 title = "jamesukiyo"
+base_path = "/"
 
 [web.watcher]
 reload_html = true
