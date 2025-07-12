@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
 
+pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
 //
 // ME
 //

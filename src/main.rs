@@ -1,7 +1,7 @@
 mod data;
 mod project;
 
-use self::data::{ME, PROJECTS};
+use self::data::{ME, PROJECTS, VERSION};
 use self::project::Project;
 use dioxus::prelude::*;
 
@@ -50,11 +50,16 @@ fn Navbar() -> Element {
 			}
 			div {
 				class: "flex flex-row gap-x-4 items-center",
+				a {
+					class: "text-sm text-white/90 hover:opacity-80 hover:underline",
+					href: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
+					"v{VERSION}"
+				}
 				for s in ME.socials {
 					a {
 						href: "{s.url}",
 						target: "_blank",
-						class: "flex items-end hover:opacity-80",
+						class: "hover:opacity-80",
 						img {
 							src: "{s.icon}",
 							alt: "{s.name}",
