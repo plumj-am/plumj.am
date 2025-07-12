@@ -207,25 +207,60 @@ pub fn Projects() -> Element {
 			div {
 				class: "mt-12 text-left text-white flex flex-col gap-4",
 				for p in PROJECTS {
-					Link {
+					div {
 						class: "text-white w-md border-1 border-white rounded-md
-							p-4 hover:bg-[#1f1f1f] hover:cursor-pointer",
-						to: "/project/{p.name}",
-						div {
-							class: "flex flex-row justify-between border-b-1
-								border-white/20",
-							span {
-								class: "pb-2",
-								"{p.name}"
+							pt-5 px-4 pb-3 hover:bg-[#1f1f1f] relative",
+						Link {
+							class: "block hover:cursor-pointer",
+							to: "/project/{p.name}",
+							div {
+								class: "flex flex-row justify-between border-b-1
+									border-white/20",
+								span {
+									class: "pb-2",
+									"{p.name}"
+								}
+								span {
+									class: "text-white/60 text-lg",
+									"[{p.type_str()}]"
+								}
 							}
-							span {
-								class: "text-white/60 text-lg",
-								"[{p.type_str()}]"
+							div {
+								class: "flex flex-row justify-between items-end",
+								span {
+									class: "pt-2 text-sm text-white/60",
+									"{p.tech_str()}"
+								}
 							}
 						}
-						span {
-							class: "pt-2 text-sm text-white/60",
-							"{p.tech_str()}"
+						div {
+							class: "absolute bottom-3 right-4 flex gap-2 items-center",
+							if let Some(gh_url) = p.gh_url {
+								a {
+									href: "{gh_url}",
+									target: "_blank",
+									rel: "noopener noreferrer",
+									class: "opacity-80 hover:opacity-100",
+									img {
+										src: asset!("/assets/github.svg"),
+										alt: "GitHub",
+										class: "w-5 h-5"
+									}
+								}
+							}
+							if let Some(site_url) = p.site_url {
+								a {
+									href: "{site_url}",
+									target: "_blank",
+									rel: "noopener noreferrer",
+									class: "opacity-80 hover:opacity-100",
+									img {
+										src: asset!("/assets/globe.svg"),
+										alt: "Website",
+										class: "w-6 h-6"
+									}
+								}
+							}
 						}
 					}
 				}

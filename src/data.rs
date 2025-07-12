@@ -113,12 +113,12 @@ impl ProjectInfo {
 
 pub static PROJECTS: &[ProjectInfo] = &[
 	ProjectInfo {
-		name: "dr-radka",
+		name: "jamesukiyo.github.io",
 		desc: "",
 		type_of: ProjectType::Website,
-		tech: &["SvelteKit", "Typescript", "Tailwind", "Sanity CMS"],
-		gh_url: None,
-		site_url: Some("https://dr-radka.pl"),
+		tech: &["Rust", "Dioxus", "Tailwind"],
+		gh_url: Some("https://github.com/jamesukiyo/jamesukiyo.github.io"),
+		site_url: Some("https://jamesukiyo.github.io"),
 	},
 	ProjectInfo {
 		name: "charfreq-rs",
@@ -127,6 +127,14 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		tech: &["Rust"],
 		gh_url: Some("https://github.com/jamesukiyo/charfreq-rs"),
 		site_url: None,
+	},
+	ProjectInfo {
+		name: "dr-radka",
+		desc: "",
+		type_of: ProjectType::Website,
+		tech: &["SvelteKit", "Typescript", "Tailwind", "Sanity CMS"],
+		gh_url: None,
+		site_url: Some("https://dr-radka.pl"),
 	},
 	ProjectInfo {
 		name: "shell-rs",
@@ -175,13 +183,5 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		tech: &["Lua"],
 		gh_url: Some("https://github.com/jamesukiyo/nvim"),
 		site_url: None,
-	},
-	ProjectInfo {
-		name: "me",
-		desc: "",
-		type_of: ProjectType::Website,
-		tech: &["Rust", "Dioxus", "Tailwind"],
-		gh_url: Some("https://github.com/jamesukiyo/me"),
-		site_url: Some("https://jamesukiyo.com"),
 	},
 ];
