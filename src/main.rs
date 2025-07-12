@@ -201,7 +201,7 @@ pub fn Projects() -> Element {
 		div {
 			class: "max-h-[80vh] text-xl lg:overflow-scroll no-scrollbar",
 			h1 {
-				class: "mt-8 lg:mt-0 lg:fixed bg-[#0f1116] w-full",
+				class: "mt-8 lg:mt-0 lg:fixed bg-[#0f1116] w-full pb-2 z-10",
 				"Projects ({PROJECTS.len()})"
 			}
 			div {
