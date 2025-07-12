@@ -1,0 +1,65 @@
+name: "CI"
+
+on:
+    push:
+        paths:
+            - "assets/**"
+            - "src/**"
+            - ".clippy.toml"
+            - ".rustfmt.toml"
+            - "Cargo.{toml,lock}"
+            - "Dioxus.toml"
+            - "input.css"
+            - "rust-toolchain.toml"
+
+jobs:
+    checks:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+            - run: |
+                  bun install tailwindcss @tailwindcss/cli
+                  bunx @tailwindcss/cli -i='./input.css' -o='./assets/gen-tailwind.css'
+            - uses: moonrepo/setup-rust@v1
+              with:
+                  inherit-toolchain: true
+                  bins: dioxus-cli
+                  components: clippy
+                  cache-base: master
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - run: cargo clippy
+            - run: dx check
+
+    build:
+        needs: checks
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+            - run: |
+                  bun install tailwindcss @tailwindcss/cli
+                  bunx @tailwindcss/cli -i='./input.css' -o='./assets/gen-tailwind.css'
+            - uses: moonrepo/setup-rust@v1
+              with:
+                  inherit-toolchain: true
+                  bins: dioxus-cli
+                  cache-base: master
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - run: dx build
+
+    fmt-check:
+        runs-on: ubuntu-latest
+        continue-on-error: true # avoid failing CI for trivial formatting errors
+        steps:
+            - uses: actions/checkout@v4
+            - uses: moonrepo/setup-rust@v1
+              with:
+                  inherit-toolchain: true
+                  # bins: dioxus-cli
+                  components: rustfmt
+                  cache-base: master
+            # - run: dx fmt --all-code -s -c
+            - run: cargo fmt --check
