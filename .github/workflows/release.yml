@@ -41,27 +41,41 @@ jobs:
                   cache-base: master
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - run: |
-                  dx bundle --out-dir docs
-                  mv docs/public/* docs/
-                  cp docs/index.html docs/404.html
-            - id: deployment
-              uses: actions/upload-pages-artifact@v3
-              with:
-                  path: docs/
+            - run: dx build
 
     deploy:
         needs: build
         permissions:
             pages: write
             id-token: write
+            contents: read
         environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+            - run: |
+                  bun install tailwindcss @tailwindcss/cli
+                  bunx @tailwindcss/cli -i='./input.css' -o='./assets/gen-tailwind.css'
+            - uses: moonrepo/setup-rust@v1
+              with:
+                  inherit-toolchain: true
+                  bins: dioxus-cli
+                  cache-base: master
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - run: |
+                  dx bundle --out-dir docs
+                  mv docs/public/* docs/
+                  cp docs/index.html docs/404.html
+            - uses: actions/configure-pages@v5
+            - uses: actions/upload-pages-artifact@v3
+              with:
+                  path: docs/
             - id: deployment
-              uses: actions/deploy-pages@v3
+              uses: actions/deploy-pages@v4
 
     tagged-release:
         needs: build
