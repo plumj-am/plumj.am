@@ -6,9 +6,9 @@ use dioxus::prelude::*;
 pub fn Layout() -> Element {
 	rsx! {
 		div {
-			class: "flex flex-col max-h-screen grow",
+			class: "min-h-screen flex flex-col",
 			Navbar {}
-			main { class: "mt-12",
+			main { class: "mt-6 flex flex-col flex-grow",
 				Outlet::<Route> {}
 			}
 			Footer {}
@@ -20,7 +20,7 @@ pub fn Layout() -> Element {
 pub fn Navbar() -> Element {
 	rsx! {
 		div {
-			class: "w-full flex flex-row justify-between items-center mb-8 max-w-5xl mx-auto",
+			class: "h-16 w-full flex flex-row justify-between items-center mb-8 max-w-5xl mx-auto",
 			div {
 				class: "flex flex-row gap-x-4 items-center",
 				Link {
@@ -61,7 +61,7 @@ pub fn Navbar() -> Element {
 pub fn Footer() -> Element {
 	rsx! {
 		div {
-			class: "absolute mt-auto bottom-0 font-sm text-white/20",
+			class: "fixed bottom-0 font-sm text-white/20 bg-[#0f1116] w-full text-center",
 			p {
 				"Copyright © 2025 - James Plummer <jamesp2001@live.co.uk>"
 			}
