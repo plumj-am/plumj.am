@@ -60,10 +60,45 @@ pub fn Navbar() -> Element {
 #[component]
 pub fn Footer() -> Element {
 	rsx! {
-		div {
-			class: "fixed bottom-0 font-sm text-white/20 bg-[#0f1116] w-full text-center",
-			p {
-				"Copyright © 2025 - James Plummer <jamesp2001@live.co.uk>"
+		div { class: "fixed max-w-5xl bottom-0 left-0 right-0 bg-[#16161e] text-white
+				text-md flex z-50 items-center mx-auto",
+			// mode
+			div { class: "bg-[#7aa2f7] text-[#16161e] px-3",
+				"NORMAL"
+			}
+			// branch
+			div { class: "bg-[#414868] text-[#c0caf5] px-3",
+				span { class: "flex items-center",
+					i { class: "devicon-git-plain mr-1" }
+					"master@v{VERSION}"
+				}
+			}
+			// file name
+			div { class: "bg-[#24283b] text-[#c0caf5] px-3",
+				"portfolio/main.rs"
+			}
+			// spacer
+			div { class: "flex-grow" }
+			// file type and position + copyright
+			div {
+				class: "flex items-center",
+				div { class: "text-white/30 text-xs mr-2",
+					"Copyright © 2025 - James Plummer <jamesp2001@live.co.uk>"
+				}
+				div { class: "bg-[#414868] text-[#c0caf5] px-3 flex items-center",
+					span { class: "flex items-center",
+						i { class: "devicon-rust-plain mr-1" }
+					}
+					"rust"
+				}
+
+				div { class: "bg-[#24283b] text-[#c0caf5] px-3",
+					"42:12"
+				}
+
+				div { class: "bg-[#7aa2f7] text-[#16161e] px-3",
+					"100%"
+				}
 			}
 		}
 	}
