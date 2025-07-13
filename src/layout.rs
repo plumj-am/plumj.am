@@ -5,10 +5,9 @@ use dioxus::prelude::*;
 #[component]
 pub fn Layout() -> Element {
 	rsx! {
-		div {
-			class: "min-h-screen flex flex-col min-w-full",
+		div { class: "min-h-screen flex flex-col min-w-full",
 			Navbar {}
-			main { class: "mt-6 flex flex-col grow max-w-5xl w-full mx-auto",
+			main { class: "flex flex-col grow max-w-6xl w-full mx-auto px-1 border-x-1 border-t-1 border-white/20 bg-[#0f1116]",
 				Outlet::<Route> {}
 			}
 			Footer {}
@@ -19,36 +18,30 @@ pub fn Layout() -> Element {
 #[component]
 pub fn Navbar() -> Element {
 	rsx! {
-		div {
-			class: "h-16 w-full flex flex-row justify-between items-center mb-8 max-w-5xl mx-auto",
-			div {
-				class: "flex flex-row gap-x-4 items-center",
+		div { class: "h-12 bg-[#0f1116]"}
+		div { class: "fixed top-0 z-99 left-0 right-0 bg-[#16161e] h-12 w-full flex flex-row justify-between items-center max-w-6xl px-3 mx-auto border-x-1 border-t-1 border-x-white/20 border-t-white/20",
+			div { class: "flex flex-row gap-x-4 items-center",
 				Link {
 					class: "flex items-center hover:opacity-80",
 					to: Route::Home {},
-					img {
+					img { class: "w-auto h-5",
 						src: asset!("assets/home.svg"),
 						alt: "Home",
-						class: "w-auto h-5"
 					}
 				}
 			}
-			div {
-				class: "flex flex-row gap-x-4 items-center",
-				Link {
-					class: "text-sm text-white/90 hover:opacity-80 hover:underline",
+			div { class: "flex flex-row gap-x-4 items-center",
+				Link { class: "text-sm text-white/90 hover:opacity-80 hover:underline",
 					to: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
 					"v{VERSION}"
 				}
 				for s in ME.socials {
-					Link {
+					Link { class: "hover:opacity-80",
 						to: "{s.url}",
 						new_tab: true,
-						class: "hover:opacity-80",
-						img {
+						img { class: "w-auto h-4",
 							src: "{s.icon}",
 							alt: "{s.name}",
-							class: "w-auto h-4"
 						}
 					}
 				}
@@ -60,7 +53,7 @@ pub fn Navbar() -> Element {
 #[component]
 pub fn Footer() -> Element {
 	rsx! {
-		div { class: "fixed max-w-5xl bottom-0 left-0 right-0 bg-[#16161e] text-white
+		div { class: "fixed max-w-6xl bottom-0 left-0 right-0 bg-[#16161e] text-white
 				text-md flex z-50 items-center mx-auto",
 			// mode
 			div { class: "bg-[#7aa2f7] text-[#16161e] px-3",
@@ -70,7 +63,7 @@ pub fn Footer() -> Element {
 			div { class: "bg-[#414868] text-[#c0caf5] px-3",
 				span { class: "flex items-center",
 					i { class: "devicon-git-plain mr-1" }
-					"master@v{VERSION}"
+					"master"
 				}
 			}
 			// file name

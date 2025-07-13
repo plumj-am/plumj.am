@@ -74,22 +74,25 @@ fn LineNumbers() -> Element {
 #[component]
 pub fn Profile() -> Element {
 	rsx! {
-		div {
-			class: "flex justify-start flex-col justify-center align-center gap-2",
-			h1 { "Profile" }
-			img {
-				class: "w-32 h-32 object-fit rounded-sm mt-4",
-				src: "{ME.image}",
-				alt: "{ME.name}"
+	div { class: "flex flex-col pt-1",
+		div { class: "line-content",
+			h1 { class: "border-b-1 border-white/20 w-fit",
+				"Profile"
 			}
-			p { "Name: {ME.name}" }
-			p { "Age: {ME.age}" }
-			div {
-				class: "flex items-center gap-2",
+		}
+			div { class: "line-content", span { "" } }
+			div { class: "flex flex-col items-start",
+				img { class: "w-36 h-36 object-fit rounded-sm",
+					src: "{ME.image}",
+					alt: "{ME.name}"
+				}
+			}
+			div { class: "line-content", span { "" } }
+			div { class: "line-content", p { "Name: {ME.name}" } }
+			div { class: "line-content", p { "Age: {ME.age}" } }
+			div { class: "line-content",
 				p { "Email: {ME.email}" }
-				button {
-					class: "hover:cursor-pointer text-gray-500 hover:text-gray-700
-						transition-colors",
+				button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
 					onclick: move |_| {
 						let _ = document::eval(&format!(
 								"navigator.clipboard.writeText('{}')",
@@ -98,76 +101,79 @@ pub fn Profile() -> Element {
 						);
 					},
 					title: "Copy email address",
-					img {
+					img { class: "w-4 h-4",
 						src: asset!("assets/copy.svg"),
 						alt: "Copy",
-						class: "w-4 h-4"
 					}
 				}
 			}
-			p { "Location: {ME.location}" }
-			div {
-				class: "grid grid-cols-2 gap-x-8 gap-y-4",
-				div {
-					h2 { "Languages:" }
-					ul {
-						for l in ME.langs {
-							li { "• {l}" }
+			div { class: "line-content", p { "Location: {ME.location}" } }
+			div { class: "line-content", span { "" } }
+			div { class: "grid grid-cols-2 gap-x-8",
+				div { class: "flex flex-col",
+					div { class: "line-content mb-[-1px]",
+						h2 { "Languages:" }
+					}
+					for l in ME.langs {
+						div { class: "line-content",
+							p { "- {l}" }
 						}
 					}
 				}
-				div {
-					h2 { "Scripting:" }
-					ul {
-						for s in ME.scripting {
-							li { "• {s}" }
+				div { class: "flex flex-col",
+					div { class: "line-content mb-[-1px]",
+						h2 { "Scripting:" }
+					}
+					for s in ME.scripting {
+						div { class: "line-content",
+							p { "- {s}" }
 						}
 					}
 				}
-				div {
-					h2 { "Frameworks:" }
-					ul {
-						for f in ME.frameworks {
-							li { "• {f}" }
+			}
+			div { class: "line-content", span { "" } }
+			div { class: "grid grid-cols-2 gap-x-8",
+				div { class: "flex flex-col",
+					div { class: "line-content mb-[-1px]",
+						h2 { "Frameworks:" }
+					}
+					for f in ME.frameworks {
+						div { class: "line-content",
+							p { "- {f}" }
 						}
 					}
 				}
-				div {
-					h2 { "Tools:" }
-					ul {
-						for t in ME.tools {
-							li { "• {t}" }
+				div { class: "flex flex-col",
+					div { class: "line-content mb-[-1px]",
+						h2 { "Tools:" }
+					}
+					for t in ME.tools {
+						div { class: "line-content",
+							p { "- {t}" }
 						}
 					}
 				}
 			}
 
-			div {
-				class: "mt-4 overflow-x-scroll md:overflow-x-visible flex sm:block justify-end",
-				img {
+			div { class: "line-content", span { "" } }
+			div { class: "flex flex-col",
+				img { class: "max-w-md",
 					src: "https://ghchart.rshah.org/000099/jamesukiyo",
 					alt: "GitHub Contribution Chart",
-					class: "max-w-md"
 				}
 			}
-			div {
-				class: "mt-4",
-				div {
-					class: "flex flex-row gap-x-4 items-center",
-					for s in ME.socials {
-						Link {
-							to: "{s.url}",
-							new_tab: true,
-							class: "flex items-center hover:opacity-80",
-							img {
-								src: s.icon,
-								alt: "{s.name}",
-								class: "max-w-5 max-h-5"
-							}
-							p {
-								class: "ml-2",
-								"{s.name}"
-							}
+			div { class: "line-content", span { "" } }
+			div { class: "line-content flex flex-row gap-x-6 mt-1",
+				for s in ME.socials {
+					Link { class: "flex items-center hover:opacity-80",
+						to: "{s.url}",
+						new_tab: true,
+						img { class: "max-w-5 max-h-5",
+							src: s.icon,
+							alt: "{s.name}",
+						}
+						p { class: "ml-2",
+							"{s.name}"
 						}
 					}
 				}
@@ -180,66 +186,51 @@ pub fn Profile() -> Element {
 #[component]
 pub fn Projects() -> Element {
 	rsx! {
-		div {
-			class: "max-h-[80vh] text-xl lg:overflow-scroll no-scrollbar",
-			h1 {
-				class: "lg:fixed bg-[#0f1116] w-full pb-2 z-10",
+		div { class: "text-xl pt-1 mr-2",
+			h1 { class: "border-b-1 border-white/20 w-fit",
 				"Projects ({PROJECTS.len()})"
 			}
-			div {
-				class: "mt-12 text-left text-white flex flex-col gap-4",
+			div { class: "line-content", span { "" } }
+			div { class: "text-left text-white flex flex-col gap-4",
 				for p in PROJECTS {
-					div {
-						class: "text-white w-md border-1 border-white rounded-md
+					div { class: "text-white w-md border-1 border-white rounded-md
 							pt-5 px-4 pb-3 hover:bg-[#1f1f1f] relative",
-						Link {
-							class: "block hover:cursor-pointer",
+						Link { class: "block hover:cursor-pointer",
 							to: Route::Project{ name: p.name.to_string() },
-							div {
-								class: "flex flex-row justify-between border-b-1
-									border-white/20",
-								span {
-									class: "pb-2",
+							div { class: "flex flex-row justify-between border-b-1 border-white/20",
+								span { class: "pb-2",
 									"{p.name}"
 								}
-								span {
-									class: "text-white/60 text-lg",
+								span { class: "text-white/60 text-lg",
 									"[{p.type_of.as_str()}]"
 								}
 							}
-							div {
-								class: "flex flex-row justify-between items-end",
-								span {
-									class: "pt-2 text-sm text-white/60",
+							div { class: "flex flex-row justify-between items-end",
+								span { class: "pt-2 text-sm text-white/60",
 									"{p.tech_str()}"
 								}
 							}
 						}
-						div {
-							class: "absolute bottom-3 right-4 flex gap-2 items-center",
+						div { class: "absolute bottom-3 right-4 flex gap-2 items-center",
 							if let Some(gh_url) = p.gh_url {
-								Link {
+								Link { class: "opacity-80 hover:opacity-100",
 									to: "{gh_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
-									class: "opacity-80 hover:opacity-100",
-									img {
+									img { class: "w-5 h-5",
 										src: asset!("/assets/github.svg"),
 										alt: "GitHub",
-										class: "w-5 h-5"
 									}
 								}
 							}
 							if let Some(site_url) = p.site_url {
-								Link {
+								Link { class: "opacity-80 hover:opacity-100",
 									to: "{site_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
-									class: "opacity-80 hover:opacity-100",
-									img {
+									img { class: "w-6 h-6",
 										src: asset!("/assets/globe.svg"),
 										alt: "Website",
-										class: "w-6 h-6"
 									}
 								}
 							}
