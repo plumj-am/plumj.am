@@ -1,5 +1,5 @@
 use super::Route;
-use super::data::{ME, VERSION};
+use super::data::{ME, PROJECTS, VERSION};
 use dioxus::prelude::*;
 
 #[component]
@@ -53,10 +53,47 @@ pub fn Navbar() -> Element {
 #[component]
 pub fn Footer() -> Element {
 	let curr_route = use_route::<Route>();
-	let filename = match curr_route {
-		Route::Home {} => "portfolio/main.rs".to_string(),
+	let (filename, filetype) = match curr_route {
+		Route::Home {} => ("portfolio/main.rs".to_string(), "rust".to_string()),
 		Route::Project { name } => {
-			format!("portfolio/{}.rs", name.replace(['.', '-'], "_"))
+			let tech = PROJECTS
+				.iter()
+				.find(|p| p.name == name)
+				.map_or("rust", |p| p.main_tech())
+				.to_lowercase();
+
+			let ext = match tech.as_str() {
+				"rust" => "rs",
+				"c++" => "cpp",
+				"sveltekit" => "svelte",
+				_ => &tech,
+			};
+
+			// strip project name extensions and use underscores for file name
+			let clean_name = name
+				.replace(['.', '-'], "_")
+				.replace("_nvim", "")
+				.replace("_rs", "")
+				.replace("_github_io", "");
+
+			(format!("portfolio/{clean_name}.{ext}"), tech)
+		}
+	};
+
+	let filetype_component = {
+		let (icon, display) = match filetype.as_str() {
+			"lua" => ("lua", "lua"),
+			"bash" => ("bash", "bash"),
+			"c++" => ("cplusplus", "cpp"),
+			"sveltekit" | "svelte" => ("svelte", "svelte"),
+			_ => ("rust", "rust"),
+		};
+
+		rsx! {
+			span { class: "flex items-center",
+				i { class: "devicon-{icon}-plain mr-1" }
+				"{display}"
+			}
 		}
 	};
 
@@ -81,16 +118,12 @@ pub fn Footer() -> Element {
 			// spacer
 			div { class: "flex-grow" }
 			// file type and position + copyright
-			div {
-				class: "flex items-center",
+			div { class: "flex items-center",
 				div { class: "text-white/30 text-xs mr-2",
 					"Copyright © 2025 - James Plummer <jamesp2001@live.co.uk>"
 				}
 				div { class: "bg-[#414868] text-[#c0caf5] px-3 flex items-center",
-					span { class: "flex items-center",
-						i { class: "devicon-rust-plain mr-1" }
-					}
-					"rust"
+					{filetype_component}
 				}
 
 				div { class: "bg-[#24283b] text-[#c0caf5] px-3",

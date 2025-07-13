@@ -105,6 +105,9 @@ impl ProjectInfo {
 	pub fn site_url_str(&self) -> &str {
 		self.site_url.unwrap_or("N/A")
 	}
+	pub fn main_tech(&self) -> &str {
+		self.tech[0]
+	}
 }
 
 pub static PROJECTS: &[ProjectInfo] = &[
