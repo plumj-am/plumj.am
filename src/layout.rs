@@ -52,6 +52,14 @@ pub fn Navbar() -> Element {
 
 #[component]
 pub fn Footer() -> Element {
+	let curr_route = use_route::<Route>();
+	let filename = match curr_route {
+		Route::Home {} => "portfolio/main.rs".to_string(),
+		Route::Project { name } => {
+			format!("portfolio/{}.rs", name.replace(['.', '-'], "_"))
+		}
+	};
+
 	rsx! {
 		div { class: "fixed max-w-6xl bottom-0 left-0 right-0 bg-[#16161e] text-white
 				text-md flex z-50 items-center mx-auto",
@@ -68,7 +76,7 @@ pub fn Footer() -> Element {
 			}
 			// file name
 			div { class: "bg-[#24283b] text-[#c0caf5] px-3",
-				"portfolio/main.rs"
+				"{filename}"
 			}
 			// spacer
 			div { class: "flex-grow" }
