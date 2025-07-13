@@ -26,10 +26,10 @@ html {
 	padding: 0;
 	height: 100%;
 	width: 100%;
+	background-color: #0f1116;
 }
 
 body {
-    background-color: #0f1116;
     color: #ffffff;
     margin: 0;
 	padding: 0;

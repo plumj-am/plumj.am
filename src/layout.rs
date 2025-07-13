@@ -6,9 +6,9 @@ use dioxus::prelude::*;
 pub fn Layout() -> Element {
 	rsx! {
 		div {
-			class: "min-h-screen flex flex-col",
+			class: "min-h-screen flex flex-col min-w-full",
 			Navbar {}
-			main { class: "mt-6 flex flex-col flex-grow",
+			main { class: "mt-6 flex flex-col grow max-w-5xl w-full mx-auto",
 				Outlet::<Route> {}
 			}
 			Footer {}

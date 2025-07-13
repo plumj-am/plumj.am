@@ -43,12 +43,9 @@ fn App() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div {
-			class: "w-full max-w-5xl mx-auto",
-			div {
-				class: "flex flex-col lg:flex-row justify-between",
-				Profile {}
-				Projects {}
-			}
+			class: "flex flex-col lg:flex-row justify-between w-full",
+			Profile {}
+			Projects {}
 		}
 	}
 }
