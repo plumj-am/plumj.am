@@ -22,7 +22,7 @@ pub fn Project(name: String) -> Element {
 		},
 		|p| {
 			rsx! {
-				div { class: "mt-8 max-w-3xl mx-auto w-full",
+				div { class: "max-w-5xl mx-auto w-full",
 					div { class: "flex flex-col",
 						h1 { "name: {p.name}" }
 						p { "description: {p.desc}" }

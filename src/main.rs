@@ -40,7 +40,9 @@ fn Layout() -> Element {
 		div {
 			class: "flex flex-col max-h-screen grow",
 			Navbar {}
-			Outlet::<Route> {}
+			main { class: "mt-12",
+				Outlet::<Route> {}
+			}
 			Footer {}
 		}
 	}
@@ -50,7 +52,7 @@ fn Layout() -> Element {
 fn Navbar() -> Element {
 	rsx! {
 		div {
-			class: "flex flex-row justify-between items-center mb-8 max-w-5xl mx-auto",
+			class: "w-full flex flex-row justify-between items-center mb-8 max-w-5xl mx-auto",
 			div {
 				class: "flex flex-row gap-x-4 items-center",
 				Link {
@@ -94,9 +96,9 @@ fn Navbar() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div {
-			class: "max-w-5xl mx-auto",
+			class: "w-full max-w-5xl mx-auto",
 			div {
-				class: "flex flex-col lg:flex-row justify-between align-center",
+				class: "flex flex-col lg:flex-row justify-between",
 				Profile {}
 				Projects {}
 			}
@@ -109,8 +111,7 @@ fn Home() -> Element {
 pub fn Profile() -> Element {
 	rsx! {
 		div {
-			class: "max-h-[90vh] flex justify-start flex-col justify-center
-				align-center gap-2",
+			class: "flex justify-start flex-col justify-center align-center gap-2",
 			h1 { "Profile" }
 			img {
 				class: "w-32 h-32 object-fit rounded-sm mt-4",
@@ -218,7 +219,7 @@ pub fn Projects() -> Element {
 		div {
 			class: "max-h-[80vh] text-xl lg:overflow-scroll no-scrollbar",
 			h1 {
-				class: "mt-8 lg:mt-0 lg:fixed bg-[#0f1116] w-full pb-2 z-10",
+				class: "lg:fixed bg-[#0f1116] w-full pb-2 z-10",
 				"Projects ({PROJECTS.len()})"
 			}
 			div {
