@@ -45,10 +45,27 @@ fn App() -> Element {
 #[component]
 fn Home() -> Element {
 	rsx! {
-		div {
-			class: "flex flex-col lg:flex-row justify-between w-full",
-			Profile {}
-			Projects {}
+		div { class: "flex w-full",
+			LineNumbers {}
+			div { class: "flex flex-col lg:flex-row justify-between w-full",
+				Profile {}
+				Projects {}
+			}
+		}
+	}
+}
+
+#[component]
+fn LineNumbers() -> Element {
+	let max_lines = 50;
+	let line_numbers: Vec<i32> = (1..=max_lines).collect();
+	rsx! {
+		div { class: "pt-1 flex flex-col text-right text-white/40 pr-2 mr-3 border-r-1 border-white/20 select-none min-w-8",
+			for line_num in line_numbers {
+				div { class: "leading-6 h-6",
+					"{line_num}"
+				}
+			}
 		}
 	}
 }
