@@ -35,14 +35,18 @@ body {
 	padding: 0;
 }
 
-h1 {
-	@apply text-xl text-white;
+h1, h2, h3, h4, h5, h6, p, li, span, a {
+	@apply text-base leading-6 my-0 py-0;
 }
 
-h2 {
-	@apply text-base text-white;
+/* line utils */
+.line-content {
+	@apply h-6 leading-6 flex items-center;
 }
 
+.line-block {
+	@apply h-6 leading-6;
+}
 
 ::-webkit-scrollbar {
     width: 3px;
