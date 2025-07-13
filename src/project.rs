@@ -22,17 +22,28 @@ pub fn Project(name: String) -> Element {
 		},
 		|p| {
 			rsx! {
-				div { class: "max-w-5xl mx-auto",
-					h1 { "name: {p.name}" }
-					p { "description: {p.desc}" }
-					p { "type of project: {p.type_of.as_str()}" }
-					p { "tech: {p.tech_str()}" }
-					p { "GitHub: {p.gh_url_str()}" }
-					p { "Website: {p.site_url_str()}" }
-					h2 { "Technologies used:" }
-					ul {
-						for t in p.tech {
-							li { "• {t}" }
+				div { class: "mt-8 max-w-3xl mx-auto w-full",
+					div { class: "flex flex-col",
+						h1 { "name: {p.name}" }
+						p { "description: {p.desc}" }
+						p { "type: {p.type_of.as_str()}" }
+						span {"GitHub: "
+							Link {
+								to: "{p.gh_url_str()}",
+								span { "{p.gh_url_str()}" }
+							}
+						}
+						span {"Website: "
+							Link {
+								to: "{p.site_url_str()}",
+								span { "{p.site_url_str()}" }
+							}
+						}
+						h2 { "Technologies used:" }
+						ul {
+							for t in p.tech {
+								li { "• {t}" }
+							}
 						}
 					}
 				}

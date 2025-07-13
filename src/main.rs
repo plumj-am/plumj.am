@@ -11,7 +11,7 @@ use dioxus::prelude::*;
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
 enum Route {
-	#[layout(Navbar)]
+	#[layout(Layout)]
 	#[route("/")]
 	Home {},
 	#[route("/project/:name")]
@@ -35,6 +35,18 @@ fn App() -> Element {
 }
 
 #[component]
+fn Layout() -> Element {
+	rsx! {
+		div {
+			class: "flex flex-col max-h-screen grow",
+			Navbar {}
+			Outlet::<Route> {}
+			Footer {}
+		}
+	}
+}
+
+#[component]
 fn Navbar() -> Element {
 	rsx! {
 		div {
@@ -53,15 +65,15 @@ fn Navbar() -> Element {
 			}
 			div {
 				class: "flex flex-row gap-x-4 items-center",
-				a {
+				Link {
 					class: "text-sm text-white/90 hover:opacity-80 hover:underline",
-					href: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
+					to: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
 					"v{VERSION}"
 				}
 				for s in ME.socials {
-					a {
-						href: "{s.url}",
-						target: "_blank",
+					Link {
+						to: "{s.url}",
+						new_tab: true,
 						class: "hover:opacity-80",
 						img {
 							src: "{s.icon}",
@@ -72,8 +84,6 @@ fn Navbar() -> Element {
 				}
 			}
 		}
-
-		Outlet::<Route> {}
 	}
 }
 
@@ -90,7 +100,6 @@ fn Home() -> Element {
 				Profile {}
 				Projects {}
 			}
-			Footer {}
 		}
 	}
 }
@@ -181,9 +190,9 @@ pub fn Profile() -> Element {
 				div {
 					class: "flex flex-row gap-x-4 items-center",
 					for s in ME.socials {
-						a {
-							href: "{s.url}",
-							target: "_blank",
+						Link {
+							to: "{s.url}",
+							new_tab: true,
 							class: "flex items-center hover:opacity-80",
 							img {
 								src: s.icon,
@@ -220,7 +229,7 @@ pub fn Projects() -> Element {
 							pt-5 px-4 pb-3 hover:bg-[#1f1f1f] relative",
 						Link {
 							class: "block hover:cursor-pointer",
-							to: "/project/{p.name}",
+							to: Route::Project{ name: p.name.to_string() },
 							div {
 								class: "flex flex-row justify-between border-b-1
 									border-white/20",
@@ -244,9 +253,9 @@ pub fn Projects() -> Element {
 						div {
 							class: "absolute bottom-3 right-4 flex gap-2 items-center",
 							if let Some(gh_url) = p.gh_url {
-								a {
-									href: "{gh_url}",
-									target: "_blank",
+								Link {
+									to: "{gh_url}",
+									new_tab: true,
 									rel: "noopener noreferrer",
 									class: "opacity-80 hover:opacity-100",
 									img {
@@ -257,9 +266,9 @@ pub fn Projects() -> Element {
 								}
 							}
 							if let Some(site_url) = p.site_url {
-								a {
-									href: "{site_url}",
-									target: "_blank",
+								Link {
+									to: "{site_url}",
+									new_tab: true,
 									rel: "noopener noreferrer",
 									class: "opacity-80 hover:opacity-100",
 									img {
