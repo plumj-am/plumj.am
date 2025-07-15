@@ -15,18 +15,66 @@ pub fn Layout() -> Element {
 	}
 }
 
+struct Keymap {
+	key: &'static str,
+	action: &'static str,
+}
+
+const MAPPINGS: &[Keymap] = &[
+	Keymap {
+		key: "gg",
+		action: "top",
+	},
+	Keymap {
+		key: "G",
+		action: "bottom",
+	},
+	Keymap {
+		key: "d",
+		action: "½ down",
+	},
+	Keymap {
+		key: "u",
+		action: "½ up",
+	},
+	Keymap {
+		key: "j",
+		action: "line down",
+	},
+	Keymap {
+		key: "k",
+		action: "line up",
+	},
+];
+
 #[component]
 pub fn Navbar() -> Element {
 	rsx! {
 		div { class: "h-12 bg-[#0f1116]"}
-		div { class: "fixed top-0 z-99 left-0 right-0 bg-[#16161e] h-12 w-full flex flex-row justify-between items-center max-w-6xl px-3 mx-auto border-x-1 border-t-1 border-x-white/20 border-t-white/20",
-			div { class: "flex flex-row gap-x-4 items-center",
+		div { class: "fixed top-0 z-99 left-0 right-0 bg-[#16161e] h-12 w-full flex flex-row items-center max-w-6xl px-3 mx-auto border-x-1 border-t-1 border-x-white/20 border-t-white/20",
+			// left col
+			div { class: "flex items-center",
 				Link {
 					class: "flex items-center hover:opacity-80",
 					to: Route::Home {},
 					i { class: "fa-solid fa-house" }
 				}
 			}
+			// center col
+			div { class: "flex-1 flex justify-center",
+				div { class: "flex items-center gap-x-3 text-sm",
+					i { class: "devicon-vim-plain text-2xl" }
+					div { class: "flex items-center gap-x-4",
+						for k in MAPPINGS {
+							div { class: "flex items-center gap-x-2",
+								kbd { class: "bg-gray-700 px-1 rounded text-md", "{k.key}" }
+								span { class: "text-sm! font-mono", "{k.action}" }
+							}
+						}
+					}
+				}
+			}
+			// right col
 			div { class: "flex flex-row gap-x-4 items-center",
 				Link { class: "text-sm text-white/90 hover:opacity-80 hover:underline",
 					to: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
