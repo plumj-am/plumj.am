@@ -197,16 +197,8 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		name: "gocial",
 		desc: "",
 		type_of: ProjectType::WebApp,
-		tech: &["Nu", "Nushell"],
-		gh_url: Some("https://github.com/jamesukiyo/nushell"),
-		site_url: None,
-	},
-	ProjectInfo {
-		name: "prepare_release",
-		desc: "",
-		type_of: ProjectType::Script,
-		tech: &["Nushell", "Bash"],
-		gh_url: Some("https://github.com/jamesukiyo/prepare_release"),
+		tech: &["Go"],
+		gh_url: Some("https://github.com/jamesukiyo/gocial"),
 		site_url: None,
 	},
 	ProjectInfo {
