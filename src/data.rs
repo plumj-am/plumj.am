@@ -65,6 +65,7 @@ pub enum ProjectType {
 	NeovimPlugin,
 	Utility,
 	Config,
+	WebApp,
 }
 
 impl ProjectType {
@@ -76,6 +77,7 @@ impl ProjectType {
 			Self::NeovimPlugin => "neovim plugin",
 			Self::Utility => "utility",
 			Self::Config => "config",
+			Self::WebApp => "web application",
 		}
 	}
 }
@@ -181,6 +183,46 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		type_of: ProjectType::Config,
 		tech: &["Lua"],
 		gh_url: Some("https://github.com/jamesukiyo/nvim"),
+		site_url: None,
+	},
+	ProjectInfo {
+		name: "nushell",
+		desc: "",
+		type_of: ProjectType::Config,
+		tech: &["Nu", "Nushell"],
+		gh_url: Some("https://github.com/jamesukiyo/nushell"),
+		site_url: None,
+	},
+	ProjectInfo {
+		name: "gocial",
+		desc: "",
+		type_of: ProjectType::WebApp,
+		tech: &["Nu", "Nushell"],
+		gh_url: Some("https://github.com/jamesukiyo/nushell"),
+		site_url: None,
+	},
+	ProjectInfo {
+		name: "prepare_release",
+		desc: "",
+		type_of: ProjectType::Script,
+		tech: &["Nushell", "Bash"],
+		gh_url: Some("https://github.com/jamesukiyo/prepare_release"),
+		site_url: None,
+	},
+	ProjectInfo {
+		name: "prepare_release",
+		desc: "",
+		type_of: ProjectType::Script,
+		tech: &["Nushell", "Bash"],
+		gh_url: Some("https://github.com/jamesukiyo/prepare_release"),
+		site_url: None,
+	},
+	ProjectInfo {
+		name: "quicksnip.vim",
+		desc: "",
+		type_of: ProjectType::NeovimPlugin,
+		tech: &["Vimscript"],
+		gh_url: Some("https://github.com/jamesukiyo/quicksnip.vim"),
 		site_url: None,
 	},
 ];
