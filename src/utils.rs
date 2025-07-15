@@ -33,9 +33,9 @@ pub fn Line(line_props: LineProps) -> Element {
 }
 
 #[component]
-pub fn LineNumbers() -> Element {
-	let max_lines = 50;
-	let line_numbers: Vec<i32> = (1..=max_lines).collect();
+pub fn LineNumbers(max_lines: Option<i32>) -> Element {
+	let line_count = max_lines.unwrap_or(50);
+	let line_numbers: Vec<i32> = (1..=line_count).collect();
 	rsx! {
 		div { class: "pt-1 flex flex-col text-right text-white/40 pr-2 mr-3 border-r-1 border-white/20 select-none min-w-8",
 			for line_num in line_numbers {

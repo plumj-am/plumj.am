@@ -51,7 +51,7 @@ fn App() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div { class: "flex w-full",
-			LineNumbers {}
+			LineNumbers { max_lines: 70 }
 			div { class: "flex flex-col lg:flex-row justify-between w-full",
 				Profile {}
 				Projects {}
