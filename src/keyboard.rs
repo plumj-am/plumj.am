@@ -9,6 +9,45 @@ pub enum ScrollDir {
 	Bottom,
 }
 
+pub struct Keymap {
+	pub key: &'static str,
+	pub action: ScrollDir,
+	pub desc: &'static str,
+}
+
+pub const KEYMAPS: &[Keymap] = &[
+	Keymap {
+		key: "gg",
+		action: ScrollDir::Top,
+		desc: "top",
+	},
+	Keymap {
+		key: "G",
+		action: ScrollDir::Bottom,
+		desc: "bottom",
+	},
+	Keymap {
+		key: "u",
+		action: ScrollDir::HalfUp,
+		desc: "½ up",
+	},
+	Keymap {
+		key: "d",
+		action: ScrollDir::HalfDown,
+		desc: "½ down",
+	},
+	Keymap {
+		key: "k",
+		action: ScrollDir::LineUp,
+		desc: "line up",
+	},
+	Keymap {
+		key: "j",
+		action: ScrollDir::LineDown,
+		desc: "line down",
+	},
+];
+
 // pub enum NavOpts {
 // 	Home,
 // }
@@ -28,22 +67,24 @@ pub fn use_keyboard_handler() -> impl FnMut(KeyboardEvent) + 'static {
 
 	move |evt: KeyboardEvent| {
 		if let Key::Character(c) = evt.key() {
-			match c.as_str() {
-				"g" => {
-					if double_taps.with(DoubleKeys::is_g) {
-						scroll(&ScrollDir::Top);
-					} else {
-						double_taps.with_mut(|keys| keys.g = true);
-						return;
+			let key_str = c.as_str();
+
+			// handle g
+			if key_str == "g" {
+				if double_taps.with(DoubleKeys::is_g) {
+					scroll(&ScrollDir::Top);
+				} else {
+					double_taps.with_mut(|keys| keys.g = true);
+					return;
+				}
+			} else {
+				// handle others
+				for keymap in KEYMAPS {
+					if keymap.key == key_str {
+						scroll(&keymap.action);
+						break;
 					}
 				}
-				"k" => scroll(&ScrollDir::LineUp),
-				"u" => scroll(&ScrollDir::HalfUp),
-				"d" => scroll(&ScrollDir::HalfDown),
-				"j" => scroll(&ScrollDir::LineDown),
-				"G" => scroll(&ScrollDir::Bottom),
-				// "H" => navigate(&NavOpts::Home),
-				_ => {}
 			}
 		}
 		double_taps.with_mut(|keys| keys.g = false);

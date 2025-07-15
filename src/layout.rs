@@ -1,5 +1,6 @@
 use super::Route;
 use super::data::{ME, PROJECTS, VERSION};
+use super::keyboard::KEYMAPS;
 use dioxus::prelude::*;
 
 #[component]
@@ -14,38 +15,6 @@ pub fn Layout() -> Element {
 		}
 	}
 }
-
-struct Keymap {
-	key: &'static str,
-	action: &'static str,
-}
-
-const MAPPINGS: &[Keymap] = &[
-	Keymap {
-		key: "gg",
-		action: "top",
-	},
-	Keymap {
-		key: "G",
-		action: "bottom",
-	},
-	Keymap {
-		key: "d",
-		action: "½ down",
-	},
-	Keymap {
-		key: "u",
-		action: "½ up",
-	},
-	Keymap {
-		key: "j",
-		action: "line down",
-	},
-	Keymap {
-		key: "k",
-		action: "line up",
-	},
-];
 
 #[component]
 pub fn Navbar() -> Element {
@@ -65,10 +34,10 @@ pub fn Navbar() -> Element {
 				div { class: "flex items-center gap-x-3 text-sm",
 					i { class: "devicon-vim-plain text-2xl" }
 					div { class: "flex items-center gap-x-4",
-						for k in MAPPINGS {
+						for k in KEYMAPS {
 							div { class: "flex items-center gap-x-2",
 								kbd { class: "bg-gray-700 px-1 rounded text-md", "{k.key}" }
-								span { class: "text-sm! font-mono", "{k.action}" }
+								span { class: "text-sm! font-mono", "{k.desc}" }
 							}
 						}
 					}
