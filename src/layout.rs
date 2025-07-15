@@ -79,6 +79,7 @@ pub fn Footer() -> Element {
 				"rust" => "rs",
 				"c++" => "cpp",
 				"sveltekit" => "svelte",
+				"vimscript" => "vim",
 				_ => &tech,
 			};
 
@@ -86,6 +87,7 @@ pub fn Footer() -> Element {
 			let clean_name = name
 				.replace(['.', '-'], "_")
 				.replace("_nvim", "")
+				.replace("_vim", "")
 				.replace("_rs", "")
 				.replace("_github_io", "");
 
@@ -99,6 +101,7 @@ pub fn Footer() -> Element {
 			"bash" => ("bash", "bash"),
 			"c++" => ("cplusplus", "cpp"),
 			"sveltekit" | "svelte" => ("svelte", "svelte"),
+			"vimscript" => ("vim", "vim"),
 			_ => ("rust", "rust"),
 		};
 
