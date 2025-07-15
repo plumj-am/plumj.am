@@ -25,6 +25,7 @@ enum Route {
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const TAILWIND_CSS: Asset = asset!("/assets/gen-tailwind.css");
+const FONT_AWESOME: &str = "https://kit.fontawesome.com/6972f6e365.js";
 const DEVICONS_CSS: &str =
 	"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css";
 
@@ -38,6 +39,7 @@ fn App() -> Element {
 		document::Link { rel: "icon", href: FAVICON }
 		document::Link { rel: "stylesheet", href: TAILWIND_CSS }
 		document::Link { rel: "stylesheet", href: DEVICONS_CSS }
+		document::Script { src: FONT_AWESOME, crossorigin: "anonymous" }
 		Router::<Route> {}
 	}
 }
@@ -88,10 +90,7 @@ pub fn Profile() -> Element {
 						);
 					},
 					title: "Copy email address",
-					img { class: "w-4 h-4",
-						src: asset!("assets/copy.svg"),
-						alt: "Copy",
-					}
+					i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }
 				}
 			}
 			Line { type_of: LineType::P, text: "Location: {ME.location}" }
@@ -194,7 +193,7 @@ pub fn Projects() -> Element {
 									to: "{gh_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
-									i { class: "devicon-github-original text-white w-5 h-5" }
+									i { class: "fa-brands fa-github text-white text-lg" }
 								}
 							}
 							if let Some(site_url) = p.site_url {
@@ -202,7 +201,7 @@ pub fn Projects() -> Element {
 									to: "{site_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
-									i { class: "devicon-firefox-plain text-white w-6 h-6" }
+									i { class: "fa fa-globe text-white text-lg" }
 								}
 							}
 						}

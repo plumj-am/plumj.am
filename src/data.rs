@@ -45,12 +45,12 @@ pub static ME: Me = Me {
 		SocialLink {
 			name: "GitHub",
 			url: "https://github.com/jamesukiyo",
-			icon: "devicon-github-original",
+			icon: "fa-brands fa-github",
 		},
 		SocialLink {
 			name: "X/Twitter",
 			url: "https://twitter.com/jamesukiyo",
-			icon: "devicon-twitter-original",
+			icon: "fa-brands fa-twitter",
 		},
 	],
 };

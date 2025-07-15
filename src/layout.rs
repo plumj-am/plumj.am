@@ -24,10 +24,7 @@ pub fn Navbar() -> Element {
 				Link {
 					class: "flex items-center hover:opacity-80",
 					to: Route::Home {},
-					img { class: "w-auto h-5",
-						src: asset!("assets/home.svg"),
-						alt: "Home",
-					}
+					i { class: "fa-solid fa-house" }
 				}
 			}
 			div { class: "flex flex-row gap-x-4 items-center",
@@ -39,7 +36,7 @@ pub fn Navbar() -> Element {
 					Link { class: "hover:opacity-80",
 						to: "{s.url}",
 						new_tab: true,
-						i { class: "{s.icon} text-white w-4 h-4" }
+						i { class: "{s.icon}" }
 					}
 				}
 			}
