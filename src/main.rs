@@ -8,7 +8,7 @@ mod project;
 mod utils;
 
 use self::data::{ME, PROJECTS};
-use self::keyboard::use_keyboard_handler;
+use self::keyboard::{ScrollDir, use_keyboard_handler};
 use self::layout::Layout;
 use self::project::Project;
 use self::utils::{Line, LineNumbers, LineType};
@@ -39,6 +39,8 @@ fn main() {
 
 #[component]
 fn App() -> Element {
+	// HACK: scroll to top to prevent autofocus from pulling scroll down a bit
+	self::keyboard::scroll(&ScrollDir::Top);
 	let keyboard_handler = use_keyboard_handler();
 
 	rsx! {
