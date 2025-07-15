@@ -4,10 +4,13 @@
 mod data;
 mod layout;
 mod project;
+mod utils;
 
 use self::data::{ME, PROJECTS};
 use self::layout::Layout;
 use self::project::Project;
+use self::utils::{Line, LineNumbers, LineType};
+
 use dioxus::prelude::*;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -55,41 +58,25 @@ fn Home() -> Element {
 	}
 }
 
-#[component]
-fn LineNumbers() -> Element {
-	let max_lines = 50;
-	let line_numbers: Vec<i32> = (1..=max_lines).collect();
-	rsx! {
-		div { class: "pt-1 flex flex-col text-right text-white/40 pr-2 mr-3 border-r-1 border-white/20 select-none min-w-8",
-			for line_num in line_numbers {
-				div { class: "leading-6 h-6",
-					"{line_num}"
-				}
-			}
-		}
-	}
-}
-
 // LEFT SIDE HOME PAGE
 #[component]
 pub fn Profile() -> Element {
 	rsx! {
 	div { class: "flex flex-col pt-1",
-		div { class: "line-content",
-			h1 { class: "border-b-1 border-white/20 w-fit",
-				"Profile"
-			}
+		Line { classes: "border-b-1 border-white/20 w-fit",
+			type_of: LineType::H1,
+			text: "Profile",
 		}
-			div { class: "line-content", span { "" } }
+			Line {}
 			div { class: "flex flex-col items-start",
 				img { class: "w-36 h-36 object-fit rounded-sm",
 					src: "{ME.image}",
 					alt: "{ME.name}"
 				}
 			}
-			div { class: "line-content", span { "" } }
-			div { class: "line-content", p { "Name: {ME.name}" } }
-			div { class: "line-content", p { "Age: {ME.age}" } }
+			Line {}
+			Line { type_of: LineType::P, text: "Name: {ME.name}" }
+			Line { type_of: LineType::P, text: "Age: {ME.age}" }
 			div { class: "line-content",
 				p { "Email: {ME.email}" }
 				button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
@@ -107,71 +94,61 @@ pub fn Profile() -> Element {
 					}
 				}
 			}
-			div { class: "line-content", p { "Location: {ME.location}" } }
-			div { class: "line-content", span { "" } }
+			Line { type_of: LineType::P, text: "Location: {ME.location}" }
+			Line {}
 			div { class: "grid grid-cols-2 gap-x-8",
 				div { class: "flex flex-col",
-					div { class: "line-content mb-[-1px]",
-						h2 { "Languages:" }
+					Line { classes: "mb-[-1px]",
+						type_of: LineType::H2,
+						text: "Languages:",
 					}
 					for l in ME.langs {
-						div { class: "line-content",
-							p { "- {l}" }
-						}
+						Line { type_of: LineType::P, text: "- {l}" }
 					}
 				}
 				div { class: "flex flex-col",
-					div { class: "line-content mb-[-1px]",
-						h2 { "Scripting:" }
-					}
+					Line { type_of: LineType::H2, text: "Scripting:" }
 					for s in ME.scripting {
-						div { class: "line-content",
-							p { "- {s}" }
-						}
+						Line { type_of: LineType::P, text: "- {s}" }
 					}
 				}
 			}
-			div { class: "line-content", span { "" } }
+			Line {}
 			div { class: "grid grid-cols-2 gap-x-8",
 				div { class: "flex flex-col",
-					div { class: "line-content mb-[-1px]",
-						h2 { "Frameworks:" }
+					Line { classes: "mb-[-1px]",
+						type_of: LineType::H2,
+						text: "Frameworks:",
 					}
 					for f in ME.frameworks {
-						div { class: "line-content",
-							p { "- {f}" }
-						}
+						Line { type_of: LineType::P, text: "- {f}" }
 					}
 				}
 				div { class: "flex flex-col",
-					div { class: "line-content mb-[-1px]",
-						h2 { "Tools:" }
+					Line { classes: "mb-[-1px]",
+						type_of: LineType::H2,
+						text: "Tools:",
 					}
 					for t in ME.tools {
-						div { class: "line-content",
-							p { "- {t}" }
-						}
+						Line { type_of: LineType::P, text: "- {t}" }
 					}
 				}
 			}
 
-			div { class: "line-content", span { "" } }
+			Line {}
 			div { class: "flex flex-col",
 				img { class: "max-w-md",
 					src: "https://ghchart.rshah.org/000099/jamesukiyo",
 					alt: "GitHub Contribution Chart",
 				}
 			}
-			div { class: "line-content", span { "" } }
+			Line {}
 			div { class: "line-content flex flex-row gap-x-6 mt-1",
 				for s in ME.socials {
 					Link { class: "flex items-center hover:opacity-80",
 						to: "{s.url}",
 						new_tab: true,
-						img { class: "max-w-5 max-h-5",
-							src: s.icon,
-							alt: "{s.name}",
-						}
+						i { class: "{s.icon} text-white text-lg h-fit w-fit" }
 						p { class: "ml-2",
 							"{s.name}"
 						}
@@ -190,7 +167,7 @@ pub fn Projects() -> Element {
 			h1 { class: "border-b-1 border-white/20 w-fit",
 				"Projects ({PROJECTS.len()})"
 			}
-			div { class: "line-content", span { "" } }
+			Line {}
 			div { class: "text-left text-white flex flex-col gap-4",
 				for p in PROJECTS {
 					div { class: "text-white w-md border-1 border-white rounded-md
@@ -217,10 +194,7 @@ pub fn Projects() -> Element {
 									to: "{gh_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
-									img { class: "w-5 h-5",
-										src: asset!("/assets/github.svg"),
-										alt: "GitHub",
-									}
+									i { class: "devicon-github-original text-white w-5 h-5" }
 								}
 							}
 							if let Some(site_url) = p.site_url {
@@ -228,10 +202,7 @@ pub fn Projects() -> Element {
 									to: "{site_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
-									img { class: "w-6 h-6",
-										src: asset!("/assets/globe.svg"),
-										alt: "Website",
-									}
+									i { class: "devicon-firefox-plain text-white w-6 h-6" }
 								}
 							}
 						}

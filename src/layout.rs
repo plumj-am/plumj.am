@@ -39,10 +39,7 @@ pub fn Navbar() -> Element {
 					Link { class: "hover:opacity-80",
 						to: "{s.url}",
 						new_tab: true,
-						img { class: "w-auto h-4",
-							src: "{s.icon}",
-							alt: "{s.name}",
-						}
+						i { class: "{s.icon} text-white w-4 h-4" }
 					}
 				}
 			}

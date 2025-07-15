@@ -8,7 +8,7 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub struct SocialLink {
 	pub name: &'static str,
 	pub url: &'static str,
-	pub icon: Asset,
+	pub icon: &'static str,
 }
 
 pub struct Me {
@@ -45,12 +45,12 @@ pub static ME: Me = Me {
 		SocialLink {
 			name: "GitHub",
 			url: "https://github.com/jamesukiyo",
-			icon: asset!("/assets/github.svg"),
+			icon: "devicon-github-original",
 		},
 		SocialLink {
 			name: "X/Twitter",
 			url: "https://twitter.com/jamesukiyo",
-			icon: asset!("/assets/x.svg"),
+			icon: "devicon-twitter-original",
 		},
 	],
 };
