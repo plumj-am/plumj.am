@@ -7,7 +7,7 @@ pub fn Layout() -> Element {
 	rsx! {
 		div { class: "min-h-screen flex flex-col min-w-full",
 			Navbar {}
-			main { class: "flex flex-col grow max-w-6xl w-full mx-auto px-1 border-x-1 border-t-1 border-white/20 bg-[#0f1116]",
+			main { class: "flex flex-col grow max-w-6xl w-full mx-auto border-x-1 border-t-1 border-white/20 bg-[#0f1116]",
 				Outlet::<Route> {}
 			}
 			Footer {}

@@ -51,6 +51,7 @@ fn App() -> Element {
 fn Home() -> Element {
 	rsx! {
 		div { class: "flex w-full",
+			HiLine {}
 			LineNumbers { max_lines: 70 }
 			div { class: "flex flex-col lg:flex-row justify-between w-full",
 				Profile {}
@@ -60,12 +61,34 @@ fn Home() -> Element {
 	}
 }
 
+// HIGHLIGHTED LINE
+#[component]
+pub fn HiLine() -> Element {
+	rsx! {
+		div { class: "flex absolute w-[calc(var(--container-6xl)-2px)] h-6
+				bg-white/20 mx-auto justify-center"
+		}
+	}
+}
+
+// HIGHLIGHTED CURSOR
+#[component]
+pub fn HiCursor(character: char) -> Element {
+	rsx! {
+		div { class: "absolute w-[12px] h-6 bg-white text-black text-right
+				pr-[1px] ml-[-3px] justify-center z-2 animate-blink",
+			"{character}"
+		}
+	}
+}
+
 // LEFT SIDE HOME PAGE
 #[component]
 pub fn Profile() -> Element {
 	rsx! {
-	div { class: "flex flex-col pt-1",
-		Line { classes: "border-b-1 border-white/20 w-fit",
+	div { class: "flex flex-col",
+		HiCursor {character: 'P'}
+		Line { classes: "w-fit relative",
 			type_of: LineType::H1,
 			text: "Profile",
 		}
@@ -162,9 +185,10 @@ pub fn Profile() -> Element {
 #[component]
 pub fn Projects() -> Element {
 	rsx! {
-		div { class: "text-xl pt-1 mr-2",
-			h1 { class: "border-b-1 border-white/20 w-fit",
-				"Projects ({PROJECTS.len()})"
+		div { class: "text-xl mr-1",
+			Line { classes: "w-fit",
+				type_of: LineType::H1,
+				text: "Projects ({PROJECTS.len()})",
 			}
 			Line {}
 			div { class: "text-left text-white flex flex-col gap-4",
