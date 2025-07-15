@@ -23,6 +23,8 @@ enum Route {
 	Home {},
 	#[route("/project/:name")]
 	Project { name: String },
+	#[route("/:..route")]
+	PageNotFound { route: Vec<String> },
 }
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
@@ -243,5 +245,13 @@ pub fn Projects() -> Element {
 				}
 			}
 		}
+	}
+}
+
+#[component]
+fn PageNotFound(route: Vec<String>) -> Element {
+	rsx! {
+		h1 { "Page not found" }
+		p { "404" }
 	}
 }

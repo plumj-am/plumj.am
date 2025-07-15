@@ -65,7 +65,9 @@ pub fn Navbar() -> Element {
 pub fn Footer() -> Element {
 	let curr_route = use_route::<Route>();
 	let (filename, filetype) = match curr_route {
-		Route::Home {} => ("portfolio/main.rs".to_string(), "rust".to_string()),
+		Route::Home {} | Route::PageNotFound { .. } => {
+			("portfolio/main.rs".to_string(), "rust".to_string())
+		}
 		Route::Project { name } => {
 			let tech = PROJECTS
 				.iter()
