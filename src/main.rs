@@ -29,12 +29,6 @@ enum Route {
 	PageNotFound { route: Vec<String> },
 }
 
-const FAVICON: Asset = asset!("/assets/favicon.ico");
-const TAILWIND_CSS: Asset = asset!("/assets/gen-tailwind.css");
-const FONT_AWESOME: &str = "https://kit.fontawesome.com/6972f6e365.js";
-const DEVICONS_CSS: &str =
-	"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css";
-
 fn main() {
 	dioxus::launch(App);
 }
@@ -44,10 +38,10 @@ fn App() -> Element {
 	use_scroll_snapping();
 
 	rsx! {
-		document::Link { rel: "icon", href: FAVICON }
-		document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-		document::Link { rel: "stylesheet", href: DEVICONS_CSS }
-		document::Script { src: FONT_AWESOME, crossorigin: "anonymous" }
+		document::Link { rel: "icon", href: asset!("/assets/favicon.ico") }
+		document::Stylesheet { href: asset!("/assets/gen-tailwind.css") }
+		document::Stylesheet { href: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" }
+		document::Script { src: "https://kit.fontawesome.com/6972f6e365.js", crossorigin: "anonymous", fetchpriority: "high" }
 		div {
 			onkeydown: use_keyboard_handler(),
 			tabindex: 0,
