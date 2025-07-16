@@ -80,6 +80,7 @@ pub fn Footer() -> Element {
 				"c++" => "cpp",
 				"sveltekit" => "svelte",
 				"vimscript" => "vim",
+				"nushell" => "nu",
 				_ => &tech,
 			};
 
@@ -102,13 +103,23 @@ pub fn Footer() -> Element {
 			"c++" => ("cplusplus", "cpp"),
 			"sveltekit" | "svelte" => ("svelte", "svelte"),
 			"vimscript" => ("vim", "vim"),
+			"nushell" | "nu" => ("nu", "nu"),
 			_ => ("rust", "rust"),
 		};
 
-		rsx! {
-			span { class: "flex items-center",
-				i { class: "devicon-{icon}-plain mr-1" }
-				"{display}"
+		if icon.starts_with("nu") {
+			rsx! {
+				span { class: "flex items-center",
+					i { class: "fa-solid fa-terminal mr-1 text-sm" }
+					"nu"
+				}
+			}
+		} else {
+			rsx! {
+				span { class: "flex items-center",
+					i { class: "devicon-{icon}-plain mr-1" }
+					"{display}"
+				}
 			}
 		}
 	};
