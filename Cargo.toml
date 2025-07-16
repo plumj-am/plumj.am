@@ -1,6 +1,6 @@
 [package]
 name = "me"
-version = "0.7.1"
+version = "0.8.0"
 authors = ["James Plummer <jamesp2001@live.co.uk>"]
 edition = "2021"
 
@@ -8,7 +8,7 @@ edition = "2021"
 
 [dependencies]
 dioxus = { version = "0.6.0", features = ["router"] }
-web-sys = { version = "0.3.77" }
+web-sys = { version = "0.3.77", features = ["Window"] }
 
 [features]
 default = ["web"]
