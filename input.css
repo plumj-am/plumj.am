@@ -44,6 +44,7 @@ body {
     color: #ffffff;
     margin: 0;
 	padding: 0;
+	scroll-snap-type: y mandatory;
 }
 
 h1, h2, h3, h4, h5, h6, p, li, span, a {
@@ -53,10 +54,12 @@ h1, h2, h3, h4, h5, h6, p, li, span, a {
 /* line utils */
 .line-content {
 	@apply h-6 leading-6 flex items-center;
+	scroll-snap-align: start;
 }
 
 .line-block {
 	@apply h-6 leading-6;
+	scroll-snap-align: start;
 }
 
 ::-webkit-scrollbar {

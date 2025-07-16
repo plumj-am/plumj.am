@@ -5,12 +5,14 @@ mod data;
 mod keyboard;
 mod layout;
 mod project;
+mod scroll;
 mod utils;
 
 use self::data::{ME, PROJECTS};
-use self::keyboard::{ScrollDir, use_keyboard_handler};
+use self::keyboard::use_keyboard_handler;
 use self::layout::Layout;
 use self::project::Project;
+use self::scroll::use_scroll_snapping;
 use self::utils::{Line, LineNumbers, LineType};
 
 use dioxus::prelude::*;
@@ -39,9 +41,7 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-	// HACK: scroll to top to prevent autofocus from pulling scroll down a bit
-	self::keyboard::scroll(&ScrollDir::Top);
-	let keyboard_handler = use_keyboard_handler();
+	use_scroll_snapping();
 
 	rsx! {
 		document::Link { rel: "icon", href: FAVICON }
@@ -49,7 +49,7 @@ fn App() -> Element {
 		document::Link { rel: "stylesheet", href: DEVICONS_CSS }
 		document::Script { src: FONT_AWESOME, crossorigin: "anonymous" }
 		div {
-			onkeydown: keyboard_handler,
+			onkeydown: use_keyboard_handler(),
 			tabindex: 0,
 			autofocus: true,
 			style: "outline: none;",
