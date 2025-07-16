@@ -36,19 +36,25 @@ pub fn Line(line_props: LineProps) -> Element {
 pub fn LineNumbers(max_lines: Option<i32>) -> Element {
 	let line_count = max_lines.unwrap_or(50);
 	let line_numbers: Vec<i32> = (1..=line_count).collect();
+
 	rsx! {
-		div { class: "flex flex-col text-right text-white/40 pr-2 mr-1 border-r-1 border-white/20 select-none min-w-8",
+		div { class: "flex flex-col text-right text-white/40 pr-2 mr-1 border-r-1 border-white/20 select-none min-w-8 relative",
+			HiLineNr {}
 			for line_num in line_numbers {
-				if line_num == 1 {
-					div { class: "leading-6 h-6 font-bold text-white mr-2",
-						"{line_num}"
-					}
-				} else {
-					div { class: "leading-6 h-6",
-						"{line_num}"
-					}
+				div { class: "leading-6 h-6 text-shadow-md text-shadow-[#0f1116]",
+					"{line_num}"
 				}
 			}
+		}
+	}
+}
+
+// LINE NUMBER HIGHLIGHTER
+#[component]
+pub fn HiLineNr() -> Element {
+	rsx! {
+		div {
+			class: "fixed z-3 text-right pr-2 mr-8 min-w-8 h-[24px] mix-blend-difference",
 		}
 	}
 }

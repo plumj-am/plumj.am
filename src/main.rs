@@ -79,7 +79,7 @@ fn Home() -> Element {
 #[component]
 pub fn HiLine() -> Element {
 	rsx! {
-		div { class: "flex absolute w-[calc(var(--container-6xl)-2px)] h-6
+		div { class: "flex fixed w-[calc(var(--container-6xl)-2px)] h-6
 				bg-white/20 mx-auto justify-center"
 		}
 	}
@@ -87,11 +87,10 @@ pub fn HiLine() -> Element {
 
 // HIGHLIGHTED CURSOR
 #[component]
-pub fn HiCursor(character: char) -> Element {
+pub fn HiCursor() -> Element {
 	rsx! {
-		div { class: "absolute w-[12px] h-6 bg-white text-black text-right
-				pr-[1px] ml-[-3px] justify-center z-2 animate-blink",
-			"{character}"
+		div { class: "fixed w-[12px] h-6 bg-white text-right
+				pr-[1px] ml-[-3px] justify-center z-2 animate-blink mix-blend-difference",
 		}
 	}
 }
@@ -101,7 +100,7 @@ pub fn HiCursor(character: char) -> Element {
 pub fn Profile() -> Element {
 	rsx! {
 	div { class: "flex flex-col",
-		HiCursor {character: 'P'}
+		HiCursor {}
 		Line { classes: "w-fit relative",
 			type_of: LineType::H1,
 			text: "Profile",
@@ -191,6 +190,7 @@ pub fn Profile() -> Element {
 					}
 				}
 			}
+			Line {}
 		}
 	}
 }
