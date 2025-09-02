@@ -10,8 +10,7 @@ procs:
   tailwind:
     cmd:
       [
-        "bunx",
-        "@tailwindcss/cli",
+        "tailwindcss",
         "-i=./input.css",
         "-o=./assets/gen-tailwind.css",
         "--watch",
