@@ -1,5 +1,5 @@
 {
-	description = "James' Website Nix Flake";
+  description = "James' Website Nix Flake";
 
   nixConfig = {
     builders-use-substitutes = true;
@@ -23,99 +23,122 @@
     ];
   };
 
-	inputs = {
-		nixpkgs.url     = "github:NixOS/nixpkgs/nixos-unstable";
-		flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    nixpkgs.url     = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    crane.url       = "github:ipetkov/crane";
+    flake-utils.url = "github:numtide/flake-utils";
 		fenix.url       = "github:nix-community/fenix";
-		crane.url       = "github:ipetkov/crane";
-    advisory-db     = {
-      url   = "github:rustsec/advisory-db";
-      flake = false;
-    };
-	};
+		advisory-db     = {
+			url   = "github:rustsec/advisory-db";
+			flake = false;
+		};
+  };
 
-	outputs = { self, advisory-db, crane, nixpkgs, flake-utils, fenix, ... }:
-		flake-utils.lib.eachDefaultSystem (system:
-			let
+  outputs =
+    { self, nixpkgs, crane, flake-utils, advisory-db, fenix, ... }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
         pkgs = import nixpkgs { inherit system; };
-        inherit (pkgs) lib;
+				inherit (pkgs) lib;
 
-				rust   = fenix.packages.${system}.stable.toolchain;
-				target = fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std;
+				rustCustom = fenix.packages.${system}.combine [
+					fenix.packages.${system}.stable.rustc
+					fenix.packages.${system}.stable.cargo
+					fenix.packages.${system}.stable.clippy
+					fenix.packages.${system}.stable.rustfmt
+					fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std
+				];
 
-				craneLib = (crane.mkLib pkgs).overrideToolchain (pkgs.symlinkJoin {
-          name  = "rust-toolchain";
-          paths = [ rust target ];
-        });
-
-				src = craneLib.cleanCargoSource ./.;
-
-				commonArgs = {
-					inherit src;
-					strictDeps = true;
-
-          CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
+        craneLib = (crane.mkLib pkgs).overrideToolchain rustCustom;
+				src = lib.cleanSourceWith {
+					src = ./.;
+					filter = path: type:
+						(craneLib.filterCargoSources path type) ||
+						(lib.hasSuffix ".css" path) ||
+						(lib.hasInfix "/assets/" path);
 				};
 
-				cargoArtifacts = craneLib.buildDepsOnly commonArgs;
-
-        # build only the cargo deps
-        individualCrateArgs = commonArgs // {
-          inherit cargoArtifacts;
-          inherit (craneLib.crateNameFromCargoToml { inherit src; }) version;
-          # can't test wasm build
-          doCheck = false;
+        commonArgs = {
+					inherit src;
+					strictDeps = true;
+					buildInputs = [];
+					CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
         };
 
-				website = craneLib.buildPackage (
-					individualCrateArgs
-					// {
-						pname = "jamesukiyo";
-						cargoExtraArgs = "-p jamesukiyo";
-						src = craneLib.cleanCargoSource ./.;
-					}
-				);
+        tailwindPreBuild = ''
+					bunx tailwindcss -i input.css -o assets/gen-tailwind.css --minify --content './src/**/*.rs'
+        '';
 
-			in
-			{
+				tailwindBuildInputs = [
+					pkgs.bun
+					pkgs.tailwindcss_4
+				];
+
+        cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+
+        website = craneLib.buildPackage (
+					commonArgs // {
+						inherit cargoArtifacts;
+
+						preBuild = tailwindPreBuild;
+						nativeBuildInputs = tailwindBuildInputs;
+
+						doCheck = false; # no tests for WASM target
+          }
+        );
+      in
+      {
 				checks = {
 					inherit website;
 
-          rust-clippy = craneLib.cargoClippy (
-            commonArgs
-            // {
-              inherit cargoArtifacts;
-              cargoClippyExtraArgs = "--all-targets -- --deny warnings";
-            }
-          );
+					rust-clippy = craneLib.cargoClippy (
+						commonArgs // {
+							inherit cargoArtifacts;
 
-          rust-doc = craneLib.cargoDoc (
-            commonArgs
-            // {
-              inherit cargoArtifacts;
-              env.RUSTDOCFLAGS = "--deny warnings";
-            }
-          );
+							preBuild = tailwindPreBuild;
+							nativeBuildInputs = tailwindBuildInputs;
 
-          rust-fmt = craneLib.cargoFmt {
-            inherit src;
-          };
+							cargoClippyExtraArgs = "--all-targets -- --deny warnings";
+						}
+					);
 
-          rust-audit = craneLib.cargoAudit {
-            inherit src advisory-db;
-          };
-				};
+					rust-doc = craneLib.cargoDoc (
+						commonArgs // {
+							inherit cargoArtifacts;
 
-				packages.default = website;
+							preBuild = tailwindPreBuild;
+							nativeBuildInputs = tailwindBuildInputs;
 
-				apps.default = flake-utils.lib.mkApp {
+							env.RUSTDOCFLAGS = "--deny warnings";
+						}
+					);
+
+					rust-fmt = craneLib.cargoFmt {
+						inherit cargoArtifacts src;
+					};
+
+					# rust-audit = craneLib.cargoAudit {
+					#		inherit src advisory-db;
+					# };
+        };
+
+        packages.default = website;
+
+        apps.default = flake-utils.lib.mkApp {
 					drv = website;
 				};
 
-				devShells.default = craneLib.devShell {
+        devShells.default = craneLib.devShell {
+					# Inherit inputs from checks.
 					checks = self.checks.${system};
-					packages = [
-					  pkgs.dioxus-cli
+
+					buildInputs = [
+						pkgs.bun
+						pkgs.dioxus-cli
+						pkgs.tailwindcss_4
+						pkgs.wasm-bindgen-cli
+						pkgs.watchman
 					];
 				};
 			}
