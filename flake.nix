@@ -1,5 +1,5 @@
 {
-  description = "James' Website Nix Flake";
+  description = "PlumJam's Website Nix Flake";
 
   nixConfig = {
     builders-use-substitutes = true;

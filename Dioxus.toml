@@ -2,7 +2,7 @@
 
 [web.app]
 # HTML title tag content
-title = "jamesukiyo"
+title = "PlumJam"
 
 [web.watcher]
 reload_html = true
