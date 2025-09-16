@@ -1,5 +1,18 @@
+<a id="v0.9.2"></a>
+## [v0.9.2](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.9.2) - 2025-09-16
+
+## Bug Fixes
+- update links after renaming repo ([James Plummer](https://github.com/jamesukiyo/plumj.am/commit/dfa35b3061cb96735635ffa260af79f88c29b85a))
+
+## Chores
+- update changelog for v0.9.1 ([jamesukiyo](https://github.com/jamesukiyo/plumj.am/commit/4ea2d1e8c2ebe949c2ba50da5c00c4cf7f47e605))
+- release v0.9.2 ([James Plummer](https://github.com/jamesukiyo/plumj.am/commit/d7df10d35b5b332faa33903b880c61097c1e23d1))
+
+[Changes][v0.9.2]
+
+
 <a id="v0.9.1"></a>
-## [v0.9.1](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.9.1) - 2025-09-16
+## [v0.9.1](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.9.1) - 2025-09-16
 
 ## Continuous Integration
 - remove ci workflow - now handled by garnix ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/c57b6df61cd9569067941daa29f198fdec62ec49))
@@ -13,7 +26,7 @@
 
 
 <a id="v0.9.0"></a>
-## [v0.9.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.9.0) - 2025-09-16
+## [v0.9.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.9.0) - 2025-09-16
 
 ## Features
 - new photo, colours, animations, improved projects ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/8d9df39ad81d2f4ce19198ce61e8bd7d727b873b))
@@ -35,7 +48,7 @@
 
 
 <a id="v0.8.0"></a>
-## [v0.8.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.8.0) - 2025-07-16
+## [v0.8.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.8.0) - 2025-07-16
 
 ## Features
 - line and cursor highlighting even when scrolling ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/3ec0bac6bfb8e4dd5b22666cfa069e39fc2cbcc5))
@@ -52,7 +65,7 @@
 
 
 <a id="v0.7.1"></a>
-## [v0.7.1](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.7.1) - 2025-07-15
+## [v0.7.1](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.7.1) - 2025-07-15
 
 ## Bug Fixes
 - vimscript file name and type handling ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/1e28f46362ef6d01ed230892a3c500c8bd91419a))
@@ -64,7 +77,7 @@
 
 
 <a id="v0.7.0"></a>
-## [v0.7.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.7.0) - 2025-07-15
+## [v0.7.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.7.0) - 2025-07-15
 
 ## Features
 - add highlighted line and cursor to home page ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/512d04b1f6807a7063f76256288084224ff717df))
@@ -83,7 +96,7 @@
 
 
 <a id="v0.6.0"></a>
-## [v0.6.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.6.0) - 2025-07-15
+## [v0.6.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.6.0) - 2025-07-15
 
 ## Features
 - separate utils and create line component ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/2c743184bf0253dbe4bddc24c40e049ed5d25584))
@@ -98,7 +111,7 @@
 
 
 <a id="v0.5.0"></a>
-## [v0.5.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.5.0) - 2025-07-13
+## [v0.5.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.5.0) - 2025-07-13
 
 ## Features
 - dynamic file name ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/148600312c7a67ba3e3958ec27318446051c1a65))
@@ -111,7 +124,7 @@
 
 
 <a id="v0.4.0"></a>
-## [v0.4.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.4.0) - 2025-07-13
+## [v0.4.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.4.0) - 2025-07-13
 
 ## Features
 - add nvim-style footer and devicons ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/6c1dfd38f62060dad0f5d91a3eacb57288a61a64))
@@ -126,7 +139,7 @@
 
 
 <a id="v0.3.2"></a>
-## [v0.3.2](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.3.2) - 2025-07-13
+## [v0.3.2](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.3.2) - 2025-07-13
 
 ## Bug Fixes
 - stick footer to bottom + rm global padding/margin ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/ed86c9595b2923eca14d9b86bea3b7b1632dc570))
@@ -139,7 +152,7 @@
 
 
 <a id="v0.3.1"></a>
-## [v0.3.1](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.3.1) - 2025-07-13
+## [v0.3.1](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.3.1) - 2025-07-13
 
 ## Bug Fixes
 - use layout wrapper and use Link for safe a tags ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/5f36342dd4d518e636cd8bb9f34be6e28cd78dc1))
@@ -155,7 +168,7 @@
 
 
 <a id="v0.3.0"></a>
-## [v0.3.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.3.0) - 2025-07-12
+## [v0.3.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.3.0) - 2025-07-12
 
 ## Features
 - add version number of project to navbar ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/fd73f72215163db87a65cf44769c193dc131c5fa))
@@ -171,7 +184,7 @@
 
 
 <a id="v0.2.0"></a>
-## [v0.2.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.2.0) - 2025-07-12
+## [v0.2.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.2.0) - 2025-07-12
 
 ## Features
 - add web/github icons to project cards and reorder ([James Plummer](https://github.com/jamesukiyo/jamesukiyo.github.io/commit/1266b34e9babde6abfffba948019b196e1a803ad))
@@ -183,25 +196,26 @@
 
 
 <a id="v0.1.0"></a>
-## [v0.1.0](https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v0.1.0) - 2025-07-12
+## [v0.1.0](https://github.com/jamesukiyo/plumj.am/releases/tag/v0.1.0) - 2025-07-12
 
 
 
 [Changes][v0.1.0]
 
 
-[v0.9.1]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.9.0...v0.9.1
-[v0.9.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.8.0...v0.9.0
-[v0.8.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.7.1...v0.8.0
-[v0.7.1]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.7.0...v0.7.1
-[v0.7.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.6.0...v0.7.0
-[v0.6.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.5.0...v0.6.0
-[v0.5.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.4.0...v0.5.0
-[v0.4.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.3.2...v0.4.0
-[v0.3.2]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.3.1...v0.3.2
-[v0.3.1]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.3.0...v0.3.1
-[v0.3.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.2.0...v0.3.0
-[v0.2.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://github.com/jamesukiyo/jamesukiyo.github.io/tree/v0.1.0
+[v0.9.2]: https://github.com/jamesukiyo/plumj.am/compare/v0.9.1...v0.9.2
+[v0.9.1]: https://github.com/jamesukiyo/plumj.am/compare/v0.9.0...v0.9.1
+[v0.9.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.8.0...v0.9.0
+[v0.8.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.7.1...v0.8.0
+[v0.7.1]: https://github.com/jamesukiyo/plumj.am/compare/v0.7.0...v0.7.1
+[v0.7.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.6.0...v0.7.0
+[v0.6.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.5.0...v0.6.0
+[v0.5.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.4.0...v0.5.0
+[v0.4.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.3.2...v0.4.0
+[v0.3.2]: https://github.com/jamesukiyo/plumj.am/compare/v0.3.1...v0.3.2
+[v0.3.1]: https://github.com/jamesukiyo/plumj.am/compare/v0.3.0...v0.3.1
+[v0.3.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.2.0...v0.3.0
+[v0.2.0]: https://github.com/jamesukiyo/plumj.am/compare/v0.1.0...v0.2.0
+[v0.1.0]: https://github.com/jamesukiyo/plumj.am/tree/v0.1.0
 
 <!-- Generated by https://github.com/rhysd/changelog-from-release v3.9.0 -->
