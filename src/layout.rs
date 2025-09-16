@@ -24,7 +24,7 @@ pub fn Navbar() -> Element {
 			// left col
 			div { class: "flex items-center",
 				Link {
-					class: "flex items-center hover:opacity-80",
+					class: "flex items-center hover:text-[#A66AA2] hover:scale-150",
 					to: Route::Home {},
 					i { class: "fa-solid fa-house" }
 				}
@@ -45,12 +45,12 @@ pub fn Navbar() -> Element {
 			}
 			// right col
 			div { class: "flex flex-row gap-x-4 items-center",
-				Link { class: "text-sm text-white/90 hover:opacity-80 hover:underline",
+				Link { class: "text-sm text-white/90 hover:underline hover:text-[#A66AA2]",
 					to: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
 					"v{VERSION}"
 				}
 				for s in ME.socials {
-					Link { class: "hover:opacity-80",
+					Link { class: "text-white hover:text-[#A66AA2] hover:scale-150",
 						to: "{s.url}",
 						new_tab: true,
 						i { class: "{s.icon}" }
@@ -72,7 +72,7 @@ pub fn Footer() -> Element {
 			let tech = PROJECTS
 				.iter()
 				.find(|p| p.name == name)
-				.map_or("rust", |p| p.main_tech())
+				.map_or("rust", |p| p.main_tech_used())
 				.to_lowercase();
 
 			let ext = match tech.as_str() {
@@ -128,18 +128,18 @@ pub fn Footer() -> Element {
 		div { class: "fixed max-w-6xl bottom-0 left-0 right-0 bg-[#16161e] text-white
 				text-md flex z-50 items-center mx-auto",
 			// mode
-			div { class: "bg-[#7aa2f7] text-[#16161e] px-3",
+			div { class: "bg-[#A66AA2] text-[#F2EEEB] px-3",
 				"NORMAL"
 			}
 			// branch
-			div { class: "bg-[#414868] text-[#c0caf5] px-3",
+			div { class: "bg-[#592D59] text-[#F2EEEB] px-3",
 				span { class: "flex items-center",
 					i { class: "devicon-git-plain mr-1" }
 					"master"
 				}
 			}
 			// file name
-			div { class: "bg-[#24283b] text-[#c0caf5] px-3",
+			div { class: "bg-[#3C2240] text-[#F2EEEB] px-3",
 				"{filename}"
 			}
 			// spacer
@@ -147,17 +147,17 @@ pub fn Footer() -> Element {
 			// file type and position + copyright
 			div { class: "flex items-center",
 				div { class: "text-white/30 text-xs mr-2",
-					"Copyright © 2025 - James Plummer <jamesp2001@live.co.uk>"
+					"Copyright © 2025 - PlumJam <git@plumj.am>"
 				}
-				div { class: "bg-[#414868] text-[#c0caf5] px-3 flex items-center",
+				div { class: "bg-[#3C2240] text-[#F2EEEB] px-3 flex items-center",
 					{filetype_component}
 				}
 
-				div { class: "bg-[#24283b] text-[#c0caf5] px-3",
+				div { class: "bg-[#592D59] text-[#F2EEEB] px-3",
 					"42:12"
 				}
 
-				div { class: "bg-[#7aa2f7] text-[#16161e] px-3",
+				div { class: "bg-[#A66AA2] text-[#F2EEEB] px-3",
 					"100%"
 				}
 			}

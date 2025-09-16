@@ -25,12 +25,12 @@ pub fn Project(name: String) -> Element {
 				div { class: "max-w-5xl mx-auto w-full",
 					div { class: "flex flex-col",
 						h1 { "name: {p.name}" }
-						p { "description: {p.desc}" }
-						p { "type: {p.type_of.as_str()}" }
+						p { "description: {p.long_desc}" }
+						p { "type: {p.project_type.as_str()}" }
 						span {"GitHub: "
 							Link {
-								to: "{p.gh_url_str()}",
-								span { "{p.gh_url_str()}" }
+								to: "{p.github_url_str()}",
+								span { "{p.github_url_str()}" }
 							}
 						}
 						span {"Website: "
@@ -41,7 +41,7 @@ pub fn Project(name: String) -> Element {
 						}
 						h2 { "Technologies used:" }
 						ul {
-							for t in p.tech {
+							for t in p.tech_used {
 								li { "• {t}" }
 							}
 						}

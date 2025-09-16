@@ -83,7 +83,7 @@ pub fn HiLine() -> Element {
 #[component]
 pub fn HiCursor() -> Element {
 	rsx! {
-		div { class: "fixed w-[12px] h-6 bg-white text-right
+		div { class: "fixed w-[12px] h-6 bg-[#F2EEEB] text-right
 				pr-[1px] ml-[-3px] justify-center z-2 animate-blink mix-blend-difference",
 		}
 	}
@@ -107,10 +107,11 @@ pub fn Profile() -> Element {
 				}
 			}
 			Line {}
-			Line { type_of: LineType::P, text: "Name: {ME.name}" }
-			Line { type_of: LineType::P, text: "Age: {ME.age}" }
+			// Line { type_of: LineType::P, text: "Name: {ME.name}" }
+			// Line { type_of: LineType::P, text: "Real name: {ME.real_name}" }
 			div { class: "line-content",
-				p { "Email: {ME.email}" }
+				 // [`\u{00A0}`] is non-breaking space character for alignment
+				p { "Email: \u{00A0}\u{00A0} {ME.email}" }
 				button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
 					onclick: move |_| {
 						let _ = document::eval(&format!(
@@ -167,17 +168,17 @@ pub fn Profile() -> Element {
 			Line {}
 			div { class: "flex flex-col",
 				img { class: "max-w-md",
-					src: "https://ghchart.rshah.org/000099/jamesukiyo",
+					src: "https://ghchart.rshah.org/592D59/jamesukiyo",
 					alt: "GitHub Contribution Chart",
 				}
 			}
 			Line {}
 			div { class: "line-content flex flex-row gap-x-6 mt-1",
 				for s in ME.socials {
-					Link { class: "flex items-center hover:opacity-80",
+					Link { class: "flex items-center text-white hover:text-[#A66AA2] hover:scale-110",
 						to: "{s.url}",
 						new_tab: true,
-						i { class: "{s.icon} text-white text-lg h-fit w-fit" }
+						i { class: "{s.icon} text-lg h-fit w-fit" }
 						p { class: "ml-2",
 							"{s.name}"
 						}
@@ -201,28 +202,31 @@ pub fn Projects() -> Element {
 			Line {}
 			div { class: "text-left text-white flex flex-col gap-4",
 				for p in PROJECTS {
-					div { class: "text-white w-md border-1 border-white rounded-md
-							pt-5 px-4 pb-3 hover:bg-[#1f1f1f] relative",
+					div { class: "group text-white w-xl border-1 border-white rounded-md
+							pt-5 px-4 pb-3 hover:bg-[#3C2240] hover:scale-110 relative",
 						Link { class: "block hover:cursor-pointer",
 							to: Route::Project{ name: p.name.to_string() },
 							div { class: "flex flex-row justify-between border-b-1 border-white/20",
 								span { class: "pb-2",
-									"{p.name}"
+									"{p.name} "
+									span { class: "opacity-0 group-hover:opacity-100 text-[#F2EEEB]/80",
+										"-- {p.short_desc}"
+									}
 								}
 								span { class: "text-white/60 text-lg",
-									"[{p.type_of.as_str()}]"
+									"[{p.project_type.as_str()}]"
 								}
 							}
 							div { class: "flex flex-row justify-between items-end",
 								span { class: "pt-2 text-sm text-white/60",
-									"{p.tech_str()}"
+									"{p.tech_used_str()}"
 								}
 							}
 						}
 						div { class: "absolute bottom-3 right-4 flex gap-2 items-center",
-							if let Some(gh_url) = p.gh_url {
+							if let Some(github_url) = p.github_url {
 								Link { class: "opacity-80 hover:opacity-100",
-									to: "{gh_url}",
+									to: "{github_url}",
 									new_tab: true,
 									rel: "noopener noreferrer",
 									i { class: "fa-brands fa-github text-white text-lg" }
