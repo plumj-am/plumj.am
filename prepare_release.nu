@@ -23,10 +23,12 @@ $cargo_content | save -f Cargo.toml
 
 cargo check --quiet
 
-git add Cargo.toml Cargo.lock
-git commit -m $"chore: release v($new_version)"
-git tag $"v($new_version)"
-git push origin HEAD
+# Use jj for commit operations
+jj commit -m $"chore: release v($new_version)"
+
+# Export to git and create tag with git
+jj git export
+git tag $"v($new_version)" --annotate --message $"v($new_version)"
 git push origin $"v($new_version)"
 
 print $"Released v($new_version)"
