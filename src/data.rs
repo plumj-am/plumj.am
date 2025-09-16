@@ -46,6 +46,11 @@ pub static ME: Me = Me {
 			icon: "fa-brands fa-github",
 		},
 		SocialLink {
+			name: "Forgejo",
+			url: "https://git.plumj.am/plumjam",
+			icon: "fa-brands fa-git-alt",
+		},
+		SocialLink {
 			name: "Xitter",
 			url: "https://x.com/plumj_am",
 			icon: "fa-brands fa-twitter",
@@ -69,13 +74,13 @@ pub enum ProjectType {
 impl ProjectType {
 	pub const fn as_str(&self) -> &'static str {
 		match self {
-			Self::Website => "website",
-			Self::CliTool => "CLI tool",
-			Self::Script => "script",
-			Self::Plugin => "plugin",
-			Self::Utility => "utility",
-			Self::Config => "config",
-			Self::WebApp => "web application",
+			Self::Website => "Website",
+			Self::CliTool => "CLI Tool",
+			Self::Script => "Script",
+			Self::Plugin => "Plugin",
+			Self::Utility => "Utility",
+			Self::Config => "Config",
+			Self::WebApp => "Web Application",
 		}
 	}
 }
@@ -92,18 +97,31 @@ pub struct ProjectInfo {
 	pub long_desc: &'static str,
 	pub project_type: ProjectType,
 	pub tech_used: &'static [&'static str],
-	pub github_url: Option<&'static str>,
+	pub repo: Option<&'static str>,
 	pub site_url: Option<&'static str>,
+	pub media: Option<&'static [&'static str]>,
 }
 
 impl ProjectInfo {
+	pub fn clean_name(&self) -> String {
+		self.name
+			.trim()
+			.to_lowercase()
+			.replace(' ', "_")
+			.replace('.', "")
+	}
 	pub fn tech_used_str(&self) -> String {
 		self.tech_used.join(", ")
 	}
-	pub fn github_url_str(&self) -> &str {
-		self.github_url.unwrap_or("N/A")
+	pub fn github_url(&self) -> Option<String> {
+		self.repo
+			.map(|repo| format!("https://github.com/jamesukiyo/{repo}"))
 	}
-	pub fn site_url_str(&self) -> &str {
+	pub fn forgejo_url(&self) -> Option<String> {
+		self.repo
+			.map(|repo| format!("https://git.plumj.am/plumjam/{repo}"))
+	}
+	pub fn site_url(&self) -> &str {
 		self.site_url.unwrap_or("N/A")
 	}
 	pub fn main_tech_used(&self) -> &str {
@@ -118,8 +136,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Website,
 		tech_used: &["Rust", "Dioxus", "Tailwind"],
-		github_url: Some("https://github.com/jamesukiyo/plumj.am"),
+		repo: Some("plumj.am"),
 		site_url: Some("https://plumj.am"),
+		media: None,
 	},
 	ProjectInfo {
 		name: "Charfreq",
@@ -127,8 +146,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::CliTool,
 		tech_used: &["Rust"],
-		github_url: Some("https://github.com/jamesukiyo/charfreq-rs"),
+		repo: Some("charfreq-rs"),
 		site_url: Some("https://crates.io/charfreq"),
+		media: None,
 	},
 	ProjectInfo {
 		name: "Sunny",
@@ -136,8 +156,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::CliTool,
 		tech_used: &["Rust"],
-		github_url: Some("https://github.com/jamesukiyo/sunny-rs"),
+		repo: Some("sunny-rs"),
 		site_url: Some("https://crates.io/sunny-cli"),
+		media: None,
 	},
 	ProjectInfo {
 		name: "NixOS",
@@ -145,8 +166,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Config,
 		tech_used: &["Nix"],
-		github_url: Some("https://github.com/jamesukiyo/nixos"),
+		repo: Some("nixos"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Dr. Radka",
@@ -154,8 +176,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Website,
 		tech_used: &["SvelteKit", "Typescript", "Tailwind", "Sanity CMS"],
-		github_url: None,
-		site_url: Some("https://dr-radka.pl"),
+		repo: None,
+		site_url: Some("dr-radka.pl"),
+		media: None,
 	},
 	ProjectInfo {
 		name: "Jash",
@@ -163,8 +186,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::CliTool,
 		tech_used: &["Rust"],
-		github_url: Some("https://github.com/jamesukiyo/jash-rs"),
+		repo: Some("jash-rs"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Windows Setup",
@@ -172,8 +196,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Script,
 		tech_used: &["Bash"],
-		github_url: Some("https://github.com/jamesukiyo/windows-setup"),
+		repo: Some("windows-setup"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Search This",
@@ -181,8 +206,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Plugin,
 		tech_used: &["Lua"],
-		github_url: Some("https://github.com/jamesukiyo/search-this.nvim"),
+		repo: Some("search-this.nvim"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Server Health Monitor",
@@ -190,8 +216,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Utility,
 		tech_used: &["C++", "Python", "Bash"],
-		github_url: Some("https://github.com/jamesukiyo/server-health-monitor"),
+		repo: Some("server-health-monitor"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Pausarr",
@@ -199,8 +226,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Script,
 		tech_used: &["Bash"],
-		github_url: Some("https://github.com/jamesukiyo/pausarr"),
+		repo: Some("pausarr"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "NeoVim",
@@ -208,8 +236,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Config,
 		tech_used: &["Lua"],
-		github_url: Some("https://github.com/jamesukiyo/nvim"),
+		repo: Some("nvim"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Nushell",
@@ -217,8 +246,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Config,
 		tech_used: &["Nu", "Nushell"],
-		github_url: Some("https://github.com/jamesukiyo/nushell"),
+		repo: Some("nushell"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Gocial",
@@ -226,8 +256,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::WebApp,
 		tech_used: &["Go"],
-		github_url: Some("https://github.com/jamesukiyo/gocial"),
+		repo: Some("gocial"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "Prepare Release",
@@ -235,8 +266,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Script,
 		tech_used: &["Nushell", "Bash"],
-		github_url: Some("https://github.com/jamesukiyo/prepare_release"),
+		repo: Some("prepare_release"),
 		site_url: None,
+		media: None,
 	},
 	ProjectInfo {
 		name: "QuickSnip",
@@ -244,7 +276,8 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Plugin,
 		tech_used: &["Vimscript"],
-		github_url: Some("https://github.com/jamesukiyo/quicksnip.vim"),
+		repo: Some("quicksnip.vim"),
 		site_url: None,
+		media: None,
 	},
 ];

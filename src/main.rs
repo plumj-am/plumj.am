@@ -107,8 +107,6 @@ pub fn Profile() -> Element {
 				}
 			}
 			Line {}
-			// Line { type_of: LineType::P, text: "Name: {ME.name}" }
-			// Line { type_of: LineType::P, text: "Real name: {ME.real_name}" }
 			div { class: "line-content",
 				 // [`\u{00A0}`] is non-breaking space character for alignment
 				p { "Email: \u{00A0}\u{00A0} {ME.email}" }
@@ -205,7 +203,7 @@ pub fn Projects() -> Element {
 					div { class: "group text-white w-xl border-1 border-white rounded-md
 							pt-5 px-4 pb-3 hover:bg-[#3C2240] hover:scale-110 relative",
 						Link { class: "block hover:cursor-pointer",
-							to: Route::Project{ name: p.name.to_string() },
+							to: Route::Project{ name: p.clean_name() },
 							div { class: "flex flex-row justify-between border-b-1 border-white/20",
 								span { class: "pb-2",
 									"{p.name} "
@@ -224,7 +222,7 @@ pub fn Projects() -> Element {
 							}
 						}
 						div { class: "absolute bottom-3 right-4 flex gap-2 items-center",
-							if let Some(github_url) = p.github_url {
+							if let Some(github_url) = p.github_url() {
 								Link { class: "opacity-80 hover:opacity-100",
 									to: "{github_url}",
 									new_tab: true,

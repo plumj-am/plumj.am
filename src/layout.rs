@@ -71,7 +71,7 @@ pub fn Footer() -> Element {
 		Route::Project { name } => {
 			let tech = PROJECTS
 				.iter()
-				.find(|p| p.name == name)
+				.find(|p| p.clean_name() == name)
 				.map_or("rust", |p| p.main_tech_used())
 				.to_lowercase();
 
