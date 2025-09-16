@@ -118,8 +118,8 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		long_desc: "",
 		project_type: ProjectType::Website,
 		tech_used: &["Rust", "Dioxus", "Tailwind"],
-		github_url: Some("https://github.com/jamesukiyo/jamesukiyo.github.io"),
-		site_url: Some("https://jamesukiyo.github.io"),
+		github_url: Some("https://github.com/jamesukiyo/plumj.am"),
+		site_url: Some("https://plumj.am"),
 	},
 	ProjectInfo {
 		name: "Charfreq",

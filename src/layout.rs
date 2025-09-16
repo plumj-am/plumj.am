@@ -46,7 +46,7 @@ pub fn Navbar() -> Element {
 			// right col
 			div { class: "flex flex-row gap-x-4 items-center",
 				Link { class: "text-sm text-white/90 hover:underline hover:text-[#A66AA2]",
-					to: "https://github.com/jamesukiyo/jamesukiyo.github.io/releases/tag/v{VERSION}",
+					to: "https://github.com/jamesukiyo/plumj.am/releases/tag/v{VERSION}",
 					"v{VERSION}"
 				}
 				for s in ME.socials {
