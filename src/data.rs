@@ -159,7 +159,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
 	},
 	ProjectInfo {
 		name: "NixOS",
-		short_desc: "PlumJam's NixOS configuration collection",
+		short_desc: "PlumJam's NixOS configuration collection.",
 		long_desc: "",
 		project_type: ProjectType::Config,
 		tech_used: &["Nix"],
