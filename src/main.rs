@@ -230,6 +230,14 @@ pub fn Projects() -> Element {
 									i { class: "fa-brands fa-github text-white text-lg" }
 								}
 							}
+							if let Some(forgejo_url) = p.forgejo_url() {
+								Link { class: "opacity-80 hover:opacity-100",
+									to: "{forgejo_url}",
+									new_tab: true,
+									rel: "noopener noreferrer",
+									i { class: "fa-brands fa-git-alt text-white text-lg" }
+								}
+							}
 							if let Some(site_url) = p.site_url {
 								Link { class: "opacity-80 hover:opacity-100",
 									to: "{site_url}",
