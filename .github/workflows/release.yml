@@ -41,44 +41,50 @@ jobs:
                   cache-base: master
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - run: dx build
+            - name: Build website
+              run: |
+                  dx build --release
+                  mkdir -p dist
+                  cp -r target/dx/plumjam-website/release/web/public/* dist/
+                  cp dist/index.html dist/404.html
 
-    deploy:
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: website-build
+                  path: dist/
+
+    server-deploy:
+        name: Deploy to plum server
         needs: build
-        permissions:
-            pages: write
-            id-token: write
-            contents: read
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - uses: oven-sh/setup-bun@v2
-            - run: |
-                  bun install tailwindcss @tailwindcss/cli
-                  bunx @tailwindcss/cli -i='./input.css' -o='./assets/gen-tailwind.css'
-            - uses: moonrepo/setup-rust@v1
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
               with:
-                  inherit-toolchain: true
-                  bins: dioxus-cli
-                  cache-base: master
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - run: |
-                  dx bundle --out-dir docs
-                  mv docs/public/* docs/
-                  cp docs/index.html docs/404.html
-            - uses: actions/configure-pages@v5
-            - uses: actions/upload-pages-artifact@v3
+                  name: website-build
+                  path: dist/
+
+            - name: List downloaded artifacts
+              run: |
+                  echo "Downloaded artifacts:"
+                  ls -la dist/
+                  find dist/ -type f
+
+            - name: Copy build to plum server
+              uses: appleboy/scp-action@v1
               with:
-                  path: docs/
-            - id: deployment
-              uses: actions/deploy-pages@v4
+                  host: ${{ secrets.PLUM_HOST }}
+                  username: ${{ secrets.PLUM_USER }}
+                  key: ${{ secrets.PLUM_SSH_KEY }}
+                  port: ${{ secrets.PLUM_PORT }}
+                  source: "dist/*"
+                  target: ${{ secrets.PLUM_TARGET_DIR }}
+                  overwrite: true
+                  strip_components: 1 # to de-nest dist/* to *
 
     tagged-release:
-        needs: build
+        needs: server-deploy
         permissions:
             id-token: write
             contents: write
