@@ -13,7 +13,6 @@ pub struct SocialLink {
 
 pub struct Me {
 	pub name: &'static str,
-	pub real_name: &'static str,
 	pub image: Asset,
 	pub email: &'static str,
 	pub location: &'static str,
@@ -26,7 +25,6 @@ pub struct Me {
 
 pub static ME: Me = Me {
 	name: "PlumJam",
-	real_name: "James",
 	image: asset!("assets/photo.png"),
 	email: "contact@plumj.am",
 	location: "Poland",
