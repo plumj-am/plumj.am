@@ -121,9 +121,6 @@ impl ProjectInfo {
 		self.repo
 			.map(|repo| format!("https://git.plumj.am/plumjam/{repo}"))
 	}
-	pub fn site_url(&self) -> &str {
-		self.site_url.unwrap_or("N/A")
-	}
 	pub fn main_tech_used(&self) -> &str {
 		self.tech_used[0]
 	}
