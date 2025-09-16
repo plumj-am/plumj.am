@@ -47,6 +47,8 @@
 					fenix.packages.${system}.stable.cargo
 					fenix.packages.${system}.stable.clippy
 					fenix.packages.${system}.stable.rustfmt
+					fenix.packages.${system}.stable.rust-src
+					fenix.packages.${system}.stable.rust-analyzer
 					fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std
 				];
 
@@ -139,6 +141,16 @@
 						pkgs.tailwindcss_4
 						pkgs.wasm-bindgen-cli
 						pkgs.watchman
+
+						pkgs.pkg-config
+						pkgs.glib
+						pkgs.gtk3
+						pkgs.cairo
+						pkgs.pango
+						pkgs.atk
+						pkgs.gdk-pixbuf
+						pkgs.libsoup_3
+						pkgs.webkitgtk_4_1
 					];
 				};
 			}
