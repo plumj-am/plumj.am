@@ -144,7 +144,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		project_type: ProjectType::CliTool,
 		tech_used: &["Rust"],
 		repo: Some("charfreq-rs"),
-		site_url: Some("https://crates.io/charfreq"),
+		site_url: Some("https://crates.io/crates/charfreq"),
 		media: None,
 	},
 	ProjectInfo {
@@ -154,7 +154,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		project_type: ProjectType::CliTool,
 		tech_used: &["Rust"],
 		repo: Some("sunny-rs"),
-		site_url: Some("https://crates.io/sunny-cli"),
+		site_url: Some("https://crates.io/crates/sunny-cli"),
 		media: None,
 	},
 	ProjectInfo {
@@ -174,7 +174,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
 		project_type: ProjectType::Website,
 		tech_used: &["SvelteKit", "Typescript", "Tailwind", "Sanity CMS"],
 		repo: None,
-		site_url: Some("dr-radka.pl"),
+		site_url: Some("https://dr-radka.pl"),
 		media: None,
 	},
 	ProjectInfo {
