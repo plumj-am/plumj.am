@@ -42,7 +42,7 @@ pub static ME: Me = Me {
 	socials: &[
 		SocialLink {
 			name: "GitHub",
-			url: "https://github.com/jamesukiyo",
+			url: "https://github.com/plumj-am",
 			icon: "fa-brands fa-github",
 		},
 		SocialLink {
@@ -122,7 +122,7 @@ impl ProjectInfo {
 	}
 	pub fn github_url(&self) -> Option<String> {
 		self.repo
-			.map(|repo| format!("https://github.com/jamesukiyo/{repo}"))
+			.map(|repo| format!("https://github.com/plumj-am/{repo}"))
 	}
 	pub fn forgejo_url(&self) -> Option<String> {
 		self.repo

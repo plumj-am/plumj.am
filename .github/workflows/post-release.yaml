@@ -16,7 +16,7 @@ jobs:
             - uses: rhysd/changelog-from-release/action@v3
               with:
                   file: CHANGELOG.md
-                  commit_summary_template: "chore: update changelog for %s"
+                  commit_summary_template: "chore: Update changelog for %s."
                   args: -l 2 -c
                   footer: ""
                   github_token: ${{ secrets.GITHUB_TOKEN }}

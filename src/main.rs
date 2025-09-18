@@ -166,7 +166,7 @@ pub fn Profile() -> Element {
 			Line {}
 			div { class: "flex flex-col",
 				img { class: "max-w-md",
-					src: "https://ghchart.rshah.org/592D59/jamesukiyo",
+					src: "https://ghchart.rshah.org/592D59/plumj-am",
 					alt: "GitHub Contribution Chart",
 				}
 			}
