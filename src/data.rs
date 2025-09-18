@@ -28,7 +28,7 @@ pub static ME: Me = Me {
 	image: asset!("assets/photo.png"),
 	email: "contact@plumj.am",
 	location: "Poland",
-	langs: &["Rust", "Typescript", "Svelte", "Go", "Lua"],
+	langs: &["Rust", "Typescript", "Svelte", "Go", "Lua", "NASM", "FASM"],
 	scripting: &["Nushell", "Bash", "Python"],
 	frameworks: &[
 		"Dioxus (Rust)",
@@ -54,6 +54,11 @@ pub static ME: Me = Me {
 			name: "Xitter",
 			url: "https://x.com/plumj_am",
 			icon: "fa-brands fa-twitter",
+		},
+		SocialLink {
+			name: "Matrix",
+			url: "https://matrix.to/#/@plumjam:plumj.am",
+			icon: "fa fa-comment",
 		},
 	],
 };
