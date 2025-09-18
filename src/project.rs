@@ -72,6 +72,28 @@ pub fn Project(name: String) -> Element {
 									}
 								}
 							}
+							if let Some(npm_url) = p.npm_url {
+								span {
+									i { class: "fa-brands fa-npm mr-1" }
+									"NPM: "
+									Link { class: "text-white/90 hover:underline hover:text-[#A66AA2]",
+										to: "{npm_url}",
+										new_tab: true,
+										span { ""{npm_url.replace("https://www.",  " ")}"" }
+									}
+								}
+							}
+							if let Some(crate_url) = p.crate_url {
+								span {
+									i { class: "fa-brands fa-rust mr-1" }
+									"Crate: "
+									Link { class: "text-white/90 hover:underline hover:text-[#A66AA2]",
+										to: "{crate_url}",
+										new_tab: true,
+										span { ""{crate_url.replace("https://",  " ")}"" }
+									}
+								}
+							}
 							if let Some(site_url) = p.site_url {
 								span {
 									i { class: "fa fa-globe mr-1" }

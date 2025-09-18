@@ -238,6 +238,22 @@ pub fn Projects() -> Element {
 									i { class: "fa-brands fa-git-alt text-white text-lg" }
 								}
 							}
+							if let Some(npm_url) = p.npm_url {
+								Link { class: "opacity-80 hover:opacity-100",
+									to: "{npm_url}",
+									new_tab: true,
+									rel: "noopener noreferrer",
+									i { class: "fa-brands fa-npm text-white text-lg" }
+								}
+							}
+							if let Some(crate_url) = p.crate_url {
+								Link { class: "opacity-80 hover:opacity-100",
+									to: "{crate_url}",
+									new_tab: true,
+									rel: "noopener noreferrer",
+									i { class: "fa-brands fa-rust text-white text-lg" }
+								}
+							}
 							if let Some(site_url) = p.site_url {
 								Link { class: "opacity-80 hover:opacity-100",
 									to: "{site_url}",
