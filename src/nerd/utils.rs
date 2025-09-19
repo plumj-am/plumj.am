@@ -58,3 +58,22 @@ pub fn HiLineNr() -> Element {
 		}
 	}
 }
+// HIGHLIGHTED LINE
+#[component]
+pub fn HiLine() -> Element {
+	rsx! {
+		div { class: "flex fixed w-[calc(var(--container-6xl)-2px)] h-6
+				bg-white/20 mx-auto justify-center"
+		}
+	}
+}
+
+// HIGHLIGHTED CURSOR
+#[component]
+pub fn HiCursor() -> Element {
+	rsx! {
+		div { class: "fixed w-[12px] h-6 bg-[#F2EEEB] text-right
+				pr-[1px] ml-[-3px] justify-center z-2 animate-blink mix-blend-difference",
+		}
+	}
+}

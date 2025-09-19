@@ -5,15 +5,19 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Iosevka";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff) format('woff');
+	font-family: "Iosevka";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src:
+		url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff2)
+		format("woff2"),
+		url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff)
+		format("woff");
 }
 
 @utility no-scrollbar {
-  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+	@apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
 @theme {
@@ -41,8 +45,8 @@ html {
 }
 
 body {
-    color: #ffffff;
-    margin: 0;
+	color: #ffffff;
+	margin: 0;
 	padding: 0;
 	scroll-snap-type: y mandatory;
 }
@@ -63,27 +67,27 @@ h1, h2, h3, h4, h5, h6, p, li, span, a {
 }
 
 ::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
+	width: 3px;
+	height: 3px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.4);
+	background: rgba(255, 255, 255, 0.4);
 }
 
 html {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+	scrollbar-width: thin;
+	scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
-@source "./src/**/*.{rs,html,css}"
+@source "./src/nerd/**/*.{rs,html,css}";

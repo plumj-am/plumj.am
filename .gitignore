@@ -1,10 +1,6 @@
 target/
 docs/
-assets/gen-tailwind.css
+assets/gen-*.css
 mprocs.log
 IDEAS.md
-Session.vim
 .direnv/
-
-# gh api fetch I'm working on
-src/github.rs

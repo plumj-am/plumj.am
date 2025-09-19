@@ -1,5 +1,6 @@
-use super::data::PROJECTS;
-use super::{HiCursor, HiLine, Line, LineNumbers, Route};
+use super::super::Route;
+use super::super::data::PROJECTS;
+use super::utils::{HiCursor, HiLine, Line, LineNumbers};
 use dioxus::prelude::*;
 
 #[component]
@@ -20,7 +21,7 @@ pub fn Project(name: String) -> Element {
 							Line {}
 							p { "Project '{name}' not found" }
 							Link {
-								to: Route::Home {},
+								to: Route::NerdHome {},
 								class: "text-white decoration-none hover:cursor-pointer
 								hover:opacity-80 hover:underline",
 								"← Back to Home"
