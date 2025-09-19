@@ -69,7 +69,8 @@
         };
 
         tailwindPreBuild = ''
-					bunx tailwindcss -i input.css -o assets/gen-tailwind.css --minify --content './src/**/*.rs'
+					bunx tailwindcss -i nerd-input.css -o assets/gen-nerd-tailwind.css --minify --content './src/**/*.rs'
+					bunx tailwindcss -i normal-input.css -o assets/gen-normal-tailwind.css --minify --content './src/**/*.rs'
         '';
 
 				tailwindBuildInputs = [
