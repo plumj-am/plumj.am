@@ -1,20 +1,20 @@
 [package]
-name = "plumjam-website"
+authors = [ "PlumJam <git@plumj.am>" ]
+edition = "2024"
+name    = "plumjam-website"
 version = "0.11.0"
-authors = ["PlumJam <git@plumj.am>"]
-edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { version = "0.6.0", features = ["router"] }
-web-sys = { version = "0.3.77", features = ["Window"] }
+dioxus  = { features = [ "router" ], version = "0.6.0" }
+web-sys = { features = [ "Window" ], version = "0.3.77" }
 
 [features]
-default = ["web"]
-web = ["dioxus/web"]
-desktop = ["dioxus/desktop"]
-mobile = ["dioxus/mobile"]
+default = [ "web" ]
+desktop = [ "dioxus/desktop" ]
+mobile  = [ "dioxus/mobile" ]
+web     = [ "dioxus/web" ]
 
 [lints.clippy]
 unwrap_used = "warn"
@@ -22,7 +22,7 @@ unwrap_used = "warn"
 [profile]
 
 [profile.wasm-dev]
-inherits = "dev"
+inherits  = "dev"
 opt-level = 1
 
 [profile.server-dev]
