@@ -1,12 +1,22 @@
-use super::super::Route;
-use super::super::data::PROJECTS;
-use super::utils::{HiCursor, HiLine, Line, LineNumbers};
 use dioxus::prelude::*;
+
+use super::{
+    super::{
+        Route,
+        data::PROJECTS,
+    },
+    utils::{
+        HiCursor,
+        HiLine,
+        Line,
+        LineNumbers,
+    },
+};
 
 #[component]
 pub fn Project(name: String) -> Element {
-	// for me later: first closure handles None, second closure handles Some
-	PROJECTS
+    // for me later: first closure handles None, second closure handles Some
+    PROJECTS
 		.iter()
 		.find(|p| p.clean_name() == name)
 		.map_or_else(

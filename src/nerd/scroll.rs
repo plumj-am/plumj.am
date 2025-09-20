@@ -3,10 +3,10 @@ use dioxus::prelude::*;
 const LINE_HEIGHT: f64 = 24.0;
 
 pub fn use_scroll_snapping() {
-	use_effect(|| {
-		spawn(async move {
-			let _eval = document::eval(&format!(
-				r"
+    use_effect(|| {
+        spawn(async move {
+            let _eval = document::eval(&format!(
+                r"
 				(() => {{
 					let timeout;
 					window.addEventListener('scroll', () => {{
@@ -21,7 +21,7 @@ pub fn use_scroll_snapping() {
 					}}, {{ passive: true }});
 				}})();
 				"
-			));
-		});
-	});
+            ));
+        });
+    });
 }

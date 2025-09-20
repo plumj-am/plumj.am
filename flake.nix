@@ -46,7 +46,7 @@
 					fenix.packages.${system}.stable.rustc
 					fenix.packages.${system}.stable.cargo
 					fenix.packages.${system}.stable.clippy
-					fenix.packages.${system}.stable.rustfmt
+					fenix.packages.${system}.complete.rustfmt
 					fenix.packages.${system}.stable.rust-src
 					fenix.packages.${system}.stable.rust-analyzer
 					fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std

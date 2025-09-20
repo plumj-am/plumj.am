@@ -5,10 +5,16 @@ mod data;
 mod nerd;
 mod normal;
 
-use nerd::{Home as NerdHome, PageNotFound as NerdPageNotFound, Project as NerdProject};
-use normal::{Home as NormalHome, PageNotFound as NormalPageNotFound};
-
 use dioxus::prelude::*;
+use nerd::{
+    Home as NerdHome,
+    PageNotFound as NerdPageNotFound,
+    Project as NerdProject,
+};
+use normal::{
+    Home as NormalHome,
+    PageNotFound as NormalPageNotFound,
+};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -35,25 +41,25 @@ enum Route {
 }
 
 fn main() {
-	dioxus::launch(App);
+    dioxus::launch(App);
 }
 
 #[component]
 fn App() -> Element {
-	rsx! {
-		document::Link { rel: "icon", href: asset!("/assets/favicon.ico") }
-		document::Stylesheet { href: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" }
-		document::Script { src: "https://kit.fontawesome.com/6972f6e365.js", crossorigin: "anonymous", fetchpriority: "high" }
-		div {
-			Router::<Route> {}
-		}
-	}
+    rsx! {
+        document::Link { rel: "icon", href: asset!("/assets/favicon.ico") }
+        document::Stylesheet { href: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" }
+        document::Script { src: "https://kit.fontawesome.com/6972f6e365.js", crossorigin: "anonymous", fetchpriority: "high" }
+        div {
+            Router::<Route> {}
+        }
+    }
 }
 
 #[component]
 fn Root() -> Element {
-	rsx! {
-	document::Stylesheet { href: asset!("/assets/gen-normal-tailwind.css") }
-		p { "hello" }
-	}
+    rsx! {
+    document::Stylesheet { href: asset!("/assets/gen-normal-tailwind.css") }
+        p { "hello" }
+    }
 }
