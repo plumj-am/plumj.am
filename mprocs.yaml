@@ -17,7 +17,7 @@ procs:
         cmd:
             [
                 "tailwindcss",
-                "-i=./nerd-input.css",
+                "-i=./assets/nerd-input.css",
                 "-o=./assets/gen-nerd-tailwind.css",
                 "--watch",
             ]
@@ -30,7 +30,7 @@ procs:
         cmd:
             [
                 "tailwindcss",
-                "-i=./normal-input.css",
+                "-i=./assets/normal-input.css",
                 "-o=./assets/gen-normal-tailwind.css",
                 "--watch",
             ]

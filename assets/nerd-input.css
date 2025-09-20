@@ -5,20 +5,35 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: "JetBrains Mono";
+	font-family: "Iosevka";
 	font-style: normal;
 	font-display: swap;
 	font-weight: 400;
 	src:
-		url(https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-400-normal.woff2)
+		url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff2)
 		format("woff2"),
-		url(https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono@latest/latin-400-normal.woff)
+		url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff)
 		format("woff");
 }
 
+@utility no-scrollbar {
+	@apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
 @theme {
-	--default-font-family: "JetBrains Mono", sans-serif;
+	--default-font-family: "Iosevka", sans-serif;
 	--default-transition-duration: 0ms;
+
+	--animate-blink: blink 1s infinite;
+
+	@keyframes blink {
+		0%, 50% {
+			opacity: 1;
+		}
+		50.01%, 100% {
+			opacity: 0;
+		}
+	}
 }
 
 html {
@@ -33,6 +48,22 @@ body {
 	color: #ffffff;
 	margin: 0;
 	padding: 0;
+	scroll-snap-type: y mandatory;
+}
+
+h1, h2, h3, h4, h5, h6, p, li, span, a {
+	@apply text-base leading-6 my-0 py-0;
+}
+
+/* line utils */
+.line-content {
+	@apply h-6 leading-6 flex items-center;
+	scroll-snap-align: start;
+}
+
+.line-block {
+	@apply h-6 leading-6;
+	scroll-snap-align: start;
 }
 
 ::-webkit-scrollbar {
@@ -59,4 +90,4 @@ html {
 	scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
-@source "./src/normal/**/*.{rs,html,css}";
+@source "../src/nerd/**/*.{rs,html,css}";

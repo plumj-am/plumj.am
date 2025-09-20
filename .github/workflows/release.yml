@@ -13,8 +13,8 @@ jobs:
             - uses: oven-sh/setup-bun@v2
             - run: |
                   bun install tailwindcss @tailwindcss/cli
-                  bunx @tailwindcss/cli -i='./nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
-                  bunx @tailwindcss/cli -i='./normal-input.css' -o='./assets/gen-normal-tailwind.css'
+                  bunx @tailwindcss/cli -i='./assets/nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
+                  bunx @tailwindcss/cli -i='./assets/normal-input.css' -o='./assets/gen-normal-tailwind.css'
             - uses: moonrepo/setup-rust@v1
               with:
                   inherit-toolchain: true
@@ -34,8 +34,8 @@ jobs:
             - uses: oven-sh/setup-bun@v2
             - run: |
                   bun install tailwindcss @tailwindcss/cli
-                  bunx @tailwindcss/cli -i='./nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
-                  bunx @tailwindcss/cli -i='./normal-input.css' -o='./assets/gen-normal-tailwind.css'
+                  bunx @tailwindcss/cli -i='./assets/nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
+                  bunx @tailwindcss/cli -i='./assets/normal-input.css' -o='./assets/gen-normal-tailwind.css'
             - uses: moonrepo/setup-rust@v1
               with:
                   inherit-toolchain: true
