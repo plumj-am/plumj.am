@@ -36,6 +36,10 @@
 	}
 }
 
+h1, h2, h3, h4, h5, h6, p, li, span, a {
+	@apply text-base leading-6 my-0 py-0;
+}
+
 html {
 	margin: 0;
 	padding: 0;
@@ -51,18 +55,9 @@ body {
 	scroll-snap-type: y mandatory;
 }
 
-h1, h2, h3, h4, h5, h6, p, li, span, a {
-	@apply text-base leading-6 my-0 py-0;
-}
-
 /* line utils */
 .line-content {
-	@apply h-6 leading-6 flex items-center;
-	scroll-snap-align: start;
-}
-
-.line-block {
-	@apply h-6 leading-6;
+	@apply h-6 text-base leading-6 my-0 py-0 flex items-center;
 	scroll-snap-align: start;
 }
 
@@ -90,4 +85,4 @@ html {
 	scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
-@source "../src/nerd/**/*.{rs,html,css}";
+@source "*.{rs,html,css}";

@@ -1,23 +1,54 @@
-[package]
-authors = [ "PlumJam <git@plumj.am>" ]
-edition = "2024"
-name    = "plumjam-website"
-version = "0.11.0"
+[workspace]
+members  = [ "common", "nerd", "normal" ]
+resolver = "3"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+metadata.crane.name = "PlumJam"
 
-[dependencies]
+[workspace.package]
+authors    = [ "PlumJam <git@plumj.am" ]
+edition    = "2024"
+license    = "MIT"
+repository = "https://github.com/plumj-am/plumj.am"
+version    = "0.11.0"
+
+[workspace.lints.clippy]
+pedantic    = { level = "warn", priority = -1 }
+restriction = { level = "warn", priority = -1 }
+
+blanket_clippy_restriction_lints = "allow"
+
+unwrap_used = "deny"
+
+allow_attributes_without_reason   = "allow"
+arbitrary_source_item_ordering    = "allow"
+empty_enum_variants_with_brackets = "allow"
+exhaustive_enums                  = "allow"
+exhaustive_structs                = "allow"
+expect_used                       = "allow"
+float_arithmetic                  = "allow"
+impl_trait_in_params              = "allow"
+implicit_return                   = "allow"
+let_underscore_untyped            = "allow"
+min_ident_chars                   = "allow"
+missing_docs_in_private_items     = "allow"
+missing_inline_in_public_items    = "allow"
+mod_module_files                  = "allow"
+non_ascii_literal                 = "allow"
+print_stderr                      = "allow"
+print_stdout                      = "allow"
+pub_use                           = "allow"
+question_mark_used                = "allow"
+same_name_method                  = "allow"
+separated_literal_suffix          = "allow"
+shadow_reuse                      = "allow"
+single_call_fn                    = "allow"
+todo                              = "allow"
+use_debug                         = "allow"
+
+[workspace.dependencies]
+common  = { path = "common" }
 dioxus  = { features = [ "router" ], version = "0.6.0" }
 web-sys = { features = [ "Window" ], version = "0.3.77" }
-
-[features]
-default = [ "web" ]
-desktop = [ "dioxus/desktop" ]
-mobile  = [ "dioxus/mobile" ]
-web     = [ "dioxus/web" ]
-
-[lints.clippy]
-unwrap_used = "warn"
 
 [profile]
 

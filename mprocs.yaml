@@ -1,48 +1,32 @@
 procs:
-    dev:
-        cmd: ["dx", "serve", "--hot-reload=true"]
+    nerd-dev:
+        cmd: ["dx", "serve", "--hot-reload=true", "--port=8081"]
+        cwd: ./nerd
         autorestart: true
-        add_path:
-            $select: os
-            windows: "c:/users/james/scoop/shims/nu"
-            $else: "echo 'skip adding to path'"
-    bacon:
-        cmd: ["bacon"]
+    normal-dev:
+        cmd: ["dx", "serve", "--hot-reload=true", "--port=8080"]
+        cwd: ./normal
         autorestart: true
-        add_path:
-            $select: os
-            windows: "c:/users/james/scoop/shims/nu"
-            $else: "echo 'skip adding to path'"
     nerd-tailwind:
         cmd:
             [
                 "tailwindcss",
-                "-i=./assets/nerd-input.css",
-                "-o=./assets/gen-nerd-tailwind.css",
+                "-i=./input.css",
+                "-o=./gen-tailwind.css",
                 "--watch",
             ]
+        cwd: ./nerd
         autorestart: true
-        add_path:
-            $select: os
-            windows: "c:/users/james/scoop/shims/nu"
-            $else: "echo 'skip adding to path'"
     normal-tailwind:
         cmd:
             [
                 "tailwindcss",
-                "-i=./assets/normal-input.css",
-                "-o=./assets/gen-normal-tailwind.css",
+                "-i=./input.css",
+                "-o=./gen-tailwind.css",
                 "--watch",
             ]
+        cwd: ./normal
         autorestart: true
-        add_path:
-            $select: os
-            windows: "c:/users/james/scoop/shims/nu"
-            $else: "echo 'skip adding to path'"
     nu:
         cmd: ["nu"]
         autorestart: false
-        add_path:
-            $select: os
-            windows: "c:/users/james/scoop/shims/nu"
-            $else: "echo 'skip adding to path'"

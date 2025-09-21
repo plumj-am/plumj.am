@@ -1,6 +1,6 @@
 target/
 docs/
-assets/gen-*.css
+*/gen-tailwind.css
 mprocs.log
 IDEAS.md
 .direnv/

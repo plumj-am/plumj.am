@@ -6,17 +6,17 @@ title = "PlumJam"
 
 [web.watcher]
 reload_html = true
-watch_path = ["src", "assets"]
+watch_path  = [ ".", "../common" ]
 
 # include `assets` in web platform
 [web.resource]
 # Additional CSS style files
-style = []
+style = [  ]
 
 # Additional JavaScript files
-script = []
+script = [  ]
 
 [web.resource.dev]
 # Javascript code file
 # serve: [dev-server] only
-script = []
+script = [  ]

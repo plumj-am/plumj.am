@@ -3,8 +3,8 @@
 
   nixConfig = {
     builders-use-substitutes = true;
-    flake-registry = "";
-    show-trace = true;
+    flake-registry           = "";
+    show-trace               = true;
 
     experimental-features = [
       "flakes"
@@ -37,12 +37,13 @@
   outputs =
     { self, nixpkgs, crane, flake-utils, advisory-db, fenix, ... }:
     flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+      system: let
+
         pkgs = import nixpkgs { inherit system; };
+
 				inherit (pkgs) lib;
 
-				rustCustom = fenix.packages.${system}.combine [
+				rustToolchain = fenix.packages.${system}.combine [
 					fenix.packages.${system}.stable.rustc
 					fenix.packages.${system}.stable.cargo
 					fenix.packages.${system}.stable.clippy
@@ -52,85 +53,151 @@
 					fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std
 				];
 
-        craneLib = (crane.mkLib pkgs).overrideToolchain rustCustom;
-				src = lib.cleanSourceWith {
-					src = ./.;
-					filter = path: type:
-						(craneLib.filterCargoSources path type) ||
-						(lib.hasSuffix ".css" path) ||
-						(lib.hasInfix "/assets/" path);
-				};
+        craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
+
+        src = craneLib.cleanCargoSource ./.;
 
         commonArgs = {
 					inherit src;
 					strictDeps = true;
-					buildInputs = [];
 					CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
         };
 
-        tailwindPreBuild = ''
-					bunx tailwindcss -i assets/nerd-input.css -o assets/gen-nerd-tailwind.css --minify --content './src/**/*.rs'
-					bunx tailwindcss -i assets/normal-input.css -o assets/gen-normal-tailwind.css --minify --content './src/**/*.rs'
+        tailwindNormal = ''
+					bunx tailwindcss -i normal/input.css -o normal/gen-tailwind.css --minify --content 'normal/**/*.rs'
+        '';
+        tailwindNerd = ''
+					bunx tailwindcss -i nerd/input.css -o nerd/gen-tailwind.css --minify --content 'nerd/**/*.rs'
         '';
 
-				tailwindBuildInputs = [
+				tailwindInputs = [
 					pkgs.bun
 					pkgs.tailwindcss_4
 				];
 
         cargoArtifacts = craneLib.buildDepsOnly commonArgs;
 
-        website = craneLib.buildPackage (
-					commonArgs // {
-						inherit cargoArtifacts;
+        # Build only the cargo dependencies.
+        individualCrateArgs = commonArgs // {
+          inherit cargoArtifacts;
+          inherit (craneLib.crateNameFromCargoToml { inherit src; }) version;
+          doCheck = false; # No tests for WASM target.
+        };
 
-						preBuild = tailwindPreBuild;
-						nativeBuildInputs = tailwindBuildInputs;
+        fileSetForCrate = crate: lib.fileset.toSource {
+    			root    = ./.;
+    			fileset = lib.fileset.unions [
+    				./Cargo.toml
+    				./Cargo.lock
+            (craneLib.fileset.commonCargoSources ./common)
+            (craneLib.fileset.commonCargoSources ./normal)
+            (craneLib.fileset.commonCargoSources ./nerd)
+            ./common/assets
+            ./normal/input.css
+            ./normal/gen-tailwind.css
+            ./normal/favicon.ico
+            ./nerd/input.css
+            ./nerd/gen-tailwind.css
+            ./nerd/favicon.ico
+    			];
+    		};
 
-						doCheck = false; # no tests for WASM target
-          }
-        );
+        # Common library doesn't need WASM target or Tailwind.
+        common = craneLib.buildPackage (individualCrateArgs // {
+					pname          = "common";
+					cargoExtraArgs = "--package common";
+
+					src = fileSetForCrate ./common;
+
+					CARGO_BUILD_TARGET = null; # Remove WASM target for common library.
+        });
+
+        normal = craneLib.buildPackage (individualCrateArgs // {
+					pname          = "normal";
+					cargoExtraArgs = "--package normal";
+
+					src = fileSetForCrate ./normal;
+
+					preBuild          = tailwindNormal;
+					nativeBuildInputs = tailwindInputs;
+        });
+
+        nerd = craneLib.buildPackage (individualCrateArgs // {
+					pname          = "nerd";
+					cargoExtraArgs = "--package nerd";
+
+					src = fileSetForCrate ./nerd;
+
+					preBuild          = tailwindNerd;
+					nativeBuildInputs = tailwindInputs;
+        });
       in
       {
 				checks = {
-					inherit website;
+					inherit common normal nerd;
 
-					rust-clippy = craneLib.cargoClippy (
-						commonArgs // {
-							inherit cargoArtifacts;
+					rust-clippy = craneLib.cargoClippy (commonArgs // {
+						inherit cargoArtifacts;
 
-							preBuild = tailwindPreBuild;
-							nativeBuildInputs = tailwindBuildInputs;
+						src = fileSetForCrate ./.;
 
-							cargoClippyExtraArgs = "--all-targets -- --deny warnings";
-						}
-					);
+						preBuild          = tailwindNormal + tailwindNerd;
+						nativeBuildInputs = tailwindInputs;
 
-					rust-doc = craneLib.cargoDoc (
-						commonArgs // {
-							inherit cargoArtifacts;
+						cargoClippyExtraArgs = "--all-targets -- --deny warnings";
+					});
 
-							preBuild = tailwindPreBuild;
-							nativeBuildInputs = tailwindBuildInputs;
+					rust-doc = craneLib.cargoDoc (commonArgs // {
+						inherit cargoArtifacts;
 
-							env.RUSTDOCFLAGS = "--deny warnings";
-						}
-					);
+						src = fileSetForCrate ./.;
+
+						env.RUSTDOCFLAGS = "--deny warnings";
+
+						preBuild          = tailwindNormal + tailwindNerd;
+						nativeBuildInputs = tailwindInputs;
+					});
 
 					rust-fmt = craneLib.cargoFmt {
-						inherit cargoArtifacts src;
+						inherit cargoArtifacts;
+
+						src = fileSetForCrate ./.;
+
+						rustFmtExtraArgs = "--config-path ${./.rustfmt.toml}";
 					};
 
-					# rust-audit = craneLib.cargoAudit {
-					#		inherit src advisory-db;
-					# };
+					toml-fmt = craneLib.taploFmt {
+						inherit cargoArtifacts;
+
+						src = lib.sources.sourceFilesBySuffices src [ ".toml" ];
+
+						taploExtraArgs = "--config ${./.taplo.toml}";
+					};
+
+					rust-audit = craneLib.cargoAudit {
+						inherit src advisory-db;
+					};
         };
 
-        packages.default = website;
+        packages = {
+        	inherit common normal nerd;
+        	default = normal;
+        };
 
-        apps.default = flake-utils.lib.mkApp {
-					drv = website;
-				};
+        apps = {
+          common = flake-utils.lib.mkApp {
+            drv = common;
+          };
+          normal = flake-utils.lib.mkApp {
+            drv = normal;
+          };
+          nerd = flake-utils.lib.mkApp {
+            drv = nerd;
+          };
+          default = flake-utils.lib.mkApp {
+            drv = normal;
+          };
+        };
 
         devShells.default = craneLib.devShell {
 					# Inherit inputs from checks.

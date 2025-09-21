@@ -16,6 +16,10 @@
 		format("woff");
 }
 
+@utility no-scrollbar {
+	@apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
 @theme {
 	--default-font-family: "JetBrains Mono", sans-serif;
 	--default-transition-duration: 0ms;
@@ -33,6 +37,7 @@ body {
 	color: #ffffff;
 	margin: 0;
 	padding: 0;
+	scroll-snap-type: y mandatory;
 }
 
 ::-webkit-scrollbar {
@@ -59,4 +64,4 @@ html {
 	scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
-@source "../src/normal/**/*.{rs,html,css}";
+@source "*.{rs,html,css}";
