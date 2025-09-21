@@ -94,10 +94,8 @@
             (craneLib.fileset.commonCargoSources ./nerd)
             ./common/assets
             ./normal/input.css
-            ./normal/gen-tailwind.css
             ./normal/favicon.ico
             ./nerd/input.css
-            ./nerd/gen-tailwind.css
             ./nerd/favicon.ico
     			];
     		};
