@@ -1,6 +1,12 @@
+# Build
 target/
 docs/
 */gen-tailwind.css
+
+# Direnv
+.direnv/
+.envrc
+
+# Misc
 mprocs.log
 IDEAS.md
-.direnv/
