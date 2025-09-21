@@ -23,6 +23,12 @@
 @theme {
 	--default-font-family: "JetBrains Mono", sans-serif;
 	--default-transition-duration: 0ms;
+
+	--color-purple-light: #a66aa2;
+	--color-purple: #592d59;
+	--color-purple-dark: #3c2240;
+	--color-green: #48734f;
+	--color-base: #f2eeeb;
 }
 
 html {

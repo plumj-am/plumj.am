@@ -33,8 +33,8 @@ fn main() {
 #[component]
 fn App() -> Element {
     rsx! {
-        document::Stylesheet { href: asset!("gen-tailwind.css") }
-        document::Link { rel: "icon", href: asset!("favicon.ico") }
+        document::Stylesheet { href: asset!("/gen-tailwind.css") }
+        document::Link { rel: "icon", href: asset!("/favicon.ico") }
         document::Stylesheet { href: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" }
         document::Script { src: "https://kit.fontawesome.com/6972f6e365.js", crossorigin: "anonymous", fetchpriority: "high" }
         div {
