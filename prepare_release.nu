@@ -31,7 +31,7 @@ jj git export
 git tag $"v($new_version)" --annotate --message $"v($new_version)"
 
 # Push both the commit and tag
-git push origin HEAD
+git push origin master
 git push origin $"v($new_version)"
 
 print $"Released v($new_version)"
