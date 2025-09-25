@@ -1,6 +1,6 @@
 #!/usr/bin/env nu
 
-let current_version = (open Cargo.toml | get package.version)
+let current_version = (open Cargo.toml | get workspace.package.version)
 
 print $"Current version: ($current_version)"
 let new_version = (input "Enter new version: ")
