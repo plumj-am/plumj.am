@@ -40,7 +40,6 @@ fn App() -> Element {
     }
 }
 
-
 #[component]
 fn Blog() -> Element {
     rsx! { div {}}
