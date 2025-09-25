@@ -4,6 +4,7 @@ mod home;
 mod layout;
 
 use dioxus::prelude::*;
+use home::Home;
 use layout::Layout;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -39,14 +40,6 @@ fn App() -> Element {
     }
 }
 
-#[component]
-fn Home() -> Element {
-    rsx! {
-        document::Link { rel: "icon", href: "/favicon.ico" }
-        h1 { "Normal App" }
-        p { "This is the normal version of plumj.am" }
-    }
-}
 
 #[component]
 fn Blog() -> Element {

@@ -47,7 +47,7 @@ fn Navbar() -> Element {
     rsx! {
         div { class: "h-16 border-l-1 border-b-1 border-fg w-full max-w-5xl mx-auto",
             div { class: "grid grid-cols-4 w-full h-full text-2xl tracking",
-                for (i, link) in NAV_LINKS.iter().enumerate() {
+                for (_i, link) in NAV_LINKS.iter().enumerate() {
                     div {
                         Link { class: "group flex items-center justify-center w-full h-full border-fg hover:bg-[var(--color-hover)] transition-scale duration-100 hover:scale-120 hover:shadow-[inset_0_0_0_1px_var(--color-fg)] hover:border-0 border-r-1",
                             active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-black",
