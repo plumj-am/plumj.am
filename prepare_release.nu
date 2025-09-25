@@ -18,10 +18,10 @@ if ($existing_tags | any {|tag| $tag == $"v($new_version)"}) {
 
 print $"Updating version from ($current_version) to ($new_version)"
 
-let cargo_content = (open Cargo.toml --raw | str replace $'version = "($current_version)"' $'version = "($new_version)"')
-$cargo_content | save -f Cargo.toml
+open Cargo.toml | upsert workspace.package.version $new_version | save -f Cargo.toml
 
 cargo check --quiet
+taplo fmt Cargo.toml
 
 # Use jj for commit operations
 jj commit -m $"chore: release v($new_version)"
@@ -31,7 +31,7 @@ jj git export
 git tag $"v($new_version)" --annotate --message $"v($new_version)"
 
 # Push both the commit and tag
-git push origin master
+git push origin HEAD:master
 git push origin $"v($new_version)"
 
 print $"Released v($new_version)"

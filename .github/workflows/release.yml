@@ -45,8 +45,8 @@ jobs:
             - name: Generate TailwindCSS.
               run: |
                   bun install tailwindcss @tailwindcss/cli
-                  bunx @tailwindcss/cli -i='./assets/nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
-                  bunx @tailwindcss/cli -i='./assets/normal-input.css' -o='./assets/gen-normal-tailwind.css'
+                  bunx @tailwindcss/cli -i='./nerd/input.css' -o='./nerd/gen-tailwind.css'
+                  bunx @tailwindcss/cli -i='./normal/input.css' -o='./normal/gen-tailwind.css'
 
             - name: Setup Rust.
               uses: moonrepo/setup-rust@v1
@@ -60,14 +60,14 @@ jobs:
             - name: Build nerd pages.
               run: |
                   dx build --release --package nerd
-                  mkdir --parents dist
+                  mkdir --parents nerd
                   cp --recursive target/dx/nerd/release/web/public/* nerd/
                   cp nerd/index.html nerd/404.html
 
             - name: Build normal pages.
               run: |
                   dx build --release --package normal
-                  mkdir --parents dist
+                  mkdir --parents normal
                   cp --recursive target/dx/normal/release/web/public/* normal/
                   cp normal/index.html normal/404.html
 
@@ -108,9 +108,8 @@ jobs:
                   key: ${{ secrets.PLUM_SSH_KEY }}
                   port: ${{ secrets.PLUM_PORT }}
                   source: "nerd/*"
-                  target: ${{ secrets.PLUM_TARGET_DIR }}/nerd/
+                  target: ${{ secrets.PLUM_TARGET_DIR }}
                   overwrite: true
-                  strip_components: 1 # to de-nest nerd/* to nerd/*
 
             - name: Copy normal build to server.
               uses: appleboy/scp-action@v1
