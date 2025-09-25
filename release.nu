@@ -19,8 +19,8 @@ taplo fmt Cargo.toml
 # Build TailwindCSS for both versions.
 # Tailwind is in the flake for this project.
 print "Building TailwindCSS..."
-bunx @tailwindcss/cli -i='./nerd/input.css' -o='./nerd/gen-tailwind.css'
-bunx @tailwindcss/cli -i='./normal/input.css' -o='./normal/gen-tailwind.css'
+bunx tailwindcss -i='./nerd/input.css' -o='./nerd/gen-tailwind.css' --minify --content='nerd/**/*.rs'
+bunx tailwindcss -i='./normal/input.css' -o='./normal/gen-tailwind.css' --minify --content='normal/**/*.rs'
 
 # Run checks.
 print "Running checks..."
