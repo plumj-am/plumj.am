@@ -17,7 +17,7 @@ pub fn use_scroll_snapping() {
 							if (Math.abs(scroll - target) > 1) {{
 								window.scrollTo({{ top: target, behavior: 'auto' }});
 							}}
-						}}, 10);
+						}}, 100);
 					}}, {{ passive: true }});
 				}})();
 				"
