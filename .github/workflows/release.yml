@@ -11,11 +11,15 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: oven-sh/setup-bun@v2
-            - run: |
+
+            - name: Generate TailwindCSS.
+              run: |
                   bun install tailwindcss @tailwindcss/cli
-                  bunx @tailwindcss/cli -i='./assets/nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
-                  bunx @tailwindcss/cli -i='./assets/normal-input.css' -o='./assets/gen-normal-tailwind.css'
-            - uses: moonrepo/setup-rust@v1
+                  bunx @tailwindcss/cli -i='./nerd/input.css' -o='./nerd/gen-tailwind.css'
+                  bunx @tailwindcss/cli -i='./normal/input.css' -o='./normal/gen-tailwind.css'
+
+            - name: Setup Rust.
+              uses: moonrepo/setup-rust@v1
               with:
                   inherit-toolchain: true
                   bins: dioxus-cli
@@ -23,8 +27,13 @@ jobs:
                   cache-base: master
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - run: cargo clippy
-            - run: dx check
+
+            - name: Run Clippy.
+              run: cargo clippy
+            - name: Run Dioxus checks.
+              run: |
+                  dx check --package nerd
+                  dx check --package normal
 
     build:
         needs: checks
@@ -32,58 +41,88 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: oven-sh/setup-bun@v2
-            - run: |
+
+            - name: Generate TailwindCSS.
+              run: |
                   bun install tailwindcss @tailwindcss/cli
                   bunx @tailwindcss/cli -i='./assets/nerd-input.css' -o='./assets/gen-nerd-tailwind.css'
                   bunx @tailwindcss/cli -i='./assets/normal-input.css' -o='./assets/gen-normal-tailwind.css'
-            - uses: moonrepo/setup-rust@v1
+
+            - name: Setup Rust.
+              uses: moonrepo/setup-rust@v1
               with:
                   inherit-toolchain: true
                   bins: dioxus-cli
                   cache-base: master
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            - name: Build website
-              run: |
-                  dx build --release
-                  mkdir -p dist
-                  cp -r target/dx/plumjam-website/release/web/public/* dist/
-                  cp dist/index.html dist/404.html
 
-            - name: Upload build artifacts
+            - name: Build nerd pages.
+              run: |
+                  dx build --release --package nerd
+                  mkdir --parents dist
+                  cp --recursive target/dx/nerd/release/web/public/* nerd/
+                  cp nerd/index.html nerd/404.html
+
+            - name: Build normal pages.
+              run: |
+                  dx build --release --package normal
+                  mkdir --parents dist
+                  cp --recursive target/dx/normal/release/web/public/* normal/
+                  cp normal/index.html normal/404.html
+
+            - name: Upload nerd build artifacts.
               uses: actions/upload-artifact@v4
               with:
-                  name: website-build
-                  path: dist/
+                  name: nerd-build
+                  path: nerd/
+
+            - name: Upload normal build artifacts.
+              uses: actions/upload-artifact@v4
+              with:
+                  name: normal-build
+                  path: normal/
 
     server-deploy:
-        name: Deploy to plum server
+        name: Deploy to server
         needs: build
         runs-on: ubuntu-latest
         steps:
-            - name: Download build artifacts
+            - name: Download nerd build artifacts.
               uses: actions/download-artifact@v4
               with:
-                  name: website-build
-                  path: dist/
+                  name: nerd-build
+                  path: nerd/
 
-            - name: List downloaded artifacts
-              run: |
-                  echo "Downloaded artifacts:"
-                  ls -la dist/
-                  find dist/ -type f
+            - name: Download normal build artifacts.
+              uses: actions/download-artifact@v4
+              with:
+                  name: normal-build
+                  path: normal/
 
-            - name: Copy build to plum server
+            - name: Copy nerd build to server.
               uses: appleboy/scp-action@v1
               with:
                   host: ${{ secrets.PLUM_HOST }}
                   username: ${{ secrets.PLUM_USER }}
                   key: ${{ secrets.PLUM_SSH_KEY }}
                   port: ${{ secrets.PLUM_PORT }}
-                  source: "dist/*"
+                  source: "nerd/*"
+                  target: ${{ secrets.PLUM_TARGET_DIR }}/nerd/
+                  overwrite: true
+                  strip_components: 1 # to de-nest nerd/* to nerd/*
+
+            - name: Copy normal build to server.
+              uses: appleboy/scp-action@v1
+              with:
+                  host: ${{ secrets.PLUM_HOST }}
+                  username: ${{ secrets.PLUM_USER }}
+                  key: ${{ secrets.PLUM_SSH_KEY }}
+                  port: ${{ secrets.PLUM_PORT }}
+                  source: "normal/*"
                   target: ${{ secrets.PLUM_TARGET_DIR }}
                   overwrite: true
-                  strip_components: 1 # to de-nest dist/* to *
+                  strip_components: 1 # to de-nest normal/* to *
 
     tagged-release:
         needs: server-deploy
@@ -93,7 +132,8 @@ jobs:
             packages: write
         runs-on: ubuntu-latest
         steps:
-            - uses: marvinpinto/action-automatic-releases@latest
+            - name: Tagged release.
+              uses: marvinpinto/action-automatic-releases@latest
               with:
                   repo_token: "${{ secrets.GITHUB_TOKEN }}"
                   prerelease: false

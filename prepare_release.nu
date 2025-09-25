@@ -29,6 +29,9 @@ jj commit -m $"chore: release v($new_version)"
 # Export to git and create tag with git
 jj git export
 git tag $"v($new_version)" --annotate --message $"v($new_version)"
+
+# Push both the commit and tag
+git push origin HEAD
 git push origin $"v($new_version)"
 
 print $"Released v($new_version)"
