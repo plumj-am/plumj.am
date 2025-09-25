@@ -43,14 +43,24 @@
 
 				inherit (pkgs) lib;
 
-				rustToolchain = fenix.packages.${system}.combine [
-					fenix.packages.${system}.stable.rustc
-					fenix.packages.${system}.stable.cargo
-					fenix.packages.${system}.stable.clippy
-					fenix.packages.${system}.complete.rustfmt
-					fenix.packages.${system}.stable.rust-src
-					fenix.packages.${system}.stable.rust-analyzer
-					fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std
+				# Pinned to 1.86.0 to fix this issue: https://github.com/DioxusLabs/dioxus/discussions/4183
+				rustToolchain = let
+					toolchain = fenix.packages.${system}.toolchainOf {
+						channel = "1.86.0";
+						sha256 = "sha256-X/4ZBHO3iW0fOenQ3foEvscgAPJYl2abspaBThDOukI=";
+					};
+					wasm-target = fenix.packages.${system}.targets.wasm32-unknown-unknown.toolchainOf {
+						channel = "1.86.0";
+						sha256 = "sha256-X/4ZBHO3iW0fOenQ3foEvscgAPJYl2abspaBThDOukI=";
+					};
+				in fenix.packages.${system}.combine [
+					toolchain.rustc
+					toolchain.cargo
+					toolchain.clippy
+					fenix.packages.${system}.latest.rustfmt # Nightly only for rustfmt.
+					toolchain.rust-src
+					toolchain.rust-analyzer
+					wasm-target.rust-std # wasm32-unknown-unknown for Dioxus web.
 				];
 
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
@@ -205,7 +215,7 @@
 						pkgs.bun
 						pkgs.dioxus-cli
 						pkgs.tailwindcss_4
-						pkgs.wasm-bindgen-cli
+						pkgs.wasm-bindgen-cli_0_2_100
 						pkgs.watchman
 
 						pkgs.pkg-config
