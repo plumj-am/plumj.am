@@ -2,15 +2,25 @@
 !.gitignore
 
 # SOURCES
-!Cargo.*
 !normal/
-!normal/**
 !nerd/
-!nerd/**
+!common/
 
-# TOOLS
-!flake.*
+# BUILD
+!flake.nix
+!flake.lock
 !rust-toolchain.toml
+!.cargo/
+!.cargo/config.toml
+!Cargo.lock
+!Cargo.toml
+
+# FORMATTERS
+!.rustfmt.toml
+!.taplo.toml
+
+# LINTERS
+!.clippy.toml
 
 # DOCS
 !CHANGELOG.md

@@ -1,0 +1,15 @@
+*
+!.gitignore
+
+# SOURCES
+!*.rs
+!input.css
+
+# BUILD
+!Cargo.toml
+!Dioxus.toml
+
+# ASSETS
+!favicon.ico
+!posts/
+!posts/**

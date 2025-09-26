@@ -1,0 +1,8 @@
+*
+!.gitignore
+
+# SOURCES
+!*.rs
+
+# BUILD
+!Cargo.toml
