@@ -19,8 +19,8 @@ taplo fmt Cargo.toml
 # Build TailwindCSS for both versions.
 # Tailwind is in the flake for this project.
 print "Building TailwindCSS..."
-bunx @tailwindcss/cli -i='./nerd/input.css' -o='./nerd/gen-tailwind.css'
-bunx @tailwindcss/cli -i='./normal/input.css' -o='./normal/gen-tailwind.css'
+bunx tailwindcss -i='./nerd/input.css' -o='./nerd/gen-tailwind.css' --minify --content='nerd/**/*.rs'
+bunx tailwindcss -i='./normal/input.css' -o='./normal/gen-tailwind.css' --minify --content='normal/**/*.rs'
 
 # Run checks.
 print "Running checks..."
@@ -59,6 +59,9 @@ if ($host | is-empty) {
     rsync -avz --delete normal_dist/ $"($user)@($host):/var/www/site/"
 }
 
+# Cleanup
+rm -rf nerd_dist normal_dist
+
 # Commit and tag
 print "Creating release commit..."
 jj commit -m $"chore: Release v($new_version)"
@@ -71,8 +74,5 @@ if ($should_push == "yes") {
     git push origin HEAD:master
     git push origin $"v($new_version)"
 }
-
-# Cleanup
-rm -rf nerd_dist normal_dist
 
 print $"Released v($new_version)"
