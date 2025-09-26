@@ -1,3 +1,17 @@
+<a id="v0.14.1"></a>
+## [v0.14.1](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.1) - 2025-09-26
+
+## Chores
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/753331fe997b6c4ca65b10b9a11cd3cf27706d2d))
+- Do not gitignore `release.nu`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/2f4694bace7e82686b9c0883ab54e387d708d363))
+- Release v0.14.1 ([PlumJam](https://github.com/plumj-am/plumj.am/commit/20b1239a9a3b08f40e4448386af94cafce52f149))
+
+## Commits
+- e118b3c: normal.layout: Ensure blog/slug matches blog route. (PlumJam)
+
+[Changes][v0.14.1]
+
+
 <a id="v0.14.0"></a>
 ## [v0.14.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.0) - 2025-09-26
 
@@ -347,6 +361,7 @@
 [Changes][v0.1.0]
 
 
+[v0.14.1]: https://github.com/plumj-am/plumj.am/compare/v0.14.0...v0.14.1
 [v0.14.0]: https://github.com/plumj-am/plumj.am/compare/v0.13.0...v0.14.0
 [v0.13.0]: https://github.com/plumj-am/plumj.am/compare/v0.12.1...v0.13.0
 [v0.12.1]: https://github.com/plumj-am/plumj.am/compare/v0.12.0...v0.12.1
