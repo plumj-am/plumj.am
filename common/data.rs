@@ -98,7 +98,7 @@ impl fmt::Display for ProjectType {
 pub struct ProjectInfo {
     pub name:         &'static str,
     pub short_desc:   &'static str,
-    pub long_desc:    &'static str,
+    pub long_desc:    Option<&'static str>,
     pub project_type: ProjectType,
     pub tech_used:    &'static [&'static str],
     pub repo:         Option<&'static str>,
@@ -141,7 +141,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "plumj.am",
         short_desc:   "This website!",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Website,
         tech_used:    &["Rust", "Dioxus", "Tailwind"],
         repo:         Some("plumj.am"),
@@ -153,7 +153,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Charfreq",
         short_desc:   "The fastest character counter.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::CliTool,
         tech_used:    &["Rust"],
         repo:         Some("charfreq-rs"),
@@ -165,7 +165,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Sunny",
         short_desc:   "Check the weather from your terminal!",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::CliTool,
         tech_used:    &["Rust"],
         repo:         Some("sunny-rs"),
@@ -177,7 +177,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "NixOS",
         short_desc:   "PlumJam's NixOS configuration collection.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Config,
         tech_used:    &["Nix"],
         repo:         Some("nixos"),
@@ -189,7 +189,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Dr. Radka",
         short_desc:   "Client website.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Website,
         tech_used:    &["SvelteKit", "Typescript", "Tailwind", "Sanity CMS"],
         repo:         None,
@@ -201,7 +201,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Jash",
         short_desc:   "A basic shell.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::CliTool,
         tech_used:    &["Rust"],
         repo:         Some("jash-rs"),
@@ -213,7 +213,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Windows Setup",
         short_desc:   "Up and running with NixOS-WSL in minutes.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Script,
         tech_used:    &["Bash"],
         repo:         Some("windows-setup"),
@@ -225,7 +225,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Search This",
         short_desc:   "Initiate a web search from NeoVim.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Plugin,
         tech_used:    &["Lua"],
         repo:         Some("search-this.nvim"),
@@ -237,7 +237,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Server Health Monitor",
         short_desc:   "IOT project for local monitoring.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Utility,
         tech_used:    &["C++", "Python", "Bash"],
         repo:         Some("server-health-monitor"),
@@ -249,7 +249,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Pausarr",
         short_desc:   "A companion script for Tdarr and Jellyfin.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Script,
         tech_used:    &["Bash"],
         repo:         Some("pausarr"),
@@ -261,7 +261,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "NeoVim",
         short_desc:   "(Old) NeoVim configuration files.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Config,
         tech_used:    &["Lua"],
         repo:         Some("nvim"),
@@ -273,7 +273,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Nushell",
         short_desc:   "(Old) Nushell configuration files.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Config,
         tech_used:    &["Nu", "Nushell"],
         repo:         Some("nushell"),
@@ -285,9 +285,9 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Gocial",
         short_desc:   "The forever unfinished social platform.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::WebApp,
-        tech_used:    &["Go"],
+        tech_used:    &["Go", "Chi"],
         repo:         Some("gocial"),
         crate_url:    None,
         npm_url:      None,
@@ -297,7 +297,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "Prepare Release",
         short_desc:   "Automatic version bumping and tagging.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Script,
         tech_used:    &["Nushell", "Bash"],
         repo:         Some("prepare_release"),
@@ -309,7 +309,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
     ProjectInfo {
         name:         "QuickSnip",
         short_desc:   "Instantly create snippets for Vim on the fly.",
-        long_desc:    "",
+        long_desc:    None,
         project_type: ProjectType::Plugin,
         tech_used:    &["Vimscript"],
         repo:         Some("quicksnip.vim"),

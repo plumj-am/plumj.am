@@ -46,8 +46,10 @@ pub fn Project(name: String) -> Element {
 						div { class: "flex flex-col w-full",
 							HiCursor {}
 							h1 { "Name: {p.name}" }
-							Line {}
-							p { "Description: {p.long_desc}" }
+							if p.long_desc.is_some() {
+								Line {}
+								p { "Description: {p.long_desc.unwrap_or(\"\")}" }
+							}
 							Line {}
 							p { "Type: {p.project_type.as_str()}" }
 							Line {}
