@@ -1,3 +1,28 @@
+<a id="v0.13.0"></a>
+## [v0.13.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.13.0) - 2025-09-26
+
+## Documentation
+- Update README. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/c5da3e6375ec249ced269417cb84ad40e8a90291))
+
+## Builds
+- Fix cp paths and push commands. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/e6e5f60aa16995d38bf768468eb42098660a87c5))
+
+## Continuous Integration
+- Combine release workflows. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/8b09d32a9b4bb7f71baab9a4357533601a2c45ea))
+
+## Chores
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/49559792b38296e8583f38c9bbe5b02258a1c16d))
+- Release v0.13.0 ([PlumJam](https://github.com/plumj-am/plumj.am/commit/e91e3630fea98471a94d5a88a4a7445fc40c5df7))
+
+## Commits
+- Add projects page. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/ac72c2fcf5ee1b917c80f5bbd181b8650c1484e1))
+- Simpler for loop for nav items. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/1f96e018b1bd7404d6d1dddb81d6c4707a38c239))
+- Fix border on active page. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/7aa18b1556014d7d5072e7360028561528621b91))
+- Add contact page. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/35cba090dce3cc20191f6f770ad371d56c5797d2))
+
+[Changes][v0.13.0]
+
+
 <a id="v0.12.1"></a>
 ## [v0.12.1](https://github.com/plumj-am/plumj.am/releases/tag/v0.12.1) - 2025-09-26
 
@@ -301,6 +326,7 @@
 [Changes][v0.1.0]
 
 
+[v0.13.0]: https://github.com/plumj-am/plumj.am/compare/v0.12.1...v0.13.0
 [v0.12.1]: https://github.com/plumj-am/plumj.am/compare/v0.12.0...v0.12.1
 [v0.12.0]: https://github.com/plumj-am/plumj.am/compare/v0.11.0...v0.12.0
 [v0.11.0]: https://github.com/plumj-am/plumj.am/compare/v0.10.0...v0.11.0
