@@ -53,7 +53,7 @@ fn Navbar() -> Element {
 
     rsx! {
         div { class: "h-16 border-l-1 border-b-1 border-fg w-full max-w-5xl mx-auto",
-            div { class: "grid grid-cols-4 w-full h-full text-2xl tracking",
+            div { class: "grid grid-cols-4 w-full h-full text-md sm:text-xl md:text-2xl tracking",
                 for link in NAV_LINKS {
                     { let is_active = check_route_active(&link.route);
                     rsx! {
@@ -63,7 +63,7 @@ fn Navbar() -> Element {
                         ),
                         active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-fg border-r-1",
                         to: link.route.clone(),
-                        p { class: if is_active { "scale-150" } else { "group-hover:scale-150 transition-scale duration-100" },
+                        p { class: if is_active { "sm:scale-150" } else { "sm:group-hover:scale-150 transition-scale duration-100" },
                             "{link.text}"
                         }
                     }}
@@ -76,15 +76,15 @@ fn Navbar() -> Element {
 #[component]
 fn Footer() -> Element {
     rsx! {
-        div { class: "group flex items-center justify-center h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
-            p { class: "text-xs flex",
-                span { class: "group-hover:translate-x-[-20px] transition-translate duration-300",
+        div { class: "group flex items-center justify-center h-18 sm:h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
+            p { class: "sm:text-xs flex flex-col sm:flex-row items-center",
+                span { class: "md:group-hover:translate-x-[-20px] transition-translate duration-300",
                     "Copyright © 2025-present"
                 }
-                img { class: "h-4 px-2 group-hover:scale-500 group-hover:translate-y-[-40px] transition-translate-y duration-300 animate-bounce",
+                img { class: "h-4 px-2 md:group-hover:scale-500 md:group-hover:translate-y-[-40px] transition-translate-y duration-300 animate-bounce",
                     src: LOGO_NO_BG
                 }
-                span { class: "group-hover:translate-x-[20px] transition-translate duration-300",
+                span { class: "md:group-hover:translate-x-[20px] transition-translate duration-300",
                     span { class: "text-purple-light pr-2",
                         "PlumJam"
                     }

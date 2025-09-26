@@ -8,7 +8,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn Home() -> Element {
     rsx! {
-        div { class: "flex w-full flex-col lg:flex-row gap-8 py-6",
+        div { class: "flex w-full flex-col lg:flex-row gap-8 py-6 items-center lg:items-start",
             Profile {}
             Projects {}
         }
@@ -46,7 +46,7 @@ fn Profile() -> Element {
                 }
             }
 
-            div { class: "grid grid-cols-1 md:grid-cols-2 gap-6",
+            div { class: "grid grid-cols-1 sm:grid-cols-2 gap-6",
                 div {
                     h3 { class: "font-semibold mb-2 text-fg", "Languages" }
                     ul { class: "text-sm text-fg opacity-80 space-y-1",
@@ -85,12 +85,12 @@ fn Profile() -> Element {
 #[component]
 fn Projects() -> Element {
     rsx! {
-        div { class: "flex flex-col gap-6 lg:w-1/2",
+        div { class: "flex flex-col gap-6 lg:w-1/2 px-4 lg:px-0",
             h2 { class: "text-2xl font-bold text-fg",
                 "Projects (6/{PROJECTS.len()})"
             }
 
-            div { class: "grid gap-4",
+            div { class: "grid sm:grid-cols-2 lg:grid-cols-1 gap-4",
                 for project in PROJECTS.iter().take(6) {
                     div { class: "border border-fg p-4 hover:bg-[var(--color-purple-light)] transition-scale hover:scale-110 duration-100",
                         div { class: "flex justify-between items-start mb-2",

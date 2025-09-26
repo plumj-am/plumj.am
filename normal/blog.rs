@@ -135,11 +135,11 @@ fn find_post_with_index(slug: &str) -> Option<(&'static Post, usize)> {
 pub fn BlogList() -> Element {
     rsx! {
         div { class: "w-full py-8",
-            div { class: "grid grid-cols-1 md:grid-cols-2 gap-4",
+            div { class: "grid grid-cols-1 md:grid-cols-2 gap-4 px-4 lg:px-0",
                 for (i, post) in posts().iter().enumerate() {
                     Link {
                         to: Route::BlogPost { slug: post.slug.clone() },
-                        div { class: "border border-fg p-4 hover:bg-purple-light transition-scale hover:scale-110 duration-100",
+                        div { class: "border border-fg p-4 hover:bg-purple-light transition-scale hover:scale-105 lg:hover:scale-110 duration-100 hover:z-10",
                             div { class: "mb-1",
                                 div { class: "flex justify-between",
                                     h1 { class: "text-xl font-semibold text-fg mb-3",

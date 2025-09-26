@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn Contact() -> Element {
     rsx! {
-        div { class: "h-full w-full mt-6 gap-2 flex flex-col",
+        div { class: "h-full w-full my-6 gap-2 flex flex-col px-4 lg:px-0",
             p { class: "mb-2",
                 "Matrix is my preferred way of communicating but feel free to reach out via Email or Xitter too!"
             }
