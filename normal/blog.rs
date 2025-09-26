@@ -108,7 +108,7 @@ fn MarkdownContent(content: String) -> Element {
 
 #[rustfmt::skip]
 static POSTS: &[&str] = &[
-    include_str!("../posts/is-this-thing-on.md")
+    include_str!("posts/is-this-thing-on.md")
 ];
 
 fn posts() -> &'static [Post] {

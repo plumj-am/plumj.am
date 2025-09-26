@@ -105,6 +105,7 @@
             ./common/assets
             ./normal/input.css
             ./normal/favicon.ico
+            ./normal/posts
             ./nerd/input.css
             ./nerd/favicon.ico
     			];

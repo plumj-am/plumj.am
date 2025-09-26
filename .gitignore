@@ -1,12 +1,17 @@
-# Build
-target/
-docs/
-*/gen-tailwind.css
+*
+!.gitignore
 
-# Direnv
-.direnv/
-.envrc
+# SOURCES
+!Cargo.*
+!normal/
+!normal/**
+!nerd/
+!nerd/**
 
-# Misc
-mprocs.log
-IDEAS.md
+# TOOLS
+!flake.*
+!rust-toolchain.toml
+
+# DOCS
+!CHANGELOG.md
+!README.md
