@@ -30,13 +30,13 @@ dx check --package normal
 
 # Build both versions.
 print "Building nerd version..."
-dx build --package nerd # Can't build for release until wasm-opt issue is fixed...
+dx build --release --package nerd
 mkdir nerd_dist
 cp --recursive target/dx/nerd/debug/web/public/* nerd_dist/
 cp nerd_dist/index.html nerd_dist/404.html
 
 print "Building normal version..."
-dx build --package normal # Can't build for release until wasm-opt issue is fixed...
+dx build --release --package normal
 mkdir normal_dist
 cp --recursive target/dx/normal/debug/web/public/* normal_dist/
 cp normal_dist/index.html normal_dist/404.html
@@ -59,19 +59,20 @@ if ($host | is-empty) {
     rsync -avz --delete normal_dist/ $"($user)@($host):/var/www/site/"
 }
 
-# Cleanup
+# Cleanup.
 rm -rf nerd_dist normal_dist
 
-# Commit and tag
+# Commit and tag.
 print "Creating release commit..."
 jj commit -m $"chore: Release v($new_version)"
 jj git export
 git tag -f $"v($new_version)" --annotate --message $"v($new_version)"
 
-# Optional: push to git
+# Optional: Push changes.
 let should_push = (["yes", "no"] | input list "Push to git remote?")
 if ($should_push == "yes") {
-    git push origin HEAD:master
+    jj bookmark set master --revision=@
+    jj push
     git push origin $"v($new_version)"
 }
 
