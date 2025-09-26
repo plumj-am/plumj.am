@@ -16,14 +16,13 @@ use project::Project;
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
 enum Route {
-	#[nest("/nerd")]
-		#[layout(Layout)]
-		#[route("/")]
-		Home {},
-		#[route("/project/:name")]
-		Project { name: String },
-		#[route("/:..route")]
-		PageNotFound { route: Vec<String> },
+	#[layout(Layout)]
+	#[route("/")]
+	Home {},
+	#[route("/project/:name")]
+	Project { name: String },
+	#[route("/:..route")]
+	PageNotFound { route: Vec<String> },
 }
 
 fn main() {
