@@ -1,3 +1,24 @@
+<a id="v0.14.0"></a>
+## [v0.14.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.0) - 2025-09-26
+
+## Builds
+- **deps**: bump actions/checkout from 4 to 5 ([dependabot[bot]](https://github.com/plumj-am/plumj.am/commit/e45fe761498d6d7a2820be02f878b8f303a1351e))
+
+## Chores
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/143b13948e5fdb00caa9cb94cac73740d9916e41))
+- Improved `.gitignore`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/b02d7cbbde4cc63ca5cd7f5807dbc4fecd888f90))
+- Release v0.14.0 ([PlumJam](https://github.com/plumj-am/plumj.am/commit/68bf62aa86b5d386f938a2e27a475c68a5f50403))
+
+## Commits
+- Add blog page and first post. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/37249ec93384cbe4a64e8c3d2ff1fb4cdb6ea4c4))
+- 081d7d4: normal.home: Transparent logo and add copy email button. (PlumJam)
+- 9cbb26a: normal.layout: Add bounce animation to logo in footer. (PlumJam)
+- 0a0980f: normal.contact: Use data email and fix copy email button. (PlumJam)
+- 5b57095: normal.blog: Move posts to normal/ and add path to flake. (PlumJam)
+
+[Changes][v0.14.0]
+
+
 <a id="v0.13.0"></a>
 ## [v0.13.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.13.0) - 2025-09-26
 
@@ -326,6 +347,7 @@
 [Changes][v0.1.0]
 
 
+[v0.14.0]: https://github.com/plumj-am/plumj.am/compare/v0.13.0...v0.14.0
 [v0.13.0]: https://github.com/plumj-am/plumj.am/compare/v0.12.1...v0.13.0
 [v0.12.1]: https://github.com/plumj-am/plumj.am/compare/v0.12.0...v0.12.1
 [v0.12.0]: https://github.com/plumj-am/plumj.am/compare/v0.11.0...v0.12.0
