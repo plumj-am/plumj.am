@@ -50,13 +50,14 @@ if ($host | is-empty) {
 } else {
     print "Deploying to server..."
 
-    # Deploy nerd version to /nerd/ subdirectory.
-    print "   Deploying nerd version..."
-    rsync -avz --delete nerd_dist/ $"($user)@($host):/var/www/site/nerd/"
-
     # Deploy normal version to root.
     print "   Deploying normal version..."
     rsync -avz --delete normal_dist/ $"($user)@($host):/var/www/site/"
+
+    # Deploy nerd version to nerd/ subdirectory.
+    # Last to prevent the normal deployment from deleting the sub-directory.
+    print "   Deploying nerd version..."
+    rsync -avz --delete nerd_dist/ $"($user)@($host):/var/www/site/nerd/"
 }
 
 # Cleanup.
