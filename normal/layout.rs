@@ -58,7 +58,7 @@ fn Navbar() -> Element {
                     { let is_active = check_route_active(&link.route);
                     rsx! {
                     Link { class: format!(
-                            "group flex items-center justify-center w-full h-full border-fg hover:bg-[var(--color-hover)] transition-scale duration-100 hover:scale-120 hover:shadow-[inset_0_0_0_1px_var(--color-fg)] hover:border-0 border-r-1 {}",
+                            "group flex items-center justify-center w-full h-full border-fg hover:bg-[var(--color-hover)] transition-scale duration-100 hover:scale-120 hover:shadow-[inset_0_0_0_1px_var(--color-fg)] hover:border-0 border-r-1 hover:z-10 {}",
                             if is_active { "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-fg border-r-1"} else { "" }
                         ),
                         active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-fg border-r-1",
