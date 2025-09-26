@@ -76,9 +76,8 @@ fn Navbar() -> Element {
 #[component]
 fn Footer() -> Element {
     rsx! {
-        // TODO: Better indicate that the page bottom has not been reached.
-        // Shadows don't seem to work on this div for some reason.
         div { class: "z-1000 fixed bottom-0 left-0 right-0 bg-bg group flex items-center justify-center h-18 sm:h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
+             style: "box-shadow: 0 -12px 30px 0px var(--color-bg);",
             p { class: "sm:text-xs flex flex-col sm:flex-row items-center",
                 span { class: "md:group-hover:translate-x-[-20px] transition-translate duration-300",
                     "Copyright © 2025-present"
