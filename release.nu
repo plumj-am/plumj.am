@@ -65,7 +65,7 @@ rm -rf nerd_dist normal_dist
 
 # Commit and tag.
 print "Creating release commit..."
-jj commit -m $"chore: Release v($new_version)"
+jj commit -m $"release: `v($new_version)`."
 jj git export
 git tag -f $"v($new_version)" --annotate --message $"v($new_version)"
 
