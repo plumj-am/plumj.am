@@ -201,6 +201,7 @@ pub fn BlogPost(slug: String) -> Element {
                     }
                     article { class: "border-x border-fg px-4 py-6",
                         MarkdownContent { content: &post.content }
+                        Credits {}
                     }
                     div { class: "group border border-fg p-4 hover:bg-purple-light hover:scale-105 transition-all duration-100",
                         Link { class: "text-fg",
@@ -233,5 +234,43 @@ pub fn BlogPost(slug: String) -> Element {
                 }
             }
         },
+    }
+}
+
+#[component]
+fn Credits() -> Element {
+    rsx! {
+        div {class: "mt-8 w-full",
+        hr { class: "opacity-20" }
+            p { class: "mt-8 mb-4 flex flex-col",
+                "You can find me on..."
+                // TODO: I really need to stop repeating this everywhere.
+                p { class: "mt-2",
+                    "Xitter: "
+                    Link { class: "ml-2 hover:text-purple-light opacity-80 hover:opacity-100",
+                        to: "https://x.com/plumj_am",
+                        "@plumj_am"
+                    }
+                }
+                p { "GitHub: "
+                    Link { class: "ml-2 hover:text-purple-light opacity-80 hover:opacity-100",
+                        to: "https://github.com/plumj-am",
+                        "plumj-am"
+                    }
+                }
+                p { "Forgejo:"
+                    Link { class: "ml-2 hover:text-purple-light opacity-80 hover:opacity-100",
+                        to: "https://git.plumj.am/plumjam",
+                        "plumjam"
+                    }
+                }
+                p { "Matrix: "
+                    Link { class: "ml-2 hover:text-purple-light opacity-80 hover:opacity-100",
+                        to: "https://matrix.to/#/@plumjam:plumj.am",
+                        "@plumjam:plumj.am"
+                    }
+                }
+            }
+        }
     }
 }
