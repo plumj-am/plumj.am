@@ -1,10 +1,15 @@
 #![forbid(unsafe_code)]
 
+mod blog;
 mod contact;
 mod home;
 mod layout;
 mod projects;
 
+use blog::{
+    BlogList,
+    BlogPost,
+};
 use contact::Contact;
 use dioxus::prelude::*;
 use home::Home;
@@ -19,6 +24,8 @@ enum Route {
 	Home {},
 	#[route("/blog")]
 	Blog {},
+	#[route("/blog/:slug")]
+	BlogPost { slug: String },
 	#[route("/projects")]
 	Projects {},
 	#[route("/contact")]
@@ -46,7 +53,7 @@ fn App() -> Element {
 
 #[component]
 fn Blog() -> Element {
-    rsx! { div {}}
+    rsx! { BlogList {} }
 }
 
 #[component]

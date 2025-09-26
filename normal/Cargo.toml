@@ -14,9 +14,10 @@ path = "main.rs"
 workspace = true
 
 [dependencies]
-common.workspace  = true
-dioxus.workspace  = true
-web-sys.workspace = true
+common.workspace = true
+dioxus.workspace = true
+
+serde_yaml = "0.9"
 
 [features]
 default = [ "web" ]
