@@ -1,3 +1,23 @@
+<a id="v0.14.4"></a>
+## [v0.14.4](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.4) - 2025-09-26
+
+## Documentation
+- Update `README`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/0d81fe863634ca0b6d3880458a594e9fa882cbca))
+
+## Builds
+- Update automated release commit messages. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/f617f7d588015ab6a0b8de32b7e9e127633f64ac))
+
+## Chores
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/3c54ed49c357269d76e4212f019bd37cf9e30701))
+
+## Commits
+- Add publish script and blog template. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/05af9a7edcf138a85207b199a505f274162f11ea))
+- efde6b9: normal.blog: Add credits to blog posts. (PlumJam)
+- `v0.14.4`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/66e87f6ae15c4e1ad54fd9927218a05bf344bcca))
+
+[Changes][v0.14.4]
+
+
 <a id="v0.14.3"></a>
 ## [v0.14.3](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.3) - 2025-09-26
 
@@ -393,6 +413,7 @@
 [Changes][v0.1.0]
 
 
+[v0.14.4]: https://github.com/plumj-am/plumj.am/compare/v0.14.3...v0.14.4
 [v0.14.3]: https://github.com/plumj-am/plumj.am/compare/v0.14.2...v0.14.3
 [v0.14.2]: https://github.com/plumj-am/plumj.am/compare/v0.14.1...v0.14.2
 [v0.14.1]: https://github.com/plumj-am/plumj.am/compare/v0.14.0...v0.14.1
