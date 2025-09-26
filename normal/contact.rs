@@ -1,3 +1,4 @@
+use common::data::ME;
 use dioxus::prelude::*;
 
 #[component]
@@ -14,14 +15,18 @@ pub fn Contact() -> Element {
                 span { i { class: "fa fa-envelope w-4 mr-2" } }
                 "Email: \u{00A0}", // Whitespace for alignment.
                 Link {
-                    to: "mailto:contact@plumj.am",
+                    to: "mailto:{ME.email}",
                     span { class: "underline ml-2 opacity-70 hover:text-purple-light hover:opacity-100 transition-all duration-100",
-                        "contact@plumj.am"
+                        {ME.email}
                     }
                 }
                 button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
                     onclick: move |_| {
-                        let _ = document::eval("navigator.clipboard.writeText('contact@plumj.am')");
+                        let _ = document::eval(&format!(
+                                "navigator.clipboard.writeText('{}')",
+                                ME.email
+                            )
+                        );
                     },
                     title: "Copy email address",
                     i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }
