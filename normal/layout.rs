@@ -50,7 +50,7 @@ fn Navbar() -> Element {
                 for link in NAV_LINKS {
                     div {
                         Link { class: "group flex items-center justify-center w-full h-full border-fg hover:bg-[var(--color-hover)] transition-scale duration-100 hover:scale-120 hover:shadow-[inset_0_0_0_1px_var(--color-fg)] hover:border-0 border-r-1",
-                            active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-black",
+                            active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-fg border-r-1",
                             to: link.route.clone(),
                             p { class: if curr_route == link.route { "scale-150" } else { "group-hover:scale-150 transition-scale duration-100" },
                                 "{link.text}"
