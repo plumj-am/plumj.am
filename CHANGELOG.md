@@ -1,3 +1,35 @@
+<a id="v0.14.3"></a>
+## [v0.14.3](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.3) - 2025-09-26
+
+## Chores
+- Release v0.14.3 ([PlumJam](https://github.com/plumj-am/plumj.am/commit/435e0c9547d2eae97ae29d0b47652b6b01883e1f))
+
+## Commits
+- Make `long_desc` optional. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/2c8ebaace973c75725e66ea82e08e7b54f7277ba))
+- 5c048ae: normal.projects: Show less projects per line. (PlumJam)
+- 637a52e: normal.layout: Increase z-index of hovered nav item. (PlumJam)
+- bdbab3d: normal.blog: Add `edited` field and improve "not found" page. (PlumJam)
+
+[Changes][v0.14.3]
+
+
+<a id="v0.14.2"></a>
+## [v0.14.2](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.2) - 2025-09-26
+
+## Builds
+- Deploy nerd version last to avoid deletion. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/2683917b74c7a761af70cc76a48ed7d22b7979bb))
+
+## Chores
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/5806850e9c1e0c32b00836c39465d2b6965c3d70))
+- Revert `.gitignore` for Dioxus hot-reloading. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/fd94a744fd8df54e7b563e4acbf20659496ea467))
+- Release v0.14.2 ([PlumJam](https://github.com/plumj-am/plumj.am/commit/1850c7e87da79b8d4cde50d6b49ff52409929083))
+
+## Commits
+- Improve responsiveness down to 320px screen width. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/feef480f378f0d298215139dff1c7ad9386236eb))
+
+[Changes][v0.14.2]
+
+
 <a id="v0.14.1"></a>
 ## [v0.14.1](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.1) - 2025-09-26
 
@@ -361,6 +393,8 @@
 [Changes][v0.1.0]
 
 
+[v0.14.3]: https://github.com/plumj-am/plumj.am/compare/v0.14.2...v0.14.3
+[v0.14.2]: https://github.com/plumj-am/plumj.am/compare/v0.14.1...v0.14.2
 [v0.14.1]: https://github.com/plumj-am/plumj.am/compare/v0.14.0...v0.14.1
 [v0.14.0]: https://github.com/plumj-am/plumj.am/compare/v0.13.0...v0.14.0
 [v0.13.0]: https://github.com/plumj-am/plumj.am/compare/v0.12.1...v0.13.0
