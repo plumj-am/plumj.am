@@ -1,30 +1,13 @@
-*
-!.gitignore
+# Build
+target/
+docs/
+*/gen-tailwind.css
 
-# SOURCES
-!normal/
-!nerd/
-!common/
+# Direnv
+.direnv/
+.envrc
 
-# BUILD
-!flake.nix
-!flake.lock
-!rust-toolchain.toml
-!.cargo/
-!.cargo/config.toml
-!Cargo.lock
-!Cargo.toml
-
-# FORMATTERS
-!.rustfmt.toml
-!.taplo.toml
-
-# LINTERS
-!.clippy.toml
-
-# DOCS
-!CHANGELOG.md
-!README.md
-
-# SCRIPTS
-!release.nu
+# Misc
+mprocs.log
+IDEAS.md
+STATE.md
