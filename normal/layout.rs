@@ -32,7 +32,7 @@ pub fn Layout() -> Element {
     rsx! {
         div { class: "min-h-screen flex flex-col min-w-full",
             Navbar {}
-            main { class: "flex flex-col grow max-w-5xl w-full mx-auto",
+            main { class: "flex flex-col grow max-w-5xl w-full mx-auto mb-8",
                 Outlet::<Route> {}
             }
             Footer {}
@@ -76,7 +76,9 @@ fn Navbar() -> Element {
 #[component]
 fn Footer() -> Element {
     rsx! {
-        div { class: "group flex items-center justify-center h-18 sm:h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
+        // TODO: Better indicate that the page bottom has not been reached.
+        // Shadows don't seem to work on this div for some reason.
+        div { class: "z-1000 fixed bottom-0 left-0 right-0 bg-bg group flex items-center justify-center h-18 sm:h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
             p { class: "sm:text-xs flex flex-col sm:flex-row items-center",
                 span { class: "md:group-hover:translate-x-[-20px] transition-translate duration-300",
                     "Copyright © 2025-present"
