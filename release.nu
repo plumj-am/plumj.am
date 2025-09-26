@@ -32,13 +32,13 @@ dx check --package normal
 print "Building nerd version..."
 dx build --release --package nerd
 mkdir nerd_dist
-cp --recursive target/dx/nerd/debug/web/public/* nerd_dist/
+cp --recursive target/dx/nerd/release/web/public/* nerd_dist/
 cp nerd_dist/index.html nerd_dist/404.html
 
 print "Building normal version..."
 dx build --release --package normal
 mkdir normal_dist
-cp --recursive target/dx/normal/debug/web/public/* normal_dist/
+cp --recursive target/dx/normal/release/web/public/* normal_dist/
 cp normal_dist/index.html normal_dist/404.html
 
 # Deploy to server.
@@ -71,7 +71,7 @@ git tag -f $"v($new_version)" --annotate --message $"v($new_version)"
 # Optional: Push changes.
 let should_push = (["yes", "no"] | input list "Push to git remote?")
 if ($should_push == "yes") {
-    jj bookmark set master --revision=@
+    jj tug
     jj push
     git push origin $"v($new_version)"
 }
