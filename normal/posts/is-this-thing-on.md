@@ -1,6 +1,7 @@
 ---
 title: "Is this thing on?"
 date: "2025-09-26"
+edited: "2025-09-26"
 slug: "is-this-thing-on"
 brief: "Markdown test blog."
 ---

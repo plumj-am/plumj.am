@@ -12,6 +12,7 @@ use super::Route;
 pub struct Post {
     pub title:   String,
     pub date:    String,
+    pub edited:  String,
     pub slug:    String,
     pub brief:   String,
     pub author:  String,
@@ -24,6 +25,7 @@ impl Post {
         Some(Self {
             title:   frontmatter.get("title")?.as_str()?.to_owned(),
             date:    frontmatter.get("date")?.as_str()?.to_owned(),
+            edited:  frontmatter.get("edited")?.as_str()?.to_owned(),
             slug:    frontmatter.get("slug")?.as_str()?.to_owned(),
             brief:   frontmatter.get("brief")?.as_str()?.to_owned(),
             author:  String::from(ME.name),
@@ -182,6 +184,9 @@ pub fn BlogPost(slug: String) -> Element {
                         div { class: "text-md text-fg flex items-end justify-between",
                             p { class: "opacity-60",
                                 "{post.date} "
+                                span { class: "text-xs opacity-40",
+                                    "(last edit: {post.edited})"
+                                }
                             }
                             span { class: "group flex items-center",
                                 img { class: "w-4 mr-2 group-hover:scale-400 group-hover:translate-x-[-30px] transition-all duration-300 animate-bounce",
@@ -208,17 +213,22 @@ pub fn BlogPost(slug: String) -> Element {
         },
         None => {
             rsx! {
-                div { class: "flex flex-col gap-6 py-6 text-center",
-                    h1 { class: "text-2xl font-bold text-fg",
-                        "Post Not Found"
+                div { class: "flex flex-col py-6",
+                    div { class: "border border-fg p-4 relative",
+                        div { class: "flex justify-between items-start",
+                            h1 { class: "text-3xl font-bold text-fg mb-3",
+                                "Post Not Found :("
+                            }
+                        }
                     }
-                    p { class: "text-fg opacity-70 mb-4",
-                        "The post doesn't exist."
+                    article { class: "border-x border-fg px-4 py-6",
+                        "This post doesn't exist..."
                     }
-                    Link {
-                        class: "text-fg hover:opacity-70",
-                        to: Route::Blog {},
-                        "← Back to the blog list."
+                    div { class: "group border border-fg p-4 hover:bg-purple-light hover:scale-105 transition-all duration-100",
+                        Link { class: "text-fg",
+                            to: Route::Blog {},
+                            "← Back to the blog list."
+                        }
                     }
                 }
             }
