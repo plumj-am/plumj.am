@@ -71,7 +71,7 @@ fn Footer() -> Element {
                 span { class: "group-hover:translate-x-[-20px] transition-translate duration-300",
                     "Copyright © 2025-present"
                 }
-                img { class: "h-4 px-2 group-hover:scale-500 group-hover:translate-y-[-40px] transition-translate-y duration-300",
+                img { class: "h-4 px-2 group-hover:scale-500 group-hover:translate-y-[-40px] transition-translate-y duration-300 animate-bounce",
                     src: LOGO_NO_BG
                 }
                 span { class: "group-hover:translate-x-[20px] transition-translate duration-300",
