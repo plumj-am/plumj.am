@@ -1,9 +1,11 @@
 #![forbid(unsafe_code)]
 
+mod contact;
 mod home;
 mod layout;
 mod projects;
 
+use contact::Contact;
 use dioxus::prelude::*;
 use home::Home;
 use layout::Layout;
@@ -44,11 +46,6 @@ fn App() -> Element {
 
 #[component]
 fn Blog() -> Element {
-    rsx! { div {}}
-}
-
-#[component]
-fn Contact() -> Element {
     rsx! { div {}}
 }
 
