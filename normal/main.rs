@@ -2,10 +2,12 @@
 
 mod home;
 mod layout;
+mod projects;
 
 use dioxus::prelude::*;
 use home::Home;
 use layout::Layout;
+use projects::Projects;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -42,11 +44,6 @@ fn App() -> Element {
 
 #[component]
 fn Blog() -> Element {
-    rsx! { div {}}
-}
-
-#[component]
-fn Projects() -> Element {
     rsx! { div {}}
 }
 
