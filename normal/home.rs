@@ -1,4 +1,5 @@
 use common::data::{
+    LOGO_NO_BG,
     ME,
     PROJECTS,
 };
@@ -19,17 +20,28 @@ fn Profile() -> Element {
     rsx! {
         div { class: "flex flex-col gap-6 lg:w-1/2",
             div { class: "text-center lg:text-left",
-                img { class: "w-32 h-32 mx-auto lg:mx-0 mb-4",
-                    src: "{ME.image_url}",
+                img { class: "w-32 mx-auto lg:mx-0 mt-2 mb-4 hover:scale-120 transition-all duration-300",
+                    src: LOGO_NO_BG,
                     alt: "{ME.name}"
                 }
-                h1 { class: "text-3xl font-bold mb-2 text-fg",
+                h1 { class: "text-3xl font-bold mb-2 text-purple-light",
                     "{ME.name}"
                 }
                 p { class: "text-fg opacity-70",
                     a { class: "hover:opacity-100 transition-opacity",
                         href: "mailto:{ME.email}",
                         "{ME.email}"
+                    }
+                    button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
+                        onclick: move |_| {
+                            let _ = document::eval(&format!(
+                                    "navigator.clipboard.writeText('{}')",
+                                    ME.email
+                                )
+                            );
+                        },
+                        title: "Copy email address",
+                        i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }
                     }
                 }
             }
@@ -55,7 +67,7 @@ fn Profile() -> Element {
 
             div { class: "flex gap-4 justify-center lg:justify-start",
                 for social in ME.socials {
-                    a { class: "group flex items-center text-fg hover:text-purple-dark transition-all duration-100 overflow-hidden p-1",
+                    a { class: "group flex items-center text-fg hover:text-purple-light transition-all duration-100 overflow-hidden p-1",
                         href: "{social.url}",
                         target: "_blank",
                         rel: "noopener noreferrer",
