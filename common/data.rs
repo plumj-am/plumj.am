@@ -29,7 +29,7 @@ pub static ME: Me = Me {
     image_url:  "https://github.com/plumj-am.png",
     email:      "contact@plumj.am",
     location:   "Poland",
-    langs:      &["Rust", "Typescript", "Svelte", "Go", "Lua", "NASM", "FASM"],
+    langs:      &["Rust", "Typescript", "Svelte", "Go", "NASM", "FASM"],
     scripting:  &["Nushell", "Bash", "Python"],
     frameworks: &[
         "Dioxus (Rust)",

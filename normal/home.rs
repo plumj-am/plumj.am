@@ -27,7 +27,7 @@ fn Profile() -> Element {
                 h1 { class: "text-3xl font-bold mb-2 text-purple-light",
                     "{ME.name}"
                 }
-                p { class: "text-fg opacity-70",
+                p { class: "text-fg opacity-70 mb-4",
                     a { class: "hover:opacity-100 transition-opacity",
                         href: "mailto:{ME.email}",
                         "{ME.email}"
@@ -44,9 +44,25 @@ fn Profile() -> Element {
                         i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }
                     }
                 }
+                hr { class: "opacity-10" }
+                div { class: "px-2 md:px-0 max-w-prose",
+                    p { class: "text-fg mt-4",
+                        "Self-taught software developer since 2024."
+                    }
+                    p { class: "text-fg mt-4",
+                        "Trying to shift my focus away from the web dev world..."
+                    }
+                    p { class: "text-fg mt-4",
+                        "Currently enjoying and learning Rust, Nix and x86 assembler (NASM/FASM)."
+                    }
+                    p { class: "text-fg mt-4 mb-4",
+                        "If you're looking for help with a project or a new teammate, shoot me an email! :]"
+                    }
+                }
+                hr { class: "opacity-10" }
             }
 
-            div { class: "grid grid-cols-1 sm:grid-cols-2 gap-6",
+            div { class: "flex flex-wrap gap-8 sm:gap-32 px-2 md:px-0 mx-auto lg:mx-0",
                 div {
                     h3 { class: "font-semibold mb-2 text-fg", "Languages" }
                     ul { class: "text-sm text-fg opacity-80 space-y-1",
@@ -58,13 +74,13 @@ fn Profile() -> Element {
                 div {
                     h3 { class: "font-semibold mb-2 text-fg", "Frameworks" }
                     ul { class: "text-sm text-fg opacity-80 space-y-1",
-                        for framework in ME.frameworks.iter().take(4) {
+                        for framework in ME.frameworks {
                             li { "• {framework}" }
                         }
                     }
                 }
             }
-
+            hr { class: "opacity-10" }
             div { class: "flex gap-4 justify-center lg:justify-start",
                 for social in ME.socials {
                     a { class: "group flex items-center text-fg hover:text-purple-light transition-all duration-100 overflow-hidden p-1",
@@ -72,7 +88,7 @@ fn Profile() -> Element {
                         target: "_blank",
                         rel: "noopener noreferrer",
                         i { class: "{social.icon} text-xl" }
-                        span { class: "ml-1 max-w-0 group-hover:max-w-xs transition-all duration-100 whitespace-nowrap opacity-0 group-hover:opacity-100",
+                        span { class: "ml-2 hidden sm:flex transition-all duration-100 whitespace-nowrap",
                             "{social.name}"
                         }
                     }
