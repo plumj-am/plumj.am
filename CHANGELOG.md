@@ -1,3 +1,16 @@
+<a id="v0.14.6"></a>
+## [v0.14.6](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.6) - 2025-09-27
+
+## Reverts
+- Unpin and remove shadows from navigation and footer. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/144c71488cd004506d2a2b7c0181bcace4125e55))
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/8d385d24458f980df20bc6cd45bc2a77e79ac75d))
+- `v0.14.6`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/55d11619a305b491313860689e68f34329c61944))
+
+[Changes][v0.14.6]
+
+
 <a id="v0.14.5"></a>
 ## [v0.14.5](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.5) - 2025-09-27
 
@@ -426,6 +439,7 @@
 [Changes][v0.1.0]
 
 
+[v0.14.6]: https://github.com/plumj-am/plumj.am/compare/v0.14.5...v0.14.6
 [v0.14.5]: https://github.com/plumj-am/plumj.am/compare/v0.14.4...v0.14.5
 [v0.14.4]: https://github.com/plumj-am/plumj.am/compare/v0.14.3...v0.14.4
 [v0.14.3]: https://github.com/plumj-am/plumj.am/compare/v0.14.2...v0.14.3
