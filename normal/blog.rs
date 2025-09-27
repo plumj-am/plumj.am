@@ -148,7 +148,7 @@ pub fn BlogList() -> Element {
                                         "{post.title}"
                                     }
                                     p { class: "text-fg opacity-60",
-                                        "#{(i + 1).to_string()}"
+                                        "#{(posts().len() - i).to_string()}"
                                     }
                                 }
                                 p { class: "text-fg opacity-70 mb-3",
@@ -178,7 +178,7 @@ pub fn BlogPost(slug: String) -> Element {
                                 "{post.title}"
                             }
                             p { class: "text-lg text-fg opacity-60",
-                                "#{index + 1}"
+                                "#{posts().len() - index}"
                             }
                         }
                         div { class: "text-md text-fg flex items-end justify-between",
