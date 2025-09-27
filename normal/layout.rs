@@ -59,9 +59,9 @@ fn Navbar() -> Element {
                     rsx! {
                     Link { class: format!(
                             "group flex items-center justify-center w-full h-full border-fg hover:bg-[var(--color-hover)] transition-scale duration-100 hover:scale-120 hover:shadow-[inset_0_0_0_1px_var(--color-fg)] hover:border-0 border-r-1 hover:z-10 {}",
-                            if is_active { "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-fg border-r-1"} else { "" }
+                            if is_active { "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] text-base-light border-fg border-r-1"} else { "" }
                         ),
-                        active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] hover:cursor-default text-base-light border-fg border-r-1",
+                        active_class: "text-[var(--color-fg)] bg-[var(--color-active)] hover:bg-[var(--color-active)] text-base-light border-fg border-r-1",
                         to: link.route.clone(),
                         p { class: if is_active { "sm:scale-150" } else { "sm:group-hover:scale-150 transition-scale duration-100" },
                             "{link.text}"
