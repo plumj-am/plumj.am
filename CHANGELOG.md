@@ -1,3 +1,16 @@
+<a id="v0.14.5"></a>
+## [v0.14.5](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.5) - 2025-09-27
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/d7b2575359ba24a878426ecc93b323ef37d5ba6e))
+- d2ac7bb: normal.layout: Pin the footer to the bottom of the page. (PlumJam)
+- fc840d1: normal.layout: Add shadow above footer. (PlumJam)
+- 9c01f8e: normal.layout: Pin the navigation to the top of the page. (PlumJam)
+- `v0.14.5`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/5b47f945d17b0f8e47478a3a4af3953ba5ca53a2))
+
+[Changes][v0.14.5]
+
+
 <a id="v0.14.4"></a>
 ## [v0.14.4](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.4) - 2025-09-26
 
@@ -413,6 +426,7 @@
 [Changes][v0.1.0]
 
 
+[v0.14.5]: https://github.com/plumj-am/plumj.am/compare/v0.14.4...v0.14.5
 [v0.14.4]: https://github.com/plumj-am/plumj.am/compare/v0.14.3...v0.14.4
 [v0.14.3]: https://github.com/plumj-am/plumj.am/compare/v0.14.2...v0.14.3
 [v0.14.2]: https://github.com/plumj-am/plumj.am/compare/v0.14.1...v0.14.2
