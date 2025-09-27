@@ -34,6 +34,11 @@ impl Post {
     }
 }
 
+// TODO: I would like to improve the parsing capabilities. Not to allow more
+// formatting options but just to make the process better/faster.
+
+// TODO: Handle missing details. Currently it causes all blogs to disappear.
+/// Extract blog details from frontmatter in `yaml` format.
 fn parse_frontmatter(markdown: &str) -> Option<(serde_yaml::Value, &str)> {
     let markdown = markdown.strip_prefix("---")?;
     let (frontmatter, content) = markdown.split_once("\n---\n")?;
@@ -41,70 +46,171 @@ fn parse_frontmatter(markdown: &str) -> Option<(serde_yaml::Value, &str)> {
     Some((frontmatter, content.trim()))
 }
 
-fn extract_code_blocks(content: &str) -> Vec<(&str, Option<&str>)> {
-    let mut result = Vec::new();
+/// Extract code blocks from markdown content.
+/// Returns a vector of `(content, language)` tuples for code blocks found.
+fn parse_code_blocks(content: &str) -> Vec<(usize, usize, &str, Option<&str>)> {
+    let mut blocks = Vec::new();
     let mut pos = 0;
 
+    // Find all ``` code blocks in the content.
     while let Some(start) = content[pos..].find("```") {
         let block_start = pos.saturating_add(start);
+        let content_start = block_start.saturating_add(3); // Skip opening ```.
 
-        // Add text before code block.
-        if block_start > pos {
-            result.push((&content[pos..block_start], None));
-        }
-
-        let content_start = block_start.saturating_add(3);
+        // Look for closing ```.
         if let Some(end) = content[content_start..].find("```") {
             let block_end = content_start.saturating_add(end);
             let block_content = &content[content_start..block_end];
 
+            // Check if first line specificies a language.
             if let Some(newline) = block_content.find('\n') {
                 let lang = block_content[..newline].trim();
                 let code = &block_content[newline.saturating_add(1)..];
-                result.push((code, (!lang.is_empty()).then_some(lang)));
+                blocks.push((
+                    block_start,
+                    block_end.saturating_add(3), // Include closing ```.
+                    code,
+                    (!lang.is_empty()).then_some(lang),
+                ));
             } else {
-                result.push((block_content, None));
+                // No newline, treat entire content as code with no language.
+                blocks.push((
+                    block_start,
+                    block_end.saturating_add(3),
+                    block_content,
+                    None,
+                ));
             }
-            pos = block_end.saturating_add(3);
+            pos = block_end.saturating_add(3); // Continue after closing ```.
         } else {
-            result.push((&content[block_start..], None));
+            // No closing ```, stop parsing.
             break;
         }
     }
 
-    if pos < content.len() {
-        result.push((&content[pos..], None));
+    blocks
+}
+
+/// Extract image references from markdown content.
+/// Returns a vector of `(start, end, src)` tuples for images found using
+/// `[[["path"]]]` syntax.
+fn parse_images(content: &str) -> Vec<(usize, usize, &str)> {
+    let mut images = Vec::new();
+    let mut pos = 0;
+
+    // Find all `[[["path"]]]` entries in the content.
+    while let Some(start) = content[pos..].find("[[[\"") {
+        let img_start = pos.saturating_add(start);
+        let src_start = img_start.saturating_add(4); // Skip opening `[[["`.
+
+        // Look for closing `"]]]`.
+        if let Some(end) = content[src_start..].find("\"]]]") {
+            let src_end = src_start.saturating_add(end);
+            let img_end = src_end.saturating_add(4); // Include closing `"]]]`.
+            let src = &content[src_start..src_end]; // Extract image path.
+            images.push((img_start, img_end, src));
+            pos = img_end; // Continue after closing `"]]]`.
+        } else {
+            // No closing `"]]]`, skip this opening marker and continue.
+            pos = src_start;
+        }
     }
 
-    result
+    images
 }
 
 #[component]
 fn MarkdownContent(content: String) -> Element {
-    rsx! {
-        { extract_code_blocks(&content).into_iter().filter_map(|(text, lang)| {
-            if text.trim().is_empty() { return None; }
+    let code_blocks = parse_code_blocks(&content);
+    let images = parse_images(&content);
 
-            Some(match lang {
-                // Create a simple, bordered code block.
-                Some(language) => rsx! {
-                    div { class: "mb-2",
-                        div { class: "bg-bg border border-purple border-b-0 px-3 py-1 text-md text-purple-light/70 font-mono",
-                            "{language}"
+    // Create a vector of all content segments with their positions.
+    let mut segments = Vec::new();
+
+    // Add code blocks.
+    for (start, end, code, lang) in code_blocks {
+        segments.push((start, end, "code", code, lang));
+    }
+
+    // Add images.
+    for (start, end, src) in images {
+        segments.push((start, end, "image", src, None));
+    }
+
+    // Sort by position.
+    segments.sort_by_key(|&(start, ..)| start);
+
+    // Split content into rendered segments.
+    let mut elements = Vec::new();
+    let mut last_pos = 0;
+
+    for (start, end, block_type, text, lang) in segments {
+        // Add text before this block.
+        if start > last_pos {
+            let text_content = &content[last_pos..start];
+            if !text_content.trim().is_empty() {
+                elements.push(rsx! {
+                    p { class: "whitespace-pre-wrap text-md text-fg mb-2",
+                        "{text_content}"
+                    }
+                });
+            }
+        }
+
+        // Add the block itself.
+        match block_type {
+            "code" => {
+                elements.push(match lang {
+                    // Create code block with language displayed.
+                    Some(language) => rsx! {
+                        div { class: "mb-2",
+                            div { class: "bg-bg border border-purple border-b-0 px-3 py-1 text-md text-purple-light/70 font-mono",
+                                "{language}"
+                            }
+                            p { class: "whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0",
+                                "{text}"
+                            }
                         }
-                        p { class: "whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0",
+                    },
+                    // All other text as `p` tags.
+                    None => rsx! {
+                        p { class: "whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0 mb-2",
                             "{text}"
                         }
                     }
-                },
-                // All other text as `p` tag.
-                None => rsx! {
-                    p { class: "whitespace-pre-wrap text-md text-fg mb-2",
-                        "{text}"
+                });
+            },
+            "image" => {
+                elements.push(rsx! {
+                    div { class: "mb-2 py-2",
+                        img {
+                            class: "max-w-3/4 max-h-96 h-auto",
+                            src: "{text}",
+                            alt: "{text}"
+                        }
                     }
+                });
+            },
+            _ => {},
+        }
+
+        last_pos = end;
+    }
+
+    // Add any remaining text after markers in bulk.
+    if last_pos < content.len() {
+        let remaining = &content[last_pos..];
+        if !remaining.trim().is_empty() {
+            elements.push(rsx! {
+                p { class: "whitespace-pre-wrap text-md text-fg mb-2",
+                    "{remaining}"
                 }
-            })
-        })}
+            });
+        }
+    }
+
+    rsx! {
+        { elements.into_iter() }
     }
 }
 
