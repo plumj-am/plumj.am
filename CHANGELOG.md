@@ -1,3 +1,17 @@
+<a id="v0.15.0"></a>
+## [v0.15.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.15.0) - 2025-09-27
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/6db5f65f5d295a4c4c354ecc9fcf9fdde9f3dcbf))
+- 99be739: normal.blog: Fix post numbering to ascend from old->new. (PlumJam)
+- 8f0e3b3: normal.layout: Fix cursor when hovering active route. (PlumJam)
+- b09d8aa: normal.home: Add an intro section and tweak appearance. (PlumJam)
+- 487a9cf: normal.blog: Parse and display images in posts. (PlumJam)
+- `v0.15.0`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/aeae534da5d10e77230c0dd3b89b43aa179424ae))
+
+[Changes][v0.15.0]
+
+
 <a id="v0.14.6"></a>
 ## [v0.14.6](https://github.com/plumj-am/plumj.am/releases/tag/v0.14.6) - 2025-09-27
 
@@ -439,6 +453,7 @@
 [Changes][v0.1.0]
 
 
+[v0.15.0]: https://github.com/plumj-am/plumj.am/compare/v0.14.6...v0.15.0
 [v0.14.6]: https://github.com/plumj-am/plumj.am/compare/v0.14.5...v0.14.6
 [v0.14.5]: https://github.com/plumj-am/plumj.am/compare/v0.14.4...v0.14.5
 [v0.14.4]: https://github.com/plumj-am/plumj.am/compare/v0.14.3...v0.14.4
