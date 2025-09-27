@@ -5,6 +5,10 @@ use common::data::{
     ME,
 };
 use dioxus::prelude::*;
+use pulldown_cmark::{
+    Parser,
+    html,
+};
 
 use super::Route;
 
@@ -46,171 +50,38 @@ fn parse_frontmatter(markdown: &str) -> Option<(serde_yaml::Value, &str)> {
     Some((frontmatter, content.trim()))
 }
 
-/// Extract code blocks from markdown content.
-/// Returns a vector of `(content, language)` tuples for code blocks found.
-fn parse_code_blocks(content: &str) -> Vec<(usize, usize, &str, Option<&str>)> {
-    let mut blocks = Vec::new();
-    let mut pos = 0;
-
-    // Find all ``` code blocks in the content.
-    while let Some(start) = content[pos..].find("```") {
-        let block_start = pos.saturating_add(start);
-        let content_start = block_start.saturating_add(3); // Skip opening ```.
-
-        // Look for closing ```.
-        if let Some(end) = content[content_start..].find("```") {
-            let block_end = content_start.saturating_add(end);
-            let block_content = &content[content_start..block_end];
-
-            // Check if first line specificies a language.
-            if let Some(newline) = block_content.find('\n') {
-                let lang = block_content[..newline].trim();
-                let code = &block_content[newline.saturating_add(1)..];
-                blocks.push((
-                    block_start,
-                    block_end.saturating_add(3), // Include closing ```.
-                    code,
-                    (!lang.is_empty()).then_some(lang),
-                ));
-            } else {
-                // No newline, treat entire content as code with no language.
-                blocks.push((
-                    block_start,
-                    block_end.saturating_add(3),
-                    block_content,
-                    None,
-                ));
-            }
-            pos = block_end.saturating_add(3); // Continue after closing ```.
-        } else {
-            // No closing ```, stop parsing.
-            break;
-        }
-    }
-
-    blocks
-}
-
-/// Extract image references from markdown content.
-/// Returns a vector of `(start, end, src)` tuples for images found using
-/// `[[["path"]]]` syntax.
-fn parse_images(content: &str) -> Vec<(usize, usize, &str)> {
-    let mut images = Vec::new();
-    let mut pos = 0;
-
-    // Find all `[[["path"]]]` entries in the content.
-    while let Some(start) = content[pos..].find("[[[\"") {
-        let img_start = pos.saturating_add(start);
-        let src_start = img_start.saturating_add(4); // Skip opening `[[["`.
-
-        // Look for closing `"]]]`.
-        if let Some(end) = content[src_start..].find("\"]]]") {
-            let src_end = src_start.saturating_add(end);
-            let img_end = src_end.saturating_add(4); // Include closing `"]]]`.
-            let src = &content[src_start..src_end]; // Extract image path.
-            images.push((img_start, img_end, src));
-            pos = img_end; // Continue after closing `"]]]`.
-        } else {
-            // No closing `"]]]`, skip this opening marker and continue.
-            pos = src_start;
-        }
-    }
-
-    images
-}
-
 #[component]
 fn MarkdownContent(content: String) -> Element {
-    let code_blocks = parse_code_blocks(&content);
-    let images = parse_images(&content);
+    let parser = Parser::new(&content);
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
 
-    // Create a vector of all content segments with their positions.
-    let mut segments = Vec::new();
-
-    // Add code blocks.
-    for (start, end, code, lang) in code_blocks {
-        segments.push((start, end, "code", code, lang));
-    }
-
-    // Add images.
-    for (start, end, src) in images {
-        segments.push((start, end, "image", src, None));
-    }
-
-    // Sort by position.
-    segments.sort_by_key(|&(start, ..)| start);
-
-    // Split content into rendered segments.
-    let mut elements = Vec::new();
-    let mut last_pos = 0;
-
-    for (start, end, block_type, text, lang) in segments {
-        // Add text before this block.
-        if start > last_pos {
-            let text_content = &content[last_pos..start];
-            if !text_content.trim().is_empty() {
-                elements.push(rsx! {
-                    p { class: "whitespace-pre-wrap text-md text-fg mb-2",
-                        "{text_content}"
-                    }
-                });
-            }
-        }
-
-        // Add the block itself.
-        match block_type {
-            "code" => {
-                elements.push(match lang {
-                    // Create code block with language displayed.
-                    Some(language) => rsx! {
-                        div { class: "mb-2",
-                            div { class: "bg-bg border border-purple border-b-0 px-3 py-1 text-md text-purple-light/70 font-mono",
-                                "{language}"
-                            }
-                            p { class: "whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0",
-                                "{text}"
-                            }
-                        }
-                    },
-                    // All other text as `p` tags.
-                    None => rsx! {
-                        p { class: "whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0 mb-2",
-                            "{text}"
-                        }
-                    }
-                });
-            },
-            "image" => {
-                elements.push(rsx! {
-                    div { class: "mb-2 py-2",
-                        img {
-                            class: "max-w-3/4 max-h-96 h-auto",
-                            src: "{text}",
-                            alt: "{text}"
-                        }
-                    }
-                });
-            },
-            _ => {},
-        }
-
-        last_pos = end;
-    }
-
-    // Add any remaining text after markers in bulk.
-    if last_pos < content.len() {
-        let remaining = &content[last_pos..];
-        if !remaining.trim().is_empty() {
-            elements.push(rsx! {
-                p { class: "whitespace-pre-wrap text-md text-fg mb-2",
-                    "{remaining}"
-                }
-            });
-        }
-    }
+    // Apply custom styling to HTML elements.
+    let styled_html = html_output
+        // Style paragraphs.
+        .replace("<p>", "<p class=\"text-md text-fg mb-6\">")
+        // Style headings with # prefix.
+        .replace("<h1>", "<h1 class=\"text-lg font-semibold text-fg mb-4 mt-6\"># ")
+        .replace("<h2>", "<h2 class=\"text-lg font-semibold text-fg mb-4 mt-6\">## ")
+        .replace("<h3>", "<h3 class=\"text-lg font-semibold text-fg mb-4 mt-6\">### ")
+        .replace("<h4>", "<h4 class=\"text-lg font-semibold text-fg mb-4 mt-6\">#### ")
+        .replace("<h5>", "<h5 class=\"text-lg font-semibold text-fg mb-4 mt-6\">##### ")
+        .replace("<h6>", "<h6 class=\"text-lg font-semibold text-fg mb-4 mt-6\">###### ")
+        // Style links.
+        .replace("<a ", "<a class=\"hover:text-purple-light underline decoration-1 opacity-90 hover:opacity-100\" ")
+        // Style inline code.
+        .replace("<code>", "<code class=\"bg-gray-900/30 rounded-md text-purple-light px-1 py-0.5 font-mono text-sm\">")
+        // Style code blocks.
+        .replace("<pre><code>", "<pre class=\"whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0 mb-2\"><code>")
+        // Style images.
+        .replace("<img ", "<div class=\"mb-2 py-2\"><img class=\"max-w-3/4 max-h-96 h-auto\" ")
+        .replace("<hr />", "<hr class=\"opacity-20 mb-6\"/>")
+        .replace(" />", " /></div>");
 
     rsx! {
-        { elements.into_iter() }
+        div {
+            dangerous_inner_html: "{styled_html}"
+        }
     }
 }
 

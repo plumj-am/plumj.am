@@ -17,7 +17,9 @@ workspace = true
 common.workspace = true
 dioxus.workspace = true
 
-serde_yaml = "0.9"
+pulldown-cmark = { default-features = false, features = [ "html" ], version = "0.13.0" }
+# TODO: check alternatives.
+serde_yaml = "0.9.34+deprecated"
 
 [features]
 default = [ "web" ]
