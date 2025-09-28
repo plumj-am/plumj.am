@@ -38,9 +38,6 @@ impl Post {
     }
 }
 
-// TODO: I would like to improve the parsing capabilities. Not to allow more
-// formatting options but just to make the process better/faster.
-
 // TODO: Handle missing details. Currently it causes all blogs to disappear.
 /// Extract blog details from frontmatter in `yaml` format.
 fn parse_frontmatter(markdown: &str) -> Option<(serde_yaml_bw::Value, &str)> {
@@ -59,22 +56,26 @@ fn MarkdownContent(content: String) -> Element {
     // Apply custom styling to HTML elements.
     let styled_html = html_output
         // Style paragraphs.
-        .replace("<p>", "<p class=\"text-md text-fg mb-6\">")
+        .replace("<p>", "<p class=\"text-lg text-fg mb-4\">")
         // Style headings with # prefix.
-        .replace("<h1>", "<h1 class=\"text-lg font-semibold text-fg mb-4 mt-6\"># ")
-        .replace("<h2>", "<h2 class=\"text-lg font-semibold text-fg mb-4 mt-6\">## ")
-        .replace("<h3>", "<h3 class=\"text-lg font-semibold text-fg mb-4 mt-6\">### ")
-        .replace("<h4>", "<h4 class=\"text-lg font-semibold text-fg mb-4 mt-6\">#### ")
-        .replace("<h5>", "<h5 class=\"text-lg font-semibold text-fg mb-4 mt-6\">##### ")
-        .replace("<h6>", "<h6 class=\"text-lg font-semibold text-fg mb-4 mt-6\">###### ")
+        .replace("<h1>", "<h1 class=\"text-xl font-semibold text-fg mb-4 mt-6\"># ")
+        .replace("<h2>", "<h2 class=\"text-xl font-semibold text-fg mb-4 mt-6\">## ")
+        .replace("<h3>", "<h3 class=\"text-xl font-semibold text-fg mb-4 mt-6\">### ")
+        .replace("<h4>", "<h4 class=\"text-xl font-semibold text-fg mb-4 mt-6\">#### ")
+        .replace("<h5>", "<h5 class=\"text-xl font-semibold text-fg mb-4 mt-6\">##### ")
+        .replace("<h6>", "<h6 class=\"text-xl font-semibold text-fg mb-4 mt-6\">###### ")
         // Style links.
-        .replace("<a ", "<a class=\"hover:text-purple-light underline decoration-1 opacity-90 hover:opacity-100\" ")
+        .replace("<a ", "<a class=\"text-lg p-0.5 bg-gray-400/30 rounded-md hover:text-purple-light underline decoration-1 opacity-90 hover:opacity-100\" ")
         // Style inline code.
-        .replace("<code>", "<code class=\"bg-gray-900/30 rounded-md text-purple-light px-1 py-0.5 font-mono text-sm\">")
+        .replace("<code>", "<code class=\"text-md bg-gray-400/30 rounded-md text-purple-light px-1 py-0.5 font-mono\">")
         // Style code blocks.
-        .replace("<pre><code>", "<pre class=\"whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono text-md m-0 mb-2\"><code>")
+        .replace("<pre><code>", "<pre class=\"text-md whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono m-0 mb-2\"><code>")
         // Style images.
         .replace("<img ", "<div class=\"mb-2 py-2\"><img class=\"max-w-3/4 max-h-96 h-auto\" ")
+        // Style lists.
+        .replace("<ul>", "<ul class=\"text-lg list-disc list-outside mb-6 text-fg ml-4\">")
+        .replace("<ol>", "<ol class=\"text-lg list-decimal list-outside mb-6 text-fg ml-4\">")
+        .replace("<li>", "<li class=\"text-lg mb-2\">")
         .replace("<hr />", "<hr class=\"opacity-20 mb-6\"/>")
         .replace(" />", " /></div>");
 
