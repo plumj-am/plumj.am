@@ -43,10 +43,10 @@ impl Post {
 
 // TODO: Handle missing details. Currently it causes all blogs to disappear.
 /// Extract blog details from frontmatter in `yaml` format.
-fn parse_frontmatter(markdown: &str) -> Option<(serde_yaml::Value, &str)> {
+fn parse_frontmatter(markdown: &str) -> Option<(serde_yaml_bw::Value, &str)> {
     let markdown = markdown.strip_prefix("---")?;
     let (frontmatter, content) = markdown.split_once("\n---\n")?;
-    let frontmatter = serde_yaml::from_str(frontmatter).ok()?;
+    let frontmatter = serde_yaml_bw::from_str(frontmatter).ok()?;
     Some((frontmatter, content.trim()))
 }
 
