@@ -24,7 +24,7 @@ rm -rf normal_dist
 
 # Commit and tag.
 print "Creating publish commit..."
-jj commit -m $"publish: New blog post."
+jj commit -m $"publish: New blog post ((date now | format date "%Y-%m-%d"))."
 
 # Optional: Push changes.
 let should_push = (["yes", "no"] | input list "Push to git remote?")

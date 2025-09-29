@@ -12,6 +12,11 @@ use pulldown_cmark::{
 
 use super::Route;
 
+static POSTS: &[&str] = &[
+    include_str!("posts/is-this-thing-on.md"),
+    include_str!("posts/maybe-nix-does-fix-everything.md"),
+];
+
 #[derive(Clone)]
 pub struct Post {
     pub title:   String,
@@ -85,11 +90,6 @@ fn MarkdownContent(content: String) -> Element {
         }
     }
 }
-
-#[rustfmt::skip]
-static POSTS: &[&str] = &[
-    include_str!("posts/is-this-thing-on.md")
-];
 
 fn posts() -> &'static [Post] {
     static PARSED: OnceLock<Vec<Post>> = OnceLock::new();
