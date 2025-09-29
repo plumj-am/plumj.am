@@ -1,8 +1,30 @@
 #!/usr/bin/env nu
-print "Building normal version with new blog post..."
+
+
+# Build TailwindCSS for both versions.
+# Tailwind is in the flake for this project.
+print "Building TailwindCSS..."
+bunx tailwindcss -i='./nerd/input.css' -o='./nerd/gen-tailwind.css' --minify --content='nerd/**/*.rs'
+bunx tailwindcss -i='./normal/input.css' -o='./normal/gen-tailwind.css' --minify --content='normal/**/*.rs'
+
+# Run checks.
+print "Running checks..."
+cargo check --quiet
+dx check --package nerd
+dx check --package normal
+
+# Build both versions.
+print "Building nerd version..."
+dx build --release --package nerd
+mkdir nerd_dist
+cp --recursive target/dx/nerd/release/web/public/* nerd_dist/
+cp nerd_dist/index.html nerd_dist/404.html
+
+print "Building normal version..."
 dx build --release --package normal
 mkdir normal_dist
 cp --recursive target/dx/normal/release/web/public/* normal_dist/
+cp normal_dist/index.html normal_dist/404.html
 
 
 # Deploy to server.
@@ -14,17 +36,26 @@ if ($host | is-empty) {
 } else {
     print "Deploying to server..."
 
-    # Deploy normal version to root and only overwrite changed files.
+    # TODO: Figure out how to only build and deploy the nerd version without
+    # deleting `site/nerd` in the process.
+
+    # Deploy normal version to root.
     print "   Deploying normal version..."
-    rsync -avz --checksum normal_dist/ $"($user)@($host):/var/www/site/"
+    rsync -avz --delete normal_dist/ $"($user)@($host):/var/www/site/"
+
+    # Deploy nerd version to nerd/ subdirectory.
+    # Last to prevent the normal deployment from deleting the sub-directory.
+    print "   Deploying nerd version..."
+    rsync -avz --delete nerd_dist/ $"($user)@($host):/var/www/site/nerd/"
 }
 
 # Cleanup.
 rm -rf normal_dist
+rm -rf nerd_dist
 
 # Commit and tag.
 print "Creating publish commit..."
-jj commit -m $"publish: New blog post ((date now | format date "%Y-%m-%d"))."
+jj commit -m $"publish: New blog post \((date now | format date "%Y-%m-%d")\)."
 
 # Optional: Push changes.
 let should_push = (["yes", "no"] | input list "Push to git remote?")
