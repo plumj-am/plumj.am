@@ -1,3 +1,19 @@
+<a id="v0.15.1"></a>
+## [v0.15.1](https://github.com/plumj-am/plumj.am/releases/tag/v0.15.1) - 2025-09-29
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/c0fe5a98f83a3b4ba27bc9d265f4e6346ac58bf8))
+- f66efeb: normal.blog: Use `pulldown_cmark` instead of own parser. (PlumJam)
+- Swap unmaintained `serde_yaml` for `serde_yaml_bw`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/9092cc1a21890bec921049ef53a1ac956ee0e308))
+- 5d82578: normal.blog: Tweak styling of generated html. (PlumJam)
+- New blog post 2025-09-29. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/43bd492ea724e6fb1af38cc66ebc7c5fedf9420f))
+- Temporarily build and deploy both site versions. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/3ab38b42416278565571671897c5e6571c1a6a04))
+- 3661817: normal.blog: Improve styling of blog title block. (PlumJam)
+- `v0.15.1`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/d54e64dc76e612df99fe890268a75e574314320f))
+
+[Changes][v0.15.1]
+
+
 <a id="v0.15.0"></a>
 ## [v0.15.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.15.0) - 2025-09-27
 
@@ -453,6 +469,7 @@
 [Changes][v0.1.0]
 
 
+[v0.15.1]: https://github.com/plumj-am/plumj.am/compare/v0.15.0...v0.15.1
 [v0.15.0]: https://github.com/plumj-am/plumj.am/compare/v0.14.6...v0.15.0
 [v0.14.6]: https://github.com/plumj-am/plumj.am/compare/v0.14.5...v0.14.6
 [v0.14.5]: https://github.com/plumj-am/plumj.am/compare/v0.14.4...v0.14.5
