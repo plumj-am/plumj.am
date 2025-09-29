@@ -160,9 +160,9 @@ pub fn BlogPost(slug: String) -> Element {
                             }
                         }
                         div { class: "text-md text-fg flex items-end justify-between",
-                            p { class: "opacity-60",
+                            p { class: "opacity-60 flex flex-col sm:flex-row w-full sm:items-center",
                                 "{post.date} "
-                                span { class: "text-xs opacity-40",
+                                span { class: "text-xs opacity-40 sm:ml-2",
                                     "(last edit: {post.edited})"
                                 }
                             }
@@ -171,7 +171,7 @@ pub fn BlogPost(slug: String) -> Element {
                                     src: LOGO_NO_BG,
                                     alt: "{ME.name}"
                                 }
-                                span { class: "text-purple-light",
+                                span { class: "text-purple-light text-sm sm:text-base mr-4",
                                     "{post.author}"
                                 }
                             }
