@@ -95,7 +95,7 @@ pub fn ThemeSwitcher() -> Element {
 
     rsx! {
         button {
-            class: "flex items-center justify-center w-auto h-6 hover:bg-[var(--color-hover)] transition-colors duration-100 px-1",
+            class: "flex items-center justify-center w-auto h-6 hover:bg-[var(--color-hover)] hover:cursor-pointer transition-colors duration-100 px-1",
             onclick: move |_| {
                 theme.set(current_theme.cycle());
             },
