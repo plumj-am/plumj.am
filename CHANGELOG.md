@@ -1,3 +1,14 @@
+<a id="v0.16.3"></a>
+## [v0.16.3](https://github.com/plumj-am/plumj.am/releases/tag/v0.16.3) - 2025-10-01
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/6993aeddfde62f9013e2c4f6b463af232b632124))
+- 1afa509: normal.layout: Prefix version with "v". (PlumJam)
+- `v0.16.3`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/fc78b6c3c6d2fde39af4eb6880bc02bafe8cd5c4))
+
+[Changes][v0.16.3]
+
+
 <a id="v0.16.2"></a>
 ## [v0.16.2](https://github.com/plumj-am/plumj.am/releases/tag/v0.16.2) - 2025-10-01
 
@@ -502,6 +513,7 @@
 [Changes][v0.1.0]
 
 
+[v0.16.3]: https://github.com/plumj-am/plumj.am/compare/v0.16.2...v0.16.3
 [v0.16.2]: https://github.com/plumj-am/plumj.am/compare/v0.16.1...v0.16.2
 [v0.16.1]: https://github.com/plumj-am/plumj.am/compare/v0.16.0...v0.16.1
 [v0.16.0]: https://github.com/plumj-am/plumj.am/compare/v0.15.1...v0.16.0
