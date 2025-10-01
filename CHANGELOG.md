@@ -1,3 +1,15 @@
+<a id="v0.16.0"></a>
+## [v0.16.0](https://github.com/plumj-am/plumj.am/releases/tag/v0.16.0) - 2025-10-01
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/40791dd0f3daa8a9eb3f4fbfdf57d42d5192d687))
+- Add a theme switcher. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/f4418988c4a650c5addc697b107caccc16b5c70e))
+- Align top spacing across pages. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/40774eb990f0696e6588782d15bd30784991201c))
+- `v0.16.0`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/bdeb57a1600749d4b27b42c22e5c683244edc839))
+
+[Changes][v0.16.0]
+
+
 <a id="v0.15.1"></a>
 ## [v0.15.1](https://github.com/plumj-am/plumj.am/releases/tag/v0.15.1) - 2025-09-29
 
@@ -469,6 +481,7 @@
 [Changes][v0.1.0]
 
 
+[v0.16.0]: https://github.com/plumj-am/plumj.am/compare/v0.15.1...v0.16.0
 [v0.15.1]: https://github.com/plumj-am/plumj.am/compare/v0.15.0...v0.15.1
 [v0.15.0]: https://github.com/plumj-am/plumj.am/compare/v0.14.6...v0.15.0
 [v0.14.6]: https://github.com/plumj-am/plumj.am/compare/v0.14.5...v0.14.6
