@@ -2759,6 +2759,7 @@ dependencies = [
  "dioxus",
  "pulldown-cmark",
  "serde_yaml_bw",
+ "web-sys",
 ]
 
 [[package]]

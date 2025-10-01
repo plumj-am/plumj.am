@@ -23,6 +23,7 @@ expect_used                       = "allow"
 float_arithmetic                  = "allow"
 impl_trait_in_params              = "allow"
 implicit_return                   = "allow"
+let_underscore_must_use           = "allow"
 let_underscore_untyped            = "allow"
 min_ident_chars                   = "allow"
 missing_docs_in_private_items     = "allow"
@@ -59,7 +60,7 @@ features = [ "router" ]
 version  = "0.6.0"
 
 [workspace.dependencies.web-sys]
-features = [ "Window" ]
+features = [ "Window", "Document", "HtmlElement", "Storage" ]
 version  = "0.3.77"
 
 [profile.wasm-dev]

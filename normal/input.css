@@ -34,6 +34,7 @@
 	--color-bg: #0f1116;
 }
 
+/* Default theme (auto) - follows system preference. */
 :root {
 	@media (prefers-color-scheme: light) {
 		--color-fg: var(--color-purple-darker);
@@ -50,6 +51,24 @@
 		--color-hover: var(--color-purple);
 		--color-active: var(--color-purple-light);
 	}
+}
+
+/* Manual light theme. */
+[data-theme="light"] {
+	--color-fg: var(--color-purple-darker);
+	--color-bg: var(--color-base-light);
+	--color-border: var(--color-purple-darker);
+	--color-hover: var(--color-purple-light);
+	--color-active: var(--color-purple-dark);
+}
+
+/* Manual dark theme. */
+[data-theme="dark"] {
+	--color-fg: var(--color-base-light);
+	--color-bg: var(--color-purple-darker);
+	--color-border: var(--color-base-light);
+	--color-hover: var(--color-purple);
+	--color-active: var(--color-purple-light);
 }
 
 html {

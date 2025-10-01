@@ -5,6 +5,7 @@ mod contact;
 mod home;
 mod layout;
 mod projects;
+mod theme;
 
 use blog::{
     BlogList,
@@ -15,6 +16,7 @@ use dioxus::prelude::*;
 use home::Home;
 use layout::Layout;
 use projects::Projects;
+use theme::ThemeProvider;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -45,8 +47,10 @@ fn App() -> Element {
         document::Link { rel: "icon", href: asset!("/favicon.ico") }
         document::Stylesheet { href: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" }
         document::Script { src: "https://kit.fontawesome.com/6972f6e365.js", crossorigin: "anonymous", fetchpriority: "high" }
-        div {
-            Router::<Route> {}
+        ThemeProvider {
+            div {
+                Router::<Route> {}
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ use common::data::LOGO_NO_BG;
 use dioxus::prelude::*;
 
 use super::Route;
+use crate::theme::ThemeSwitcher;
 
 struct NavLink {
     route: Route,
@@ -52,7 +53,7 @@ fn Navbar() -> Element {
     };
 
     rsx! {
-        div { class: "h-16 border-l-1 border-b-1 border-fg w-full max-w-5xl mx-auto",
+        div { class: "h-16 border-l-1 border-b-1 border-fg w-full max-w-5xl mx-auto relative",
             div { class: "grid grid-cols-4 w-full h-full text-md sm:text-xl md:text-2xl tracking",
                 for link in NAV_LINKS {
                     { let is_active = check_route_active(&link.route);
@@ -68,6 +69,10 @@ fn Navbar() -> Element {
                         }
                     }}
                 }}
+            }
+            // Theme switcher in top-right corner
+            div { class: "absolute bottom-[-25] right-0 z-20",
+                ThemeSwitcher {}
             }
         }
     }
