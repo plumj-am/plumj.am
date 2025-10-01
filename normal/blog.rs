@@ -114,7 +114,7 @@ fn find_post_with_index(slug: &str) -> Option<(&'static Post, usize)> {
 #[component]
 pub fn BlogList() -> Element {
     rsx! {
-        div { class: "w-full py-8",
+        div { class: "w-full py-6",
             div { class: "grid grid-cols-1 md:grid-cols-2 gap-4 px-4 lg:px-0",
                 for (i, post) in posts().iter().enumerate() {
                     Link {

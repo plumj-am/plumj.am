@@ -1,8 +1,10 @@
 use common::data::LOGO_NO_BG;
 use dioxus::prelude::*;
 
-use super::Route;
-use crate::theme::ThemeSwitcher;
+use super::{
+    Route,
+    theme::ThemeSwitcher,
+};
 
 struct NavLink {
     route: Route,
@@ -70,8 +72,8 @@ fn Navbar() -> Element {
                     }}
                 }}
             }
-            // Theme switcher in top-right corner
-            div { class: "absolute bottom-[-25] right-0 z-20",
+            // Theme switcher in bottom-right corner below `Navbar`.
+            div { class: "absolute bottom-[-25] right-0",
                 ThemeSwitcher {}
             }
         }
