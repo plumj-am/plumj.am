@@ -102,7 +102,7 @@ fn Footer() -> Element {
                 }
             }
             p { class: "absolute text-xs bottom-1 sm:bottom-2 right-1",
-                {VERSION}
+                "v{VERSION}"
             }
         }
     }
