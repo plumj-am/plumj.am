@@ -1,4 +1,7 @@
-use common::data::LOGO_NO_BG;
+use common::data::{
+    LOGO_NO_BG,
+    VERSION,
+};
 use dioxus::prelude::*;
 
 use super::{
@@ -83,7 +86,7 @@ fn Navbar() -> Element {
 #[component]
 fn Footer() -> Element {
     rsx! {
-        div { class: "group flex items-center justify-center h-18 sm:h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
+        div { class: "relative group flex items-center justify-center h-18 sm:h-8 border-t-1 border-x-1 border-fg w-full max-w-5xl mx-auto",
             p { class: "sm:text-xs flex flex-col sm:flex-row items-center",
                 span { class: "md:group-hover:translate-x-[-20px] transition-translate duration-300",
                     "Copyright © 2025-present"
@@ -97,6 +100,9 @@ fn Footer() -> Element {
                     }
                 "<git@plumj.am>"
                 }
+            }
+            p { class: "absolute text-xs bottom-1 sm:bottom-2 right-1",
+                {VERSION}
             }
         }
     }
