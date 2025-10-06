@@ -19,7 +19,7 @@ dioxus.workspace  = true
 web-sys.workspace = true
 
 pulldown-cmark = { default-features = false, features = [ "html" ], version = "0.13.0" }
-serde_yaml_bw  = "2.4.0"
+serde_yaml_bw  = "2.4.1"
 
 [features]
 default = [ "web" ]
