@@ -1,3 +1,14 @@
+<a id="v0.16.4"></a>
+## [v0.16.4](https://github.com/plumj-am/plumj.am/releases/tag/v0.16.4) - 2025-10-07
+
+## Commits
+- Update changelog. ([plumj-am](https://github.com/plumj-am/plumj.am/commit/1d305df1bbb7f7080dc6d5e8b98736acaa50f261))
+- Add "copied to clipboard" toast utility. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/eeb1ece2a40d6b879fe501db5e607560198fb0f0))
+- `v0.16.4`. ([PlumJam](https://github.com/plumj-am/plumj.am/commit/7a448d15e47640e672d6a81203e0e3ef62801343))
+
+[Changes][v0.16.4]
+
+
 <a id="v0.16.3"></a>
 ## [v0.16.3](https://github.com/plumj-am/plumj.am/releases/tag/v0.16.3) - 2025-10-01
 
@@ -513,6 +524,7 @@
 [Changes][v0.1.0]
 
 
+[v0.16.4]: https://github.com/plumj-am/plumj.am/compare/v0.16.3...v0.16.4
 [v0.16.3]: https://github.com/plumj-am/plumj.am/compare/v0.16.2...v0.16.3
 [v0.16.2]: https://github.com/plumj-am/plumj.am/compare/v0.16.1...v0.16.2
 [v0.16.1]: https://github.com/plumj-am/plumj.am/compare/v0.16.0...v0.16.1
