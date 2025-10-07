@@ -1,3 +1,4 @@
+use common::clipboard::toast_script;
 use dioxus::prelude::*;
 
 use super::{
@@ -52,11 +53,8 @@ pub fn Profile() -> Element {
                 p { "Email: \u{00A0}\u{00A0} {ME.email}" }
                 button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
                     onclick: move |_| {
-                        let _ = document::eval(&format!(
-                                "navigator.clipboard.writeText('{}')",
-                                ME.email
-                            )
-                        );
+                        let script = toast_script(ME.email, "Email copied to clipboard");
+                        let _ = document::eval(&script);
                     },
                     title: "Copy email address",
                     i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }

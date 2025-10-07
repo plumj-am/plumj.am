@@ -1,7 +1,10 @@
-use common::data::{
-    LOGO_NO_BG,
-    ME,
-    PROJECTS,
+use common::{
+    clipboard::toast_script,
+    data::{
+        LOGO_NO_BG,
+        ME,
+        PROJECTS,
+    },
 };
 use dioxus::prelude::*;
 
@@ -34,11 +37,8 @@ fn Profile() -> Element {
                     }
                     button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
                         onclick: move |_| {
-                            let _ = document::eval(&format!(
-                                    "navigator.clipboard.writeText('{}')",
-                                    ME.email
-                                )
-                            );
+                            let script = toast_script(ME.email, "Email copied to clipboard");
+                            let _ = document::eval(&script);
                         },
                         title: "Copy email address",
                         i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }

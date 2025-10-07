@@ -1,4 +1,7 @@
-use common::data::ME;
+use common::{
+    clipboard::toast_script,
+    data::ME,
+};
 use dioxus::prelude::*;
 
 #[component]
@@ -22,11 +25,8 @@ pub fn Contact() -> Element {
                 }
                 button { class: "hover:cursor-pointer text-gray-500 hover:text-gray-700 transition-colors ml-2",
                     onclick: move |_| {
-                        let _ = document::eval(&format!(
-                                "navigator.clipboard.writeText('{}')",
-                                ME.email
-                            )
-                        );
+                        let script = toast_script(ME.email, "Email copied to clipboard");
+                        let _ = document::eval(&script);
                     },
                     title: "Copy email address",
                     i { class: "fa fa-copy text-sm opacity-80 hover:opacity-100" }
