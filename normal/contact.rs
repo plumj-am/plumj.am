@@ -94,10 +94,10 @@ pub fn Contact() -> Element {
                 span { i { class: "fa-brands fa-rust w-4 mr-2" } }
                 "Crates: \u{00A0}" // Whitespace for alignment.
                 Link {
-                    to: "https://crates.io/jamesukiyo",
+                    to: "https://crates.io/users/plumj-am",
                     new_tab: true,
                     span { class: "underline opacity-70 hover:text-purple-light hover:opacity-100 transition-all duration-100",
-                        "jamesukiyo"
+                        "plumj-am"
                     }
                 }
             }
