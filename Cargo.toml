@@ -10,7 +10,7 @@ authors    = [ "PlumJam <git@plumj.am" ]
 edition    = "2024"
 license    = "MIT"
 repository = "https://github.com/plumj-am/plumj.am"
-version    = "0.16.4"
+version    = "0.16.5"
 
 [workspace.lints.clippy]
 allow_attributes_without_reason   = "allow"
