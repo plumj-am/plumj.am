@@ -3793,9 +3793,9 @@ dependencies = [
 
 [[package]]
 name = "serde_yaml_bw"
-version = "2.4.0"
+version = "2.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "814d1b82333584be69e4e8ced48e0f04245125d86b49f75062b7c669d7f4be12"
+checksum = "b3dc81c391abf99881eb27ee73957d4aaa751d0f242548bfe6148ca360b23448"
 dependencies = [
  "base64",
  "indexmap 2.10.0",
