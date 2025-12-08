@@ -57,7 +57,7 @@ path = "common"
 
 [workspace.dependencies.dioxus]
 features = [ "router" ]
-version  = "0.6.0"
+version  = "0.7.2"
 
 [workspace.dependencies.web-sys]
 features = [ "Window", "Document", "HtmlElement", "Storage" ]
