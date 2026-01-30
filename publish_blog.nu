@@ -1,67 +1,62 @@
 #!/usr/bin/env nu
+# nu-lint-ignore: max_function_body_length
+def main [
+   --update: string # The blog post to update.
+] {
+   let variants = [ nerd normal ]
 
+   print "Building TailwindCSS..."
+   for v in $variants {
+      bunx tailwindcss --input=$"./($v)/input.css" --output=$"./($v)/gen-tailwind.css" --minify --content=$"($v)/**/*.rs" --quiet
+   }
 
-# Build TailwindCSS for both versions.
-# Tailwind is in the flake for this project.
-print "Building TailwindCSS..."
-bunx tailwindcss -i='./nerd/input.css' -o='./nerd/gen-tailwind.css' --minify --content='nerd/**/*.rs'
-bunx tailwindcss -i='./normal/input.css' -o='./normal/gen-tailwind.css' --minify --content='normal/**/*.rs'
+   print "Running checks..."
+   cargo check --quiet # nu-lint-ignore: wrap_external_with_complete
+   for v in $variants {
+      dx check --package $v
+   }
 
-# Run checks.
-print "Running checks..."
-cargo check --quiet
-dx check --package nerd
-dx check --package normal
+   for v in $variants {
+      print $"Building ($v) version..."
+      dx build --release --package $v
+      try {
+         mkdir $"($v)_dist"
+         cp --recursive ($"./target/dx/($v)/release/web/public/*" | into glob) $"($v)_dist/"
+         cp $"($v)_dist/index.html" $"($v)_dist/404.html"
+      } catch {|e|
+         print $"Failed during ($v) post-build: ($e.msg)"
+      }
+   }
 
-# Build both versions.
-print "Building nerd version..."
-dx build --release --package nerd
-mkdir nerd_dist
-cp --recursive target/dx/nerd/release/web/public/* nerd_dist/
-cp nerd_dist/index.html nerd_dist/404.html
+   print "Deploying to server..."
+   print "   Deploying normal version..."
+   rsync --archive --compress --verbose --delete normal_dist/ $"root@plum:/var/www/site/"
+   print "   Deploying nerd version..."
+   rsync --archive --compress --verbose --delete nerd_dist/ $"root@plum:/var/www/site/nerd/"
 
-print "Building normal version..."
-dx build --release --package normal
-mkdir normal_dist
-cp --recursive target/dx/normal/release/web/public/* normal_dist/
-cp normal_dist/index.html normal_dist/404.html
+   # Cleanup.
+   try {
+      rm --recursive --force normal_dist
+      rm --recursive --force nerd_dist
+   }
 
+   let can_update = ($update != null and ($update | is-not-empty))
+   mut action = ""
+   if ($can_update) {
+      print "Creating update commit..."
+      jj commit -m $"blog.update: Update post \"($update)\"." # nu-lint-ignore: check_typed_flag_before_use
+      $action = "Updated"
+   } else {
+      print "Creating publish commit..."
+      jj commit -m $"blog.publish: New post \((date now | format date %Y-%m-%d)\)."
+      $action = "Published"
+   }
 
-# Deploy to server.
-let host = (input "Server host: ")
-let user = (input "Server user: ")
+   let should_push = ([ yes no ] | input list "Push to git remote?")
+   if ($should_push == yes) {
+      jj tug
+      jj push
+   }
 
-if ($host | is-empty) {
-    print "Skipping deployment (no host provided)"
-} else {
-    print "Deploying to server..."
-
-    # TODO: Figure out how to only build and deploy the nerd version without
-    # deleting `site/nerd` in the process.
-
-    # Deploy normal version to root.
-    print "   Deploying normal version..."
-    rsync -avz --delete normal_dist/ $"($user)@($host):/var/www/site/"
-
-    # Deploy nerd version to nerd/ subdirectory.
-    # Last to prevent the normal deployment from deleting the sub-directory.
-    print "   Deploying nerd version..."
-    rsync -avz --delete nerd_dist/ $"($user)@($host):/var/www/site/nerd/"
+   print $"($action) a blog post."
 }
-
-# Cleanup.
-rm -rf normal_dist
-rm -rf nerd_dist
-
-# Commit and tag.
-print "Creating publish commit..."
-jj commit -m $"publish: New blog post \((date now | format date "%Y-%m-%d")\)."
-
-# Optional: Push changes.
-let should_push = (["yes", "no"] | input list "Push to git remote?")
-if ($should_push == "yes") {
-    jj tug
-    jj push
-}
-
-print "Published a new blog post."
