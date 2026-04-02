@@ -14,12 +14,11 @@ path = "main.rs"
 workspace = true
 
 [dependencies]
-common.workspace  = true
-dioxus.workspace  = true
-web-sys.workspace = true
-
-pulldown-cmark = { default-features = false, features = [ "html" ], version = "0.13.0" }
-serde_yaml_bw  = "2.4.0"
+common.workspace         = true
+dioxus.workspace         = true
+pulldown-cmark.workspace = true
+serde_yaml_bw.workspace  = true
+web-sys.workspace        = true
 
 [features]
 default = [ "web" ]
