@@ -13,25 +13,29 @@ pub struct SocialLink {
 }
 
 pub struct Me {
-    pub name:       &'static str,
-    pub image_url:  &'static str,
-    pub email:      &'static str,
-    pub location:   &'static str,
-    pub langs:      &'static [&'static str],
-    pub scripting:  &'static [&'static str],
-    pub frameworks: &'static [&'static str],
-    pub tools:      &'static [&'static str],
-    pub socials:    &'static [SocialLink],
+    pub name:              &'static str,
+    pub image_url:         &'static str,
+    pub email:             &'static str,
+    pub location:          &'static str,
+    pub langs:             &'static [&'static str],
+    pub learning_langs:    &'static [&'static str],
+    pub scripting:         &'static [&'static str],
+    pub operating_systems: &'static [&'static str],
+    pub frameworks:        &'static [&'static str],
+    pub tools:             &'static [&'static str],
+    pub socials:           &'static [SocialLink],
 }
 
 pub static ME: Me = Me {
-    name:       "PlumJam",
-    image_url:  "https://github.com/plumj-am.png",
-    email:      "contact@plumj.am",
-    location:   "Poland",
-    langs:      &["Rust", "Typescript", "Svelte", "Go", "NASM", "FASM"],
-    scripting:  &["Nushell", "Bash", "Python"],
-    frameworks: &[
+    name:              "PlumJam",
+    image_url:         "https://github.com/plumj-am.png",
+    email:             "contact@plumj.am",
+    location:          "Poland",
+    langs:             &["Rust", "Nix", "TypeScript", "Svelte", "Go"],
+    learning_langs:    &["Haskell", "NASM"],
+    scripting:         &["Nushell", "Bash", "Python"],
+    operating_systems: &["NixOS", "Debian", "Windows >7", "MacOS >14"],
+    frameworks:        &[
         "Dioxus (Rust)",
         "Poem (Rust)",
         "Chi (Go)",
@@ -39,8 +43,8 @@ pub static ME: Me = Me {
         "SvelteKit (Svelte)",
         "Next.js (Typescript)",
     ],
-    tools:      &["Docker", "GitHub Actions", "K3s"],
-    socials:    &[
+    tools:             &["Docker", "GitHub Actions", "K3s"],
+    socials:           &[
         SocialLink {
             name: "GitHub",
             url:  "https://github.com/plumj-am",
@@ -191,7 +195,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
         short_desc:   "Client website.",
         long_desc:    None,
         project_type: ProjectType::Website,
-        tech_used:    &["SvelteKit", "Typescript", "Tailwind", "Sanity CMS"],
+        tech_used:    &["SvelteKit", "Deno", "TypeScript", "Tailwind"],
         repo:         None,
         crate_url:    None,
         npm_url:      None,

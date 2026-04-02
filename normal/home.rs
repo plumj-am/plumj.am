@@ -53,7 +53,7 @@ fn Profile() -> Element {
                         "Trying to shift my focus away from the web dev world..."
                     }
                     p { class: "text-fg mt-4",
-                        "Currently enjoying and learning Rust, Nix and x86 assembler (NASM/FASM)."
+                        {format!("Currently enjoying and learning: {}.", ME.learning_langs.join(", "))}
                     }
                     p { class: "text-fg mt-4 mb-4",
                         "If you're looking for help with a project or a new teammate, shoot me an email! :]"
@@ -103,11 +103,11 @@ fn Projects() -> Element {
     rsx! {
         div { class: "flex flex-col gap-6 lg:w-1/2 px-4 lg:px-0",
             h2 { class: "text-2xl font-bold text-fg",
-                "Projects (6/{PROJECTS.len()})"
+                "Projects (5/{PROJECTS.len()})"
             }
 
             div { class: "grid sm:grid-cols-2 lg:grid-cols-1 gap-4",
-                for project in PROJECTS.iter().take(6) {
+                for project in PROJECTS.iter().take(5) {
                     div { class: "border border-fg p-4 hover:bg-[var(--color-purple-light)] transition-scale hover:scale-110 duration-100",
                         div { class: "flex justify-between items-start mb-2",
                             h3 { class: "font-semibold text-[var(--color-fg)]", "{project.name}" }
