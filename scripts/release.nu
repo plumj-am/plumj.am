@@ -1,80 +1,90 @@
 #!/usr/bin/env nu
 
-let current_version = (open Cargo.toml | get workspace.package.version)
-
-print $"Current version: ($current_version)"
-let new_version = (input "Enter new version: ")
-
-if not ($new_version =~ '^[0-9]+\.[0-9]+\.[0-9]+$') {
-    print "Error: Version must follow semantic versioning"
-    exit 1
+def date-version [] {
+   date now
+   | format date "%y-%-m-%-d"
+   | str replace --all '-' '.'
 }
 
-print $"Updating version from ($current_version) to ($new_version)"
+def main [] {
+   # If the current date e.g. `26.4.2.0` is current version, bump to `26.4.2.1`.
+   let current_v = open Cargo.toml | get workspace.package.version
+   let current_minor_v = $current_v | split row '.' | last | into int
 
-# Update version in Cargo.toml.
-open Cargo.toml | upsert workspace.package.version $new_version | save -f Cargo.toml
-taplo fmt Cargo.toml
+   let today = date-version
+   let today_part = $current_v | split row '.' | first 3 | str join '.'
 
-# Build TailwindCSS for both versions.
-# Tailwind is in the flake for this project.
-print "Building TailwindCSS..."
-bunx tailwindcss -i='./nerd/input.css' -o='./nerd/gen-tailwind.css' --minify --content='nerd/**/*.rs'
-bunx tailwindcss -i='./normal/input.css' -o='./normal/gen-tailwind.css' --minify --content='normal/**/*.rs'
+   let new_minor_v = if $today_part == $today { $current_minor_v + 1 } else { 0 }
+   let new_v = $"(date-version).($new_minor_v)"
 
-# Run checks.
-print "Running checks..."
-cargo check --quiet
-dx check --package nerd
-dx check --package normal
+   print $"Current version:      ($current_v)"
+   print $"Proposed new version: ($new_v)"
 
-# Build both versions.
-print "Building nerd version..."
-dx build --release --package nerd
-mkdir nerd_dist
-cp --recursive target/dx/nerd/release/web/public/* nerd_dist/
-cp nerd_dist/index.html nerd_dist/404.html
+   let v_ok = ["yes", "no"] | input list "Is the proposed version correct?"
+   let new_v = if $v_ok != "yes" {
+      (input "What is the correct new version number? ")
+   } else { $new_v }
 
-print "Building normal version..."
-dx build --release --package normal
-mkdir normal_dist
-cp --recursive target/dx/normal/release/web/public/* normal_dist/
-cp normal_dist/index.html normal_dist/404.html
+   if not ($new_v =~ '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$') {
+      print --stderr "Error: Version must follow X.X.X.X calendar versioning"
+      print --stderr "For example: 26.4.2.0"
+      exit 1
+   }
 
-# Deploy to server.
-let host = (input "Server host: ")
-let user = (input "Server user: ")
+   print $"Updating version from ($current_v) to ($new_v)"
 
-if ($host | is-empty) {
-    print "Skipping deployment (no host provided)"
-} else {
-    print "Deploying to server..."
+   open Cargo.toml | upsert workspace.package.version $new_v | save -f Cargo.toml
+   taplo fmt Cargo.toml
 
-    # Deploy normal version to root.
-    print "   Deploying normal version..."
-    rsync -avz --delete normal_dist/ $"($user)@($host):/var/www/site/"
+   let host = input "Server host: "
+   let user = input "Server user: "
 
-    # Deploy nerd version to nerd/ subdirectory.
-    # Last to prevent the normal deployment from deleting the sub-directory.
-    print "   Deploying nerd version..."
-    rsync -avz --delete nerd_dist/ $"($user)@($host):/var/www/site/nerd/"
+   if ($host | is-empty) or ($user | is-empty) {
+      print --stderr "No server configured, deployment can't complete. Exiting."
+      exit 1
+   }
+
+   print "Building TailwindCSS..."
+   bunx tailwindcss -i='./nerd/input.css' -o='./nerd/gen-tailwind.css' --minify --content='nerd/**/*.rs'
+   bunx tailwindcss -i='./normal/input.css' -o='./normal/gen-tailwind.css' --minify --content='normal/**/*.rs'
+
+   print "Running checks..."
+   cargo check --quiet
+   dx check --package nerd
+   dx check --package normal
+
+   # Build and deploy both versions.
+   # Nerd must be last to prevent the normal deployment from deleting the sub-directory.
+   for p in ["normal", "nerd"] {
+      print $"Building ($p) version..."
+      dx build --release --package $p
+      mkdir $"($p)_dist"
+      cp --recursive $"target/dx/($p)/release/web/public/*" $"($p)_dist/"
+      cp $"($p)_dist/index.html" $"($p)_dist/404.html"
+
+      let dir = if $p == "nerd" { "nerd/" } else { "" }
+      print $"   Deploying ($p) version..."
+      try {
+         rsync -avz --delete $"($p)_dist/" $"($user)@($host):/var/www/site/($dir)"
+      } catch {|e|
+         print --stderr $"Error: Deployment failed: ($e.msg)"
+         exit 1
+      }
+
+      rm --recursive --force $"($p)_dist"
+   }
+
+   print "Creating release commit..."
+   jj commit -m $"release: `v($new_v)`."
+   jj git export
+   git tag -f $"v($new_v)" --annotate --message $"v($new_v)"
+
+   let should_push = (["yes", "no"] | input list "Push to git remote?")
+   if ($should_push == "yes") {
+      jj tug
+      jj push
+      git push origin $"v($new_v)"
+   }
+
+   print $"Released v($new_v)"
 }
-
-# Cleanup.
-rm -rf nerd_dist normal_dist
-
-# Commit and tag.
-print "Creating release commit..."
-jj commit -m $"release: `v($new_version)`."
-jj git export
-git tag -f $"v($new_version)" --annotate --message $"v($new_version)"
-
-# Optional: Push changes.
-let should_push = (["yes", "no"] | input list "Push to git remote?")
-if ($should_push == "yes") {
-    jj tug
-    jj push
-    git push origin $"v($new_version)"
-}
-
-print $"Released v($new_version)"
