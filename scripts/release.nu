@@ -8,7 +8,7 @@ def date-version [] {
 
 def main [] {
    # If the current date e.g. `26.4.2.0` is current version, bump to `26.4.2.1`.
-   let current_v = open Cargo.toml | get workspace.package.version
+   let current_v = open Cargo.toml | get workspace.metadata.version
    let current_minor_v = $current_v | split row '.' | last | into int
 
    let today = date-version
@@ -26,16 +26,24 @@ def main [] {
    } else { $new_v }
 
    if not ($new_v =~ '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$') {
-      print --stderr "Error: Version must follow X.X.X.X calendar versioning"
-      print --stderr "For example: 26.4.2.0"
+      print --stderr "Error: Version must follow Y.M.D.X calendar versioning
+Where:
+   Y = Year
+   M = Month
+   D = Day
+   X = Incremented from 0 to allow multiple same-day releases
+For example:
+   26.4.2.0
+   26.4.2.1"
       exit 1
    }
 
    print $"Updating version from ($current_v) to ($new_v)"
 
-   open Cargo.toml | upsert workspace.package.version $new_v | save -f Cargo.toml
+   open Cargo.toml | upsert workspace.metadata.version $new_v | save -f Cargo.toml
    taplo fmt Cargo.toml
 
+   print "Collecting deployment information..."
    let host = input "Server host: "
    let user = input "Server user: "
 
@@ -59,32 +67,24 @@ def main [] {
       print $"Building ($p) version..."
       dx build --release --package $p
       mkdir $"($p)_dist"
-      cp --recursive $"target/dx/($p)/release/web/public/*" $"($p)_dist/"
-      cp $"($p)_dist/index.html" $"($p)_dist/404.html"
+      cp --recursive target/dx/($p)/release/web/public/* ($p)_dist/
+      cp ($p)_dist/index.html ($p)_dist/404.html
 
       let dir = if $p == "nerd" { "nerd/" } else { "" }
       print $"   Deploying ($p) version..."
       try {
-         rsync -avz --delete $"($p)_dist/" $"($user)@($host):/var/www/site/($dir)"
+         rsync -avz --delete ($p)_dist/ ($user)@($host):/var/www/site/($dir)
       } catch {|e|
          print --stderr $"Error: Deployment failed: ($e.msg)"
          exit 1
       }
 
-      rm --recursive --force $"($p)_dist"
+      rm --recursive --force ($p)_dist
    }
 
-   print "Creating release commit..."
+   print "Creating release change..."
    jj commit -m $"release: `v($new_v)`."
-   jj git export
-   git tag -f $"v($new_v)" --annotate --message $"v($new_v)"
 
-   let should_push = (["yes", "no"] | input list "Push to git remote?")
-   if ($should_push == "yes") {
-      jj tug
-      jj push
-      git push origin $"v($new_v)"
-   }
-
-   print $"Released v($new_v)"
+   print "Finished release process!"
+   print "Adjust the change and push it to git host."
 }

@@ -103,8 +103,7 @@ pub fn Navbar() -> Element {
             }
             // right col
             div { class: "flex flex-row gap-x-4 items-center",
-                Link { class: "text-sm text-white/90 hover:underline hover:text-[#A66AA2]",
-                    to: "https://github.com/plumj-am/plumj.am/releases/tag/v{VERSION}",
+                p { class: "text-sm text-white/90",
                     "v{VERSION}"
                 }
                 for s in ME.socials {

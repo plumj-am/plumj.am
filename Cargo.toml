@@ -2,19 +2,20 @@
 members  = [ "common", "nerd", "normal" ]
 resolver = "3"
 
-metadata.crane.name = "PlumJam"
+[workspace.metadata]
+version = "26.4.5.0"
+
+[workspace.metadata.crane]
+name = "PlumJam"
 
 [workspace.package]
 authors    = [ "PlumJam <git@plumj.am" ]
 edition    = "2024"
 license    = "MIT"
 repository = "https://github.com/plumj-am/plumj.am"
-version    = "0.16.5"
+version    = "0.0.1"
 
 [workspace.lints.clippy]
-pedantic    = { level = "warn", priority = -1 }
-restriction = { level = "warn", priority = -1 }
-
 allow_attributes_without_reason   = "allow"
 arbitrary_source_item_ordering    = "allow"
 blanket_clippy_restriction_lints  = "allow"
@@ -46,12 +47,32 @@ todo                              = "allow"
 unwrap_used                       = "deny"
 use_debug                         = "allow"
 
+[workspace.lints.clippy.pedantic]
+level    = "warn"
+priority = -1
+
+[workspace.lints.clippy.restriction]
+level    = "warn"
+priority = -1
+
 [workspace.dependencies]
-common.path    = "common"
-dioxus         = { features = [ "router" ], version = "0.6.0" }
-pulldown-cmark = { default-features = false, features = [ "html" ], version = "0.13.0" }
-serde_yaml_bw  = "2.4.0"
-web-sys        = { features = [ "Window", "Document", "HtmlElement", "Storage" ], version = "0.3.77" }
+serde_yaml_bw = "2.4.0"
+
+[workspace.dependencies.common]
+path = "common"
+
+[workspace.dependencies.dioxus]
+features = [ "router" ]
+version  = "0.6.0"
+
+[workspace.dependencies.pulldown-cmark]
+default-features = false
+features         = [ "html" ]
+version          = "0.13.0"
+
+[workspace.dependencies.web-sys]
+features = [ "Window", "Document", "HtmlElement", "Storage" ]
+version  = "0.3.77"
 
 [profile.android-dev]
 inherits = "dev"
