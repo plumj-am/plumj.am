@@ -1,9 +1,9 @@
 ---
 title: "Vim, Helix, Zed, and Helix again."
-date: "2026-04-28"
-edited: "2026-04-28"
+date: "2026-04-29"
+edited: "2026-04-29"
 slug: "vim-helix-zed-helix-again"
-brief: "Why I tried Helix, then Zed, and ended up back with Helix again."
+brief: "The trials and tribulations of text editors."
 ---
 
 ## NeoVim
