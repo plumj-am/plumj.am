@@ -15,6 +15,7 @@ use super::Route;
 static POSTS: &[&str] = &[
     include_str!("posts/is-this-thing-on.md"),
     include_str!("posts/maybe-nix-does-fix-everything.md"),
+    include_str!("posts/vim-helix-zed-helix-again.md"),
 ];
 
 #[derive(Clone)]
