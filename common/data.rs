@@ -32,7 +32,7 @@ pub static ME: Me = Me {
     email:             "contact@plumj.am",
     location:          "Poland",
     langs:             &["Rust", "Nix", "TypeScript", "Svelte", "Go"],
-    learning_langs:    &["Haskell", "NASM"],
+    learning_langs:    &["Haskell", "fasm"],
     scripting:         &["Nushell", "Bash", "Python"],
     operating_systems: &["NixOS", "Debian", "Windows >7", "MacOS >14"],
     frameworks:        &[
@@ -76,6 +76,7 @@ pub enum ProjectType {
     Utility,
     Config,
     WebApp,
+    Embedded,
 }
 
 impl ProjectType {
@@ -89,6 +90,7 @@ impl ProjectType {
             Self::Utility => "Utility",
             Self::Config => "Config",
             Self::WebApp => "Web Application",
+            Self::Embedded => "Embedded",
         }
     }
 }
@@ -167,14 +169,26 @@ pub static PROJECTS: &[ProjectInfo] = &[
         media:        None,
     },
     ProjectInfo {
-        name:         "Sunny",
-        short_desc:   "Check the weather from your terminal!",
+        name:         "fasmfetch",
+        short_desc:   "Like fastfetch but a little bit faster.",
         long_desc:    None,
-        project_type: ProjectType::CliTool,
-        tech_used:    &["Rust"],
-        repo:         Some("sunny-rs"),
-        crate_url:    Some("https://crates.io/crates/sunny-cli"),
-        npm_url:      Some("https://www.npmjs.com/package/@jamesukiyo/sunny-cli"),
+        project_type: ProjectType::Utility,
+        tech_used:    &["Assembly", "fasm"],
+        repo:         Some("fasmfetch"),
+        crate_url:    None,
+        npm_url:      None,
+        site_url:     None,
+        media:        None,
+    },
+    ProjectInfo {
+        name:         "AVR Switchbot",
+        short_desc:   "A home-made \"switchbot\".",
+        long_desc:    None,
+        project_type: ProjectType::Embedded,
+        tech_used:    &["Rust (embedded)", "AVR-HAL"],
+        repo:         Some("avr-switchbot"),
+        crate_url:    None,
+        npm_url:      None,
         site_url:     None,
         media:        None,
     },
@@ -200,6 +214,18 @@ pub static PROJECTS: &[ProjectInfo] = &[
         crate_url:    None,
         npm_url:      None,
         site_url:     Some("https://dr-radka.pl"),
+        media:        None,
+    },
+    ProjectInfo {
+        name:         "Sunny",
+        short_desc:   "Check the weather from your terminal!",
+        long_desc:    None,
+        project_type: ProjectType::CliTool,
+        tech_used:    &["Rust"],
+        repo:         Some("sunny-rs"),
+        crate_url:    Some("https://crates.io/crates/sunny-cli"),
+        npm_url:      Some("https://www.npmjs.com/package/@jamesukiyo/sunny-cli"),
+        site_url:     None,
         media:        None,
     },
     ProjectInfo {
