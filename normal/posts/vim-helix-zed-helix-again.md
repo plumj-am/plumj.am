@@ -99,7 +99,7 @@ the GUI editor space. It promises to be a high performance editor, with Helix
 keymap support and good LSP/Treesitter integration OOTB, which is everything I
 wanted.
 
-For anyone interested they also advertise great AI support (you can
+For anyone interested, they also advertise great AI support (you can
 **completely** disable it too, which is fantastic), and multiplayer editing? No
 idea why though.
 
@@ -108,7 +108,7 @@ I was on a bit of a GUI spree, trying things like
 equivalents like [jjui](https://github.com/idursun/jjui). After seeing a
 [post on Xitter](https://x.com/TheGingerBill/status/1910975930756931761) by
 Ginger Bill about GUIs and some of the discussions in the replies, I wanted to
-give them a real shot. As the title of the article suggests however, it didn't
+give them a real shot. As the title of the article suggests, however, it didn't
 go well.
 
 With all that said, I ended up giving it a go...
@@ -117,7 +117,7 @@ The obvious place to start is by enabling Helix mode and picking a theme. This
 went well and only took a minute. But, it turns out Helix mode which has
 supposedly reached
 [parity](https://github.com/zed-industries/zed/discussions/33580) with Helix,
-isn't even close to the same experience. Maybe my idea of a Helix mode is wrong
+isn't even close to the same experience. Maybe my idea of a Helix mode is wrong,
 but after using [VSCodeVim](https://github.com/vscodevim/vim) a while ago (which
 I remember being quite good?), I expected much better for what it claims to be.
 
@@ -191,12 +191,12 @@ New pane? `Alt-g w [r/d/n]`
 Move pane? `Alt-g m [h/j/k/l]`
 
 It turns out everything I needed was already there for me before. Still, GUIs
-were a fun experiment for a while, sadly they are no match for what a good
+were a fun experiment for a while; sadly they are no match for what a good
 terminal-based setup can do.
 
 If you're still reading this, there is hope in the GUI editor space in the form
 of [the-editor](https://github.com/misterclayt0n/the-editor) by
 [@misterclayt0n](https://x.com/misterclayt0n), go and star it!
 
-The best part of all; I can go back to using and evangelising my beloved Helix
+The best part of all: I can go back to using and evangelising my beloved Helix
 now.
