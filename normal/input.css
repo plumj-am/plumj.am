@@ -112,3 +112,11 @@ html {
 }
 
 @source "*.{rs,html,css}";
+
+/* Inline code style must not leak into fenced code blocks. */
+pre code {
+	background-color: transparent;
+	border-radius: 0;
+	padding: 0;
+	color: inherit;
+}

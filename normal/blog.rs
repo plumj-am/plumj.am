@@ -16,6 +16,7 @@ static POSTS: &[&str] = &[
     include_str!("posts/is-this-thing-on.md"),
     include_str!("posts/maybe-nix-does-fix-everything.md"),
     include_str!("posts/vim-helix-zed-helix-again.md"),
+    include_str!("posts/your-cli-is-garbage.md"),
 ];
 
 #[derive(Clone)]
@@ -71,11 +72,20 @@ fn MarkdownContent(content: String) -> Element {
         .replace("<h5>", "<h5 class=\"text-xl font-semibold text-fg mb-4 mt-6\">##### ")
         .replace("<h6>", "<h6 class=\"text-xl font-semibold text-fg mb-4 mt-6\">###### ")
         // Style links.
-        .replace("<a ", "<a class=\"text-lg p-0.5 bg-gray-400/30 rounded-md hover:text-purple-light underline decoration-1 opacity-90 hover:opacity-100\" ")
+        .replace("<a ", "<a class=\"text-lg p-0.5 bg-gray-400/10 rounded-md hover:text-purple-light underline decoration-1 opacity-90 hover:opacity-100\" ")
+        // Style code blocks before inline code.
+        // A block `<pre><code>` must be handled first.
+        // Otherwise the inline rule below rewrites the inner `<code>` and the
+        // block rule never matches.
+        .replace(
+            "<pre><code",
+            "<pre class=\"my-4 max-w-full overflow-x-auto whitespace-pre rounded-md border border-purple/40 bg-bg/10 p-4 text-sm text-fg\"><code",
+        )
         // Style inline code.
-        .replace("<code>", "<code class=\"text-md bg-gray-400/30 rounded-md text-purple-light px-1 py-0.5 font-mono\">")
-        // Style code blocks.
-        .replace("<pre><code>", "<pre class=\"text-md whitespace-pre-wrap bg-bg text-purple-light p-4 overflow-x-auto border border-purple font-mono m-0 mb-2\"><code>")
+        .replace(
+            "<code>",
+            "<code class=\"text-md bg-gray-400/10 rounded-md text-purple-light px-1 py-0.5 font-mono\">",
+        )
         // Style images.
         .replace("<img ", "<div class=\"mb-2 py-2\"><img class=\"max-w-3/4 max-h-96 h-auto\" ")
         // Style lists.
