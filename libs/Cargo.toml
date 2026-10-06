@@ -12,9 +12,3 @@ path = "mod.rs"
 
 [lints]
 workspace = true
-
-[build-dependencies]
-toml = "0.8"
-
-[dependencies]
-dioxus.workspace = true

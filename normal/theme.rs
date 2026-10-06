@@ -1,120 +1,89 @@
-use dioxus::prelude::*;
+//! Cookie-backed colour themes.
+//!
+//! The theme is rendered on the server from the cookie, so there is no flash
+//! before paint. Clicking cycles it in the browser; see [`crate::behaviour`].
 
-#[derive(Debug, Clone, Copy, PartialEq)]
+use topcoat::{
+    Result,
+    context::Cx,
+    cookie::{
+        Cookies as _,
+        cookies,
+    },
+    icon::icon,
+    view::{
+        View,
+        component,
+        view,
+    },
+};
+
+use crate::icons::lucide;
+
+/// The cookie the chosen theme is stored in.
+pub const COOKIE: &str = "theme";
+
+/// The available colour themes, in click-cycle order.
+pub const THEMES: &[Theme] = &[Theme::Auto, Theme::Light, Theme::Dark];
+
+/// A colour theme.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Theme {
+    Auto,
     Light,
     Dark,
-    Auto,
 }
 
 impl Theme {
-    pub fn to_string(self) -> &'static str {
+    /// The value stored in the cookie and rendered into `data-theme`.
+    #[must_use]
+    pub const fn as_str(self) -> &'static str {
         match self {
-            Theme::Light => "light",
-            Theme::Dark => "dark",
-            Theme::Auto => "auto",
-        }
-    }
-
-    pub fn from_string(s: &str) -> Self {
-        match s {
-            "light" => Theme::Light,
-            "dark" => Theme::Dark,
-            _ => Theme::Auto,
-        }
-    }
-
-    pub fn cycle(self) -> Self {
-        match self {
-            Theme::Auto => Theme::Light,
-            Theme::Light => Theme::Dark,
-            Theme::Dark => Theme::Auto,
-        }
-    }
-
-    pub fn icon(self) -> &'static str {
-        match self {
-            Theme::Light => "fas fa-sun",
-            Theme::Dark => "fas fa-moon",
-            Theme::Auto => "fas fa-circle-half-stroke",
+            Self::Auto => "auto",
+            Self::Light => "light",
+            Self::Dark => "dark",
         }
     }
 }
 
-/// Global theme context provider.
+/// Parses a cookie value, defaulting to [`Theme::Auto`] for anything else.
+impl From<&str> for Theme {
+    fn from(value: &str) -> Self {
+        match value {
+            "light" => Self::Light,
+            "dark" => Self::Dark,
+            _ => Self::Auto,
+        }
+    }
+}
+
+/// Reads the visitor's chosen theme.
+#[must_use]
+pub fn current(cx: &Cx) -> Theme {
+    cookies(cx)
+        .get(COOKIE)
+        .map_or(Theme::Auto, |cookie| Theme::from(cookie.value()))
+}
+
+/// Cycles the theme when clicked.
+///
+/// All three variants are rendered; `input.css` shows only the one matching
+/// the `data-theme` attribute the script sets on the document element.
 #[component]
-pub fn ThemeProvider(children: Element) -> Element {
-    let mut theme = use_signal(|| {
-        // Try to load from localStorage, default to Auto.
-        Theme::Auto
-    });
-
-    use_effect(move || {
-        let theme_val = theme();
-
-        // Apply theme to document.
-        if let Some(document) = web_sys::window().and_then(|w| w.document()) {
-            if let Some(html) = document.document_element() {
-                let _ = html.set_attribute("data-theme", theme_val.to_string());
-
-                // Store in localStorage.
-                if let Some(storage) =
-                    web_sys::window().and_then(|w| w.local_storage().ok().flatten())
-                {
-                    let _ = storage.set_item("theme", theme_val.to_string());
-                }
-            }
-        }
-    });
-
-    // Load theme from localStorage on mount.
-    use_effect(move || {
-        if let Some(storage) = web_sys::window().and_then(|w| w.local_storage().ok().flatten()) {
-            if let Ok(Some(stored_theme)) = storage.get_item("theme") {
-                theme.set(Theme::from_string(&stored_theme));
-            }
-        }
-    });
-
-    use_context_provider(|| theme);
-
-    rsx! {
-        {children}
-    }
-}
-
-/// Hook to access theme state.
-pub fn use_theme() -> Signal<Theme> {
-    use_context::<Signal<Theme>>()
-}
-
-#[component]
-pub fn ThemeSwitcher() -> Element {
-    let mut theme = use_theme();
-    let current_theme = theme();
-
-    rsx! {
-        button {
-            class: "flex items-center justify-center w-auto h-6 hover:bg-[var(--color-hover)] hover:cursor-pointer transition-colors duration-100 px-1",
-            onclick: move |_| {
-                theme.set(current_theme.cycle());
-            },
-            title: format!("Current theme: {} (click to cycle)", match current_theme {
-                Theme::Light => "Light",
-                Theme::Dark => "Dark",
-                Theme::Auto => "Auto (system)",
-            }),
-            p { class: "text-xs mr-1",
-                "Theme:",
-                {match current_theme {
-                    Theme::Light => "Light",
-                    Theme::Dark => "\u{00A0}Dark",
-                    Theme::Auto => "\u{00A0}Auto",
-                }}
-            },
-            i {
-                class: format!("{} text-fg text-sm", current_theme.icon())
-            }
-        }
-    }
+pub async fn switcher() -> Result<impl View> {
+    Ok(view! {
+        <button
+            id="theme-toggle"
+            class="flex items-center justify-center w-auto h-6 hover:bg-[var(--color-hover)] hover:cursor-pointer transition-colors duration-100 px-1"
+            title="Click to cycle the theme"
+        >
+            <span class="text-xs mr-1">"Theme:"</span>
+            <span class="text-xs theme-option theme-light">"Light"</span>
+            <span class="text-xs theme-option theme-dark">"Dark"</span>
+            <span class="text-xs theme-option theme-auto">"Auto"</span>
+            <span class="theme-option theme-light">icon(data: lucide::SUN, label: "Light theme")</span>
+            <span class="theme-option theme-dark">icon(data: lucide::MOON, label: "Dark theme")</span>
+            <span class="theme-option theme-auto">icon(data: lucide::CONTRAST, label: "System theme")</span>
+        </button>
+    })
 }

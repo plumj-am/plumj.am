@@ -2,11 +2,9 @@
 members  = [ "libs", "nerd", "normal" ]
 resolver = "3"
 
-[workspace.metadata]
-version = "26.5.23.0"
+metadata.version = "26.5.23.0"
 
-[workspace.metadata.crane]
-name = "PlumJam"
+metadata.crane.name = "PlumJam"
 
 [workspace.package]
 authors    = [ "PlumJam <git@plumj.am" ]
@@ -15,7 +13,19 @@ license    = "MIT"
 repository = "https://github.com/plumj-am/plumj.am"
 version    = "0.0.1"
 
+[workspace.dependencies]
+libs.path = "libs"
+
+pulldown-cmark = { default-features = false, features = [ "html" ], version = "0.13.0" }
+serde_yaml_bw  = "2.4.0"
+tokio          = { features = [ "macros", "rt-multi-thread" ], version = "1.51.1" }
+topcoat        = { features = [ "fs", "font-fontsource", "icon-iconify", "tailwind" ], version = "0.10.0" }
+
 [workspace.lints.clippy]
+
+pedantic    = { level = "warn", priority = -1 }
+restriction = { level = "warn", priority = -1 }
+
 allow_attributes_without_reason   = "allow"
 arbitrary_source_item_ordering    = "allow"
 blanket_clippy_restriction_lints  = "allow"
@@ -40,46 +50,10 @@ question_mark_used                = "allow"
 same_name_method                  = "allow"
 separated_literal_suffix          = "allow"
 shadow_reuse                      = "allow"
+shadow_same                       = "allow"
 shadow_unrelated                  = "allow"
 single_call_fn                    = "allow"
 string_slice                      = "allow"
 todo                              = "allow"
 unwrap_used                       = "deny"
 use_debug                         = "allow"
-
-[workspace.lints.clippy.pedantic]
-level    = "warn"
-priority = -1
-
-[workspace.lints.clippy.restriction]
-level    = "warn"
-priority = -1
-
-[workspace.dependencies]
-serde_yaml_bw = "2.4.0"
-
-[workspace.dependencies.libs]
-path = "libs"
-
-[workspace.dependencies.dioxus]
-features = [ "router" ]
-version  = "0.6.0"
-
-[workspace.dependencies.pulldown-cmark]
-default-features = false
-features         = [ "html" ]
-version          = "0.13.0"
-
-[workspace.dependencies.web-sys]
-features = [ "Window", "Document", "HtmlElement", "Storage" ]
-version  = "0.3.77"
-
-[profile.android-dev]
-inherits = "dev"
-
-[profile.server-dev]
-inherits = "dev"
-
-[profile.wasm-dev]
-inherits  = "dev"
-opt-level = 1

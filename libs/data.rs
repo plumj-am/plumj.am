@@ -1,10 +1,6 @@
 use core::fmt;
 
-use dioxus::prelude::*;
-
 pub const VERSION: &str = "0.1.0";
-
-pub const LOGO_NO_BG: Asset = asset!("/assets/plumjam-nobg.png");
 
 pub struct SocialLink {
     pub name: &'static str,

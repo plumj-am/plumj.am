@@ -1,7 +1,6 @@
 # Build
 target/
 docs/
-*/gen-tailwind.css
 
 # Direnv
 .direnv/

@@ -1,4 +1,4 @@
 #![forbid(unsafe_code)]
 
-pub mod clipboard;
+pub mod behaviour;
 pub mod data;

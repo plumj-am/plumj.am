@@ -14,12 +14,9 @@ path = "main.rs"
 workspace = true
 
 [dependencies]
-dioxus.workspace  = true
 libs.workspace    = true
-web-sys.workspace = true
+tokio.workspace   = true
+topcoat.workspace = true
 
-[features]
-default = [ "web" ]
-desktop = [ "dioxus/desktop" ]
-mobile  = [ "dioxus/mobile" ]
-web     = [ "dioxus/web" ]
+[build-dependencies]
+topcoat = { default-features = false, features = [ "tailwind" ], version = "0.10.0" }

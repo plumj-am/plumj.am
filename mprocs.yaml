@@ -1,31 +1,11 @@
 procs:
-    nerd-dev:
-        cmd: ["dx", "serve", "--hot-reload=true", "--port=8081"]
-        cwd: ./nerd
-        autorestart: true
     normal-dev:
-        cmd: ["dx", "serve", "--hot-reload=true", "--port=8080"]
-        cwd: ./normal
+        cmd: ["nu", "-c", "cargo run --package normal"]
+        cwd: .
         autorestart: true
-    nerd-tailwind:
-        cmd:
-            [
-                "tailwindcss",
-                "-i=./input.css",
-                "-o=./gen-tailwind.css",
-                "--watch",
-            ]
-        cwd: ./nerd
-        autorestart: true
-    normal-tailwind:
-        cmd:
-            [
-                "tailwindcss",
-                "-i=./input.css",
-                "-o=./gen-tailwind.css",
-                "--watch",
-            ]
-        cwd: ./normal
+    nerd-dev:
+        cmd: ["nu", "-c", "cargo run --package nerd"]
+        cwd: .
         autorestart: true
     nu:
         cmd: ["nu"]

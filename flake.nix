@@ -15,10 +15,6 @@
     extra-substituters = [
       "https://nix-community.cachix.org/"
     ];
-
-    extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
   };
 
   inputs = {
@@ -50,27 +46,21 @@
 
         inherit (pkgs) lib;
 
-        # Pinned to 1.86.0 to fix this issue: https://github.com/DioxusLabs/dioxus/discussions/4183
-        rustToolchain =
-          let
-            toolchain = fenix.packages.${system}.toolchainOf {
-              channel = "1.86.0";
-              sha256 = "sha256-X/4ZBHO3iW0fOenQ3foEvscgAPJYl2abspaBThDOukI=";
-            };
-            wasm-target = fenix.packages.${system}.targets.wasm32-unknown-unknown.toolchainOf {
-              channel = "1.86.0";
-              sha256 = "sha256-X/4ZBHO3iW0fOenQ3foEvscgAPJYl2abspaBThDOukI=";
-            };
-          in
-          fenix.packages.${system}.combine [
-            toolchain.rustc
-            toolchain.cargo
-            toolchain.clippy
+        tailwindcss = pkgs.tailwindcss_4;
+        tailwindCli = "${tailwindcss}/bin/tailwindcss";
+
+        # `nixpkgs` provides rustc >= 1.98, which Topcoat requires. rustfmt
+        # comes from fenix's nightly because `.rustfmt.toml` uses unstable
+        # options that stable rustfmt silently ignores.
+        rustToolchain = pkgs.symlinkJoin {
+          name = "rust";
+          paths = [
+            pkgs.rustc
+            pkgs.cargo
+            pkgs.clippy
             fenix.packages.${system}.latest.rustfmt # Nightly only for rustfmt.
-            toolchain.rust-src
-            toolchain.rust-analyzer
-            wasm-target.rust-std # wasm32-unknown-unknown for Dioxus web.
           ];
+        };
 
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
 
@@ -79,28 +69,26 @@
         commonArgs = {
           inherit src;
           strictDeps = true;
-          CARGO_BUILD_TARGET = "wasm32-unknown-unknown";
         };
 
-        tailwindNormal = ''
-          					bunx tailwindcss -i normal/input.css -o normal/gen-tailwind.css --minify --content 'normal/**/*.rs'
-        '';
-        tailwindNerd = ''
-          					bunx tailwindcss -i nerd/input.css -o nerd/gen-tailwind.css --minify --content 'nerd/**/*.rs'
-        '';
+        cargoArtifacts = craneLib.buildDepsOnly (
+          commonArgs
+          // {
+            cargoExtraArgs = "--package libs --package normal --package nerd";
+          }
+        );
 
-        tailwindInputs = [
-          pkgs.bun
-          pkgs.tailwindcss_4
-        ];
-
-        cargoArtifacts = craneLib.buildDepsOnly commonArgs;
-
-        # Build only the cargo dependencies.
-        individualCrateArgs = commonArgs // {
-          inherit cargoArtifacts;
-          inherit (craneLib.crateNameFromCargoToml { inherit src; }) version;
-          doCheck = false; # No tests for WASM target.
+        # Topcoat's build script stages Iconify sets; give it a writable cache
+        # holding the committed set files instead of the read-only source tree.
+        # `TAILWIND_CLI` keeps the Tailwind build offline.
+        frontendEnv = {
+          nativeBuildInputs = [ tailwindcss ];
+          TAILWIND_CLI = tailwindCli;
+          preBuild = ''
+            export TOPCOAT_ICON_CACHE="$TMPDIR/topcoat-icon-cache"
+            mkdir -p "$TOPCOAT_ICON_CACHE"
+            cp ${./normal/icons}/*.json "$TOPCOAT_ICON_CACHE"/
+          '';
         };
 
         fileSetForCrate =
@@ -113,105 +101,100 @@
               (craneLib.fileset.commonCargoSources ./libs)
               (craneLib.fileset.commonCargoSources ./normal)
               (craneLib.fileset.commonCargoSources ./nerd)
-              ./libs/assets
               ./normal/input.css
-              ./normal/favicon.ico
+              ./normal/icons
+              ./normal/assets
               ./normal/posts
               ./nerd/input.css
-              ./nerd/favicon.ico
+              ./nerd/assets
             ];
           };
 
-        # Common library doesn't need WASM target or Tailwind.
+        # A Topcoat server: a native binary plus the static files it serves.
+        topcoatApp =
+          { pname }:
+          craneLib.buildPackage (
+            commonArgs
+            // frontendEnv
+            // {
+              inherit cargoArtifacts;
+              inherit (craneLib.crateNameFromCargoToml { inherit src; }) version;
+              inherit pname;
+
+              cargoExtraArgs = "--package ${pname}";
+              src = fileSetForCrate (./. + "/${pname}");
+              doCheck = false;
+
+              # The server serves these from `$out/share/${pname}/assets`,
+              # which the deployment points its `*_ASSETS_DIR` at.
+              postInstall = ''
+                mkdir -p $out/share/${pname}
+                cp -r --no-preserve=mode ${./. + "/${pname}/assets"} $out/share/${pname}/assets
+              '';
+            }
+          );
+
         libs = craneLib.buildPackage (
-          individualCrateArgs
+          commonArgs
           // {
+            inherit cargoArtifacts;
+            inherit (craneLib.crateNameFromCargoToml { inherit src; }) version;
             pname = "libs";
+
             cargoExtraArgs = "--package libs";
-
             src = fileSetForCrate ./libs;
-
-            CARGO_BUILD_TARGET = null; # Remove WASM target for libs.
+            doCheck = false;
           }
         );
 
-        normal = craneLib.buildPackage (
-          individualCrateArgs
-          // {
-            pname = "normal";
-            cargoExtraArgs = "--package normal";
+        normal = topcoatApp { pname = "normal"; };
 
-            src = fileSetForCrate ./normal;
-
-            preBuild = tailwindNormal;
-            nativeBuildInputs = tailwindInputs;
-          }
-        );
-
-        nerd = craneLib.buildPackage (
-          individualCrateArgs
-          // {
-            pname = "nerd";
-            cargoExtraArgs = "--package nerd";
-
-            src = fileSetForCrate ./nerd;
-
-            preBuild = tailwindNerd;
-            nativeBuildInputs = tailwindInputs;
-          }
-        );
+        nerd = topcoatApp { pname = "nerd"; };
       in
       {
-        checks = lib.mapAttrs' (n: v: lib.nameValuePair "package-${n}" v) self.packages.${system} // {
+        checks =
+          lib.mapAttrs' (name: value: lib.nameValuePair "package-${name}" value) self.packages.${system}
+          // {
+            rust-clippy = craneLib.cargoClippy (
+              commonArgs
+              // frontendEnv
+              // {
+                inherit cargoArtifacts;
 
-          rust-clippy = craneLib.cargoClippy (
-            commonArgs
-            // {
-              inherit cargoArtifacts;
+                src = fileSetForCrate ./.;
 
-              src = fileSetForCrate ./.;
+                cargoClippyExtraArgs = "--all-targets -- --deny warnings";
+              }
+            );
 
-              preBuild = tailwindNormal + tailwindNerd;
-              nativeBuildInputs = tailwindInputs;
+            rust-doc = craneLib.cargoDoc (
+              commonArgs
+              // frontendEnv
+              // {
+                inherit cargoArtifacts;
 
-              cargoClippyExtraArgs = "--all-targets -- --deny warnings";
-            }
-          );
+                src = fileSetForCrate ./.;
 
-          rust-doc = craneLib.cargoDoc (
-            commonArgs
-            // {
-              inherit cargoArtifacts;
+                env.RUSTDOCFLAGS = "--deny warnings";
+              }
+            );
 
-              src = fileSetForCrate ./.;
+            rust-fmt = craneLib.cargoFmt {
+              inherit src;
 
-              env.RUSTDOCFLAGS = "--deny warnings";
+              rustFmtExtraArgs = "--config-path ${./.rustfmt.toml}";
+            };
 
-              preBuild = tailwindNormal + tailwindNerd;
-              nativeBuildInputs = tailwindInputs;
-            }
-          );
+            toml-fmt = craneLib.taploFmt {
+              src = lib.sources.sourceFilesBySuffices src [ ".toml" ];
 
-          rust-fmt = craneLib.cargoFmt {
-            inherit cargoArtifacts;
+              taploExtraArgs = "--config ${./.taplo.toml}";
+            };
 
-            src = fileSetForCrate ./.;
-
-            rustFmtExtraArgs = "--config-path ${./.rustfmt.toml}";
+            rust-audit = craneLib.cargoAudit {
+              inherit src advisory-db;
+            };
           };
-
-          toml-fmt = craneLib.taploFmt {
-            inherit cargoArtifacts;
-
-            src = lib.sources.sourceFilesBySuffices src [ ".toml" ];
-
-            taploExtraArgs = "--config ${./.taplo.toml}";
-          };
-
-          rust-audit = craneLib.cargoAudit {
-            inherit src advisory-db;
-          };
-        };
 
         packages = {
           inherit libs normal nerd;
@@ -234,27 +217,42 @@
         };
 
         devShells.default = craneLib.devShell {
-          # Inherit inputs from checks.
           checks = self.checks.${system};
 
           buildInputs = [
-            pkgs.bun
-            pkgs.dioxus-cli
-            pkgs.tailwindcss_4
-            pkgs.wasm-bindgen-cli_0_2_100
-            pkgs.watchman
+            (pkgs.callPackage ./nix/packages/topcoat-cli.nix { })
 
-            pkgs.pkg-config
-            pkgs.glib
-            pkgs.gtk3
-            pkgs.cairo
-            pkgs.pango
-            pkgs.atk
-            pkgs.gdk-pixbuf
-            pkgs.libsoup_3
-            pkgs.webkitgtk_4_1
+            tailwindcss
           ];
+
+          TAILWIND_CLI = tailwindCli;
         };
       }
-    );
+    )
+    // {
+      # Runs either site as a hardened systemd service:
+      #
+      #   services.plumjam-website.sites.normal.enable = true;
+      #   services.plumjam-website.sites.nerd.enable = true;
+      nixosModules.default =
+        {
+          lib,
+          pkgs,
+          ...
+        }:
+        {
+          imports = [ ./nix/modules/plumjam-website.nix ];
+
+          services.plumjam-website.sites = {
+            normal = {
+              package = lib.mkDefault self.packages.${pkgs.system}.normal;
+              port = lib.mkDefault 3000;
+            };
+            nerd = {
+              package = lib.mkDefault self.packages.${pkgs.system}.nerd;
+              port = lib.mkDefault 3001;
+            };
+          };
+        };
+    };
 }

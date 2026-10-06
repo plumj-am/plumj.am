@@ -1,24 +1,7 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@font-face {
-	font-family: "Iosevka";
-	font-style: normal;
-	font-display: swap;
-	font-weight: 400;
-	src:
-		url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff2)
-		format("woff2"),
-		url(https://cdn.jsdelivr.net/fontsource/fonts/iosevka@latest/latin-400-normal.woff)
-		format("woff");
-}
-
-@utility no-scrollbar {
-	@apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
-}
+/* Scan the crate's Rust sources for the classes they use. */
+@source "./**/*.rs";
 
 @theme {
 	--default-font-family: "Iosevka", sans-serif;
@@ -46,6 +29,8 @@ html {
 	height: 100%;
 	width: 100%;
 	background-color: #0f1116;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
 body {
@@ -79,10 +64,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background: rgba(255, 255, 255, 0.4);
 }
-
-html {
-	scrollbar-width: thin;
-	scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
-}
-
-@source "*.{rs,html,css}";

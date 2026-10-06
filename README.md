@@ -1,6 +1,8 @@
 # plumj.am
 
-A personal website written with [Dioxus](https://dioxuslabs.com/).
+A personal website. Both versions are built with
+[Topcoat](https://github.com/tokio-rs/topcoat): the normal, mobile-friendly
+version, and the NeoVim-inspired one.
 
 The website is split into 2 distinct sections:
 
