@@ -111,8 +111,8 @@ pre code {
 	align-items: center;
 }
 
-/* Blog post typography. Replaces the per-element class injection the Dioxus
-   version performed on the rendered Markdown. */
+/* Blog post typography. Replaces the per-element class injection version
+   performed on the rendered Markdown. */
 .markdown {
 	color: var(--color-fg);
 }

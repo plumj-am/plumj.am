@@ -32,6 +32,7 @@ pub static ME: Me = Me {
     scripting:         &["Nushell", "Bash", "Python"],
     operating_systems: &["NixOS", "Debian", "Windows >7", "MacOS >14"],
     frameworks:        &[
+        "Topcoat (Rust)",
         "Dioxus (Rust)",
         "Poem (Rust)",
         "Chi (Go)",
@@ -207,7 +208,7 @@ pub static PROJECTS: &[ProjectInfo] = &[
         short_desc:   "This website!",
         long_desc:    None,
         project_type: ProjectType::Website,
-        tech_used:    &["Rust", "Dioxus", "Tailwind"],
+        tech_used:    &["Rust", "Topcoat", "Tailwind"],
         repo:         Some("plumj.am"),
         crate_url:    None,
         npm_url:      None,
